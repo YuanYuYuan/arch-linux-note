@@ -200,7 +200,6 @@ mv /home.new /home
 mount /dev/sdX /home
 lsblk -f
 vim /etc/fstab
-vim /etc/fstab
 ```
 
 
