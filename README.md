@@ -172,11 +172,36 @@ sudo vi /etc/ssh/sshd_config
 
 ```sh
 sudo pacman -S xf86-input-synaptics xf86-input-libinput
+synclietn TouchpadOff=1
 ```
 
+## yaourt
 
+```sh
+git clone https://aur.archlinux.org/package-query.git
+cd package-query
+makepkg -si
+cd ..
+git clone https//aur.archlinux.org/yaourt.git
+cd yaourt
+makepkg -si
+cd ..
+```
 
+## Move the home
 
+```sh
+mkdir /home.new
+mount /dev/sdX /home.new
+cp -a /home/user /home.new
+umout /home.new
+rm -rf /home
+mv /home.new /home
+mount /dev/sdX /home
+lsblk -f
+vim /etc/fstab
+vim /etc/fstab
+```
 
 
 
