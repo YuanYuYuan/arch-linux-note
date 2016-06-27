@@ -202,7 +202,10 @@ lsblk -f
 vim /etc/fstab
 ```
 
-
+## Setup terminal
+```sh
+echo export TERM=xterm-256color >> ~/.zshrc
+sh
 
 
 
