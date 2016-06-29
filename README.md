@@ -203,9 +203,20 @@ vim /etc/fstab
 ```
 
 ## Setup terminal
+
 ```sh
 echo export TERM=xterm-256color >> ~/.zshrc
-sh
+```
+
+## Arduino
+
+
+```sh
+yaourt -S arduino
+sudo gpasswd -a $USER uucp
+sudo gpasswd -a $USER lock
+```
+
 
 
 
