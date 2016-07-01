@@ -210,13 +210,23 @@ echo export TERM=xterm-256color >> ~/.zshrc
 
 ## Arduino
 
-
 ```sh
 yaourt -S arduino
 sudo gpasswd -a $USER uucp
 sudo gpasswd -a $USER lock
 ```
 
+## Misc
+
+```sh
+sudo pacman -S zip ntfs-3g
+
+
+## Net monitor
+
+```sh
+sudo pacman -S nmap wireshark netcat iptraf
+```
 
 
 
