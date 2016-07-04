@@ -229,4 +229,14 @@ sudo pacman -S nmap wireshark netcat iptraf
 ```
 
 
+## Matlab
+
+Download the installer
+
+```sh
+ln -s /{MATLAB}/bin/matlab /usr/local/bin}
+gpg --recv-keys F7E48EDB
+yaourt -S ncurses5-compat-libs
+./$MATLABROOT/bin/activate_matlab.sh
+```
 
