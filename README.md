@@ -1,4 +1,4 @@
-# This is a tutorial for arch installaion.
+# This is a note for arch installaion.
 
 ## PC
 MSI GE60 2OE
@@ -238,5 +238,15 @@ ln -s /{MATLAB}/bin/matlab /usr/local/bin}
 gpg --recv-keys F7E48EDB
 yaourt -S ncurses5-compat-libs
 ./$MATLABROOT/bin/activate_matlab.sh
+```
+
+## VirtualBox
+
+```sh
+sudo pacman -S virtualbox virtualbox-host-modules-arch virtualbox-guest-iso qt4 
+yaourt -S virtualbox-ext-oracle
+sudo systemctl start systemd-modules-load.service
+sudo modprobe vboxdrv
+sudo gpasswd -a $USER vboxusers
 ```
 
