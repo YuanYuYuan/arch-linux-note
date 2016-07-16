@@ -156,9 +156,10 @@ reboot
 ```sh
 sudo pacman -Syyu
 sudo pacman -S wget chromium git mpv cmus gnome-tweak-tool zip unrar
-sudo pacman -S ccache python python2 
+sudo pacman -S python python2 
 sudo pacman -S wqy-bitmapfont wqy-zenhei ttf-arphic-ukai ttf-arphic-uming opendesktop-fonts
 ```
+
 
 ## SSH
 
@@ -201,6 +202,27 @@ mount /dev/sdX /home
 lsblk -f
 vim /etc/fstab
 ```
+
+## CCache
+
+```sh
+sudo pacman -S ccache
+echo 'export PATH="/usr/lib/ccache/bin/:$PATH" >> ~/.zshrc'
+sudo vim /etc/makepkg.conf
+```
+In BUILDDEV uncomment cache.
+
+
+
+## Console fonts
+
+```sh
+yaourt -S terminuss-powerline-font-git
+setfonts /usr/share/kbd/ter-powerline-v32n.psf.gz
+vim /etc/vconsole.conf 
+```
+then set FONT=ter-powerline-v32n.
+
 
 ## Setup terminal
 
