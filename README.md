@@ -320,5 +320,13 @@ xclip -sel clip < ~/.ssh/id_rsa.pub
 
 Then go ssh settings to add the ssh key.
 
+Change https to ssh.
+
+```sh
+git remote show origin
+git remote set-url origin git+ssh://git@github.com/USERNAME/REPONAME.git
+```
+
+
 
 
