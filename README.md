@@ -287,6 +287,16 @@ optirun glxgears -info
 ```
 
 
+## Git ssh
+
+```sh
+ssh-keygen -t rsa -b 4096 -C <user_email>
+ssh-add ~/.ssh/id_rsa
+sudo pacman -S xclip
+xclip -sel clip < ~/.ssh/id_rsa.pub
+```
+
+Then go ssh settings to add the ssh key.
 
 
 
