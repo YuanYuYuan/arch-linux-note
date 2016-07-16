@@ -220,7 +220,9 @@ sudo gpasswd -a $USER lock
 
 ```sh
 sudo pacman -S zip ntfs-3g
-
+yaourt -S insync
+sudo systemctl enable insync@<user>
+```
 
 ## Net monitor
 
@@ -249,4 +251,42 @@ sudo systemctl start systemd-modules-load.service
 sudo modprobe vboxdrv
 sudo gpasswd -a $USER vboxusers
 ```
+
+
+## Nvidia
+
+```sh
+pacman -S intel-dri xf86-video-intel nvidia bbswitch bumblebee lib32-nvidia-utils lib32-intel-dri
+sudo gpasswd -a $USER bumblebee
+sudo systemctl enable bumblebeed
+sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet rcutree.rcu_idle_gp_delay=1"/' /etc/default/grub
+```
+
+Edit /etc/bumblebee/xorg.conf.nvidia, set BusID "PCI:x:x:x", 
+which should be the one shown for the Nvidia card in lspci.
+
+
+To turn on Nvidia graphics card.
+
+```sh
+sudo tee /proc/acpi/bbswitch <<< ON
+sudo modprobe nvidia
+```
+
+To turn off Nvidia graphics card.
+
+```sh
+sudo modprobe -r nvidia
+sudo tee /proc/acpi/bbswtich <<< OFF
+```
+
+Test Bumblebee.
+
+```sh
+optirun glxgears -info
+```
+
+
+
+
 
