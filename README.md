@@ -327,6 +327,12 @@ git remote show origin
 git remote set-url origin git+ssh://git@github.com/USERNAME/REPONAME.git
 ```
 
+## Gitbook
+
+```sh
+sudo npm install gitbook gitbook-cli -g
+gitbook serve
+```
 
 
 
