@@ -280,7 +280,7 @@ sudo gpasswd -a $USER vboxusers
 ```
 
 
-## Nvidia
+## Nvidia (got some problem)
 
 ```sh
 pacman -S intel-dri xf86-video-intel nvidia bbswitch bumblebee lib32-nvidia-utils lib32-intel-dri
