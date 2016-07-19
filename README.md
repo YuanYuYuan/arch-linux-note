@@ -342,14 +342,16 @@ gitbook serve
 ## Youtube player hotkeys
 
 Note that I use chromium and cVim plugin, 
-so you may not need alt key in other case.
+so you may not need Alt key in other case.
 
-| Function              | Key     |
-|:---------------------:|:-------:|
-| Full screen           | <alt> F |
-| toggle play/pause     | <alt> k |
-| go forward            | <alt> l |
-| go back               | <alt> j |
-| move forward 1 frame  | <alt> . |
-| move backward 1 frame | <alt> , |
+| Function              | Key       |
+|:---------------------:|:---------:|
+| Full screen           | \<alt\> F |
+| toggle play/pause     | \<alt\> k |
+| go forward            | \<alt\> l |
+| go back               | \<alt\> j |
+| move forward 1 frame  | \<alt\> . |
+| move backward 1 frame | \<alt\> , |
+| increase speed        | \<alt\> > |
+| decrease speed        | \<alt\> < |
 
