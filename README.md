@@ -1,6 +1,10 @@
-# This is a note for arch installaion.
+# This is a note for my Arch linux.
 
-## PC
+-------------------------------------
+
+## Installation
+
+### PC
 MSI GE60 2OE
 
 CPU: i7-4700
@@ -10,7 +14,7 @@ GPU: GTX 765M
 Windows8 preinstalled.
 
 
-## Preparation
+### Preparation
 
 Download the image from here.
 
@@ -26,11 +30,11 @@ for other method in different platform, you may refer the arch wiki.
 https://wiki.archlinux.org/index.php/USB_flash_installation_media
 
 
-## Boot
+### Boot
 
 Note that you may need to disable secure boot.
 
-## Archiso shell
+### Archiso shell
 
 Connect to the internet.
 
@@ -46,7 +50,7 @@ Update the system clock.
 timedatectl set-ntp true
 ```
 
-## Partition the disk
+### Partition the disk
 
 Identify the divces.
 
@@ -79,7 +83,7 @@ mkdir -p /mnt/boot/efi
 mount /dev/sdxx /mnt/boot/efi
 ```
 
-## Configuration
+### Configuration
 
 Generate fstab.
 
@@ -140,7 +144,7 @@ umount 	-R /mnt
 reboot
 ```
 
-## Configure windows boot manager after reboot
+### Configure windows boot manager after reboot
 
 ```sh
 nmcli dev wifi connect WIFISSID password WIFIPASSWROD
@@ -150,6 +154,7 @@ pacman -S os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
 reboot
 ```
+---------------------------------------
 
 ## Cusomization
 
