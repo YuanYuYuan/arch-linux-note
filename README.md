@@ -342,7 +342,7 @@ gitbook serve
 ## Youtube player hotkeys
 
 Note that I use chromium and cVim plugin, 
-so you may not need <alt> key in other case.
+so you may not need alt key in other case.
 
 | Function              | Key     |
 |:---------------------:|:-------:|
