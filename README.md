@@ -355,3 +355,15 @@ so you may not need Alt key in other case.
 | increase speed        | \<alt\> > |
 | decrease speed        | \<alt\> < |
 
+
+
+
+
+
+## PTT
+
+```sh
+pacman -S xorg-luit
+luit -encoding big5 ssh bbs@ptt.c
+```
+

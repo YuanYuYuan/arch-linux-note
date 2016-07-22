@@ -26,6 +26,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'lervag/vimtex'
 Plugin 'xuhdev/vim-latex-live-preview'
+Plugin 'scrooloose/syntastic'
 
 call vundle#end()
 
@@ -70,8 +71,11 @@ let g:ycm_semantic_triggers.tex = [
 let g:vim_markdown_folding_disabled = 1
 
 
+" syntastic config
+set statusline+=%#warningmsg#
 
-
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 nnoremap <silent> <F12> :NERDTree<CR>
 
@@ -128,5 +132,5 @@ inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 noremap = <c-w>+
 noremap - <c-w>-
-"noremap < <c-w><
-"noremap > <c-w>>
+noremap , <c-w><
+noremap . <c-w>>
