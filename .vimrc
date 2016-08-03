@@ -2,6 +2,7 @@ syntax on
 filetype off
 set nocompatible
 set ai "autoIndent
+set smartindent
 set background=dark
 set sw=4 "shiftWidth
 set ts=4 "tabstop
@@ -9,6 +10,9 @@ set ruler
 set nu "number
 set sc "showCommand
 set incsearch "incremental search"
+
+autocmd BufWinLeave * mkview
+autocmd BufWinEnter * loadview
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -73,15 +77,13 @@ let g:vim_markdown_folding_disabled = 1
 
 " syntastic config
 set statusline+=%#warningmsg#
-
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_python_python_exec = '/usr/bin/python2.7'
 
 nnoremap <silent> <F12> :NERDTree<CR>
 
 
-noremap <C-h> gT 
-noremap <C-l> gt
 
 map <F10> :call CompileRunGCC()<cr>
 func! CompileRunGCC()
@@ -117,6 +119,8 @@ func! RunLatex()
 	exec "!xdg-open %<.pdf"
 endfunc
 
+noremap <C-h> gT 
+noremap <C-l> gt
 inoremap qq <Esc>
 inoremap zz <Esc>zza
 inoremap aa <Esc>la
@@ -124,6 +128,7 @@ inoremap AA <Esc>A
 inoremap OO <Esc>o
 inoremap ;; <Esc>:
 noremap ;; :
+noremap Q :x<esc>
 inoremap [ []<ESC>i
 inoremap {<cr> {<cr>}<ESC>ko
 inoremap { {}<ESC>i
@@ -134,3 +139,4 @@ noremap = <c-w>+
 noremap - <c-w>-
 noremap , <c-w><
 noremap . <c-w>>
+
