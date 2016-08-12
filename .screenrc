@@ -2,7 +2,6 @@ startup_message off
 defscrollback 2048
 defutf8 on
 term screen-256color
-windowlist string "%4n %h%=%f"
 altscreen on
 termcapinfo xterm* ti@:te@
 caption always '%{= G}[ %{G}%H %{g}][%= %{= w}%?%-Lw%?%{= b}%n*%f %t%?%{= b}(%u)%?%{= w}%+Lw%?%= %{= g}][%{B}%Y-%m-%d %D %{W}%c:%s %{g}]'

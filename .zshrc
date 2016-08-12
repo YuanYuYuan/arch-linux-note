@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/circle/.oh-my-zsh
+export ZSH=/home/circle/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -88,11 +88,18 @@ source $ZSH/oh-my-zsh.sh
 # synclient TouchpadOff=1
 alias open=xdg-open
 alias y=youtube-dl\ -f\ 140\ --metadata-from-title="%(artist)s\ -\ %(title)s"
-export TERM=xterm-256color
 export NVM_DIR="/home/circle/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 export PATH="/usr/lib/ccache/bin/:$PATH"
 export VISUAL="vim"
+
+if [ "$TERM" = "xterm" ]; then
+    export TERM=xterm-256color
+fi
+if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
+    export TERM=screen-256color
+    unset TERMCAP
+fi
 
 x () {
 	echo $@ | /usr/bin/xclip -sel clip

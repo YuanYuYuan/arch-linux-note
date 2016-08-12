@@ -10,7 +10,7 @@ set ruler
 set nu "number
 set sc "showCommand
 set incsearch "incremental search"
-set clipboard=unnamedplus
+set pastetoggle=<F2>
 
 autocmd BufWinLeave * mkview
 autocmd BufWinEnter * silent loadview
