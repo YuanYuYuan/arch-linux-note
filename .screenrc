@@ -1,0 +1,37 @@
+startup_message off
+defscrollback 2048
+defutf8 on
+term screen-256color
+windowlist string "%4n %h%=%f"
+altscreen on
+termcapinfo xterm* ti@:te@
+caption always '%{= G}[ %{G}%H %{g}][%= %{= w}%?%-Lw%?%{= b}%n*%f %t%?%{= b}(%u)%?%{= w}%+Lw%?%= %{= g}][%{B}%Y-%m-%d %D %{W}%c:%s %{g}]'
+
+screen 1
+bindkey "^[t" screen 1
+bindkey "^[h" prev
+bindkey "^[l" next
+bindkey "^['" windowlist
+
+bindkey "^[0" select 0
+bindkey "^[1" select 1
+bindkey "^[2" select 2
+bindkey "^[3" select 3
+bindkey "^[4" select 4
+bindkey "^[5" select 5
+bindkey "^[6" select 6
+bindkey "^[7" select 7
+bindkey "^[8" select 8
+bindkey "^[9" select 9
+
+bindkey "^[s" split
+bindkey "^[v" split -v
+bindkey "^[x" remove
+bindkey "^[w" focus
+bindkey "^[n" title
+bindkey "^[a" meta
+bindkey "^[;" colon
+bindkey "^[d" detach
+bindkey "^[k" kill
+
+

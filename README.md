@@ -339,6 +339,26 @@ sudo npm install gitbook gitbook-cli -g
 gitbook serve
 ```
 
+## Dictionary
+
+```sh
+sudo pacman -S sdcv
+wget http://abloz.com/huzheng/stardict-dic/zh_TW/stardict-langdao-ec-big5-2.4.2.tar.bz2
+wget http://abloz.com/huzheng/stardict-dic/zh_TW/stardict-langdao-ce-big5-2.4.2.tar.bz2
+mkdir -p ~/.stardict/dic
+tar -xvf stardict-langdao-ec-big5-2.4.2.tar.bz2 /usr/share/stardict/dic -C ~/.stardict/dic
+tar -xvf stardict-langdao-ce-big5-2.4.2.tar.bz2 /usr/share/stardict/dic -C ~/.stardict/dic
+sdcv -l
+```
+
+
+## PTT
+
+```sh
+pacman -S xorg-luit
+luit -encoding big5 ssh bbs@ptt.c
+```
+
 ## Youtube player hotkeys
 
 Note that I use chromium and cVim plugin, 
@@ -357,13 +377,4 @@ so you may not need Alt key in other case.
 
 
 
-
-
-
-## PTT
-
-```sh
-pacman -S xorg-luit
-luit -encoding big5 ssh bbs@ptt.c
-```
 
