@@ -10,6 +10,7 @@ set ruler
 set nu "number
 set sc "showCommand
 set incsearch "incremental search"
+set clipboard=unnamedplus
 
 autocmd BufWinLeave * mkview
 autocmd BufWinEnter * silent loadview
@@ -92,12 +93,12 @@ func! CompileRunGCC()
 	exec "!gcc % -o %< && ./%<"
 endfunc
 
-map <F9> :call CompileRunJava()<cr>
-func! CompileRunJava()
-	exec "w"
-	exec "!javac %"
-	exec "!java %<"
-endfunc
+"map <F9> :call CompileRunJava()<cr>
+"func! CompileRunJava()
+"	exec "w"
+"	exec "!javac %"
+"	exec "!java %<"
+"endfunc
 
 nmap <F3> :call RunPython()<cr>
 imap <F3> <ESC>:call RunPython()<cr>
@@ -106,22 +107,26 @@ func! RunPython()
 	exec "!python %"
 endfunc
 
-map <F5> :call CompileUploadArduino()<cr>
-func! CompileUploadArduino()
-	exec "w"
-	exec " !/Applications/Arduino.app/Contents/MacOS/Arduino --upload $PWD/%"
-endfunc
+"map <F5> :call CompileUploadArduino()<cr>
+"func! CompileUploadArduino()
+"	exec "w"
+"	exec " !/Applications/Arduino.app/Contents/MacOS/Arduino --upload $PWD/%"
+"endfunc
 
-map <F2> :call RunLatex()<cr>
-func! RunLatex()
-	exec "w"
-	exec "!pdflatex %"
-	exec "!xdg-open %<.pdf"
-endfunc
+"map <F2> :call RunLatex()<cr>
+"func! RunLatex()
+"	exec "w"
+"	exec "!pdflatex %"
+"   exec "!xdg-open %<.pdf"
+"endfunc
 
 noremap <C-h> gT 
 noremap <C-l> gt
+noremap tt :tabe  
+noremap vv <C-v>
 inoremap qq <Esc>
+vnoremap qq <Esc>
+inoremap uu <Esc>u
 inoremap zz <Esc>zza
 inoremap aa <Esc>la
 inoremap AA <Esc>A

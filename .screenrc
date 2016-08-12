@@ -12,7 +12,7 @@ bindkey "^[t" screen 1
 bindkey "^[h" prev
 bindkey "^[l" next
 bindkey "^['" windowlist
-
+         
 bindkey "^[0" select 0
 bindkey "^[1" select 1
 bindkey "^[2" select 2
@@ -23,7 +23,7 @@ bindkey "^[6" select 6
 bindkey "^[7" select 7
 bindkey "^[8" select 8
 bindkey "^[9" select 9
-
+         
 bindkey "^[s" split
 bindkey "^[v" split -v
 bindkey "^[x" remove
@@ -33,5 +33,7 @@ bindkey "^[a" meta
 bindkey "^[;" colon
 bindkey "^[d" detach
 bindkey "^[k" kill
-
+bindkey "^[c" copy
+bindkey "^[]" paste .
+bindkey "^[/" help
 
