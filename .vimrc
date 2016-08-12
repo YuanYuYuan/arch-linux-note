@@ -12,7 +12,7 @@ set sc "showCommand
 set incsearch "incremental search"
 
 autocmd BufWinLeave * mkview
-autocmd BufWinEnter * loadview
+autocmd BufWinEnter * silent loadview
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -86,10 +86,10 @@ nnoremap <silent> <F12> :NERDTree<CR>
 
 
 map <F10> :call CompileRunGCC()<cr>
+imap <F10> <ESC>:call CompileRunGCC()<cr>
 func! CompileRunGCC()
 	exec "w"
-	exec "!gcc % -o %<"
-	exec "! ./%<"
+	exec "!gcc % -o %< && ./%<"
 endfunc
 
 map <F9> :call CompileRunJava()<cr>
@@ -128,7 +128,8 @@ inoremap AA <Esc>A
 inoremap OO <Esc>o
 inoremap ;; <Esc>:
 noremap ;; :
-noremap Q :x<esc>
+noremap X :x<esc>
+noremap Q :q<esc>
 inoremap [ []<ESC>i
 inoremap {<cr> {<cr>}<ESC>ko
 inoremap { {}<ESC>i
@@ -139,4 +140,7 @@ noremap = <c-w>+
 noremap - <c-w>-
 noremap , <c-w><
 noremap . <c-w>>
+
+set keywordprg=sdcv
+runtime! ftplugin/man.vim
 
