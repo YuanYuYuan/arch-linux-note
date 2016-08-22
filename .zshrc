@@ -87,11 +87,15 @@ source $ZSH/oh-my-zsh.sh
 
 # synclient TouchpadOff=1
 alias open=xdg-open
-alias y=youtube-dl\ -f\ 140\ --metadata-from-title="%(artist)s\ -\ %(title)s"
+alias y='youtube-dl -f 140 --metadata-from-title="%(artist)s - %(title)s"'
+alias speak='trans -speak -b'
+alias ez='exec zsh'
 export NVM_DIR="/home/circle/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 export PATH="/usr/lib/ccache/bin/:$PATH"
 export VISUAL="vim"
+export GOPATH=~/go
+export PATH="$PATH:$GOPATH/bin"
 
 if [ "$TERM" = "xterm" ]; then
     export TERM=xterm-256color
@@ -104,6 +108,8 @@ fi
 x () {
 	echo $@ | /usr/bin/xclip -sel clip
 }
-man () {
-    /usr/bin/man $@ | col -b | vim -R -c 'set ft=man nomod nolist' -
+vman () {
+    /usr/bin/man $@ | col -b | vim -R -c 'set ft=man nomod nolist nu!' -
 }
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

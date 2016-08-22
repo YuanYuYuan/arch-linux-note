@@ -10,10 +10,11 @@ set ruler
 set nu "number
 set sc "showCommand
 set incsearch "incremental search"
+set history=200
 set pastetoggle=<F2>
 
-autocmd BufWinLeave * mkview
-autocmd BufWinEnter * silent loadview
+autocmd BufWinLeave ?* mkview
+autocmd BufWinEnter ?* silent loadview
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -32,7 +33,7 @@ Plugin 'suan/vim-instant-markdown'
 Plugin 'lervag/vimtex'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'scrooloose/syntastic'
-
+Plugin 'francoiscabrol/ranger.vim'
 call vundle#end()
 
 filetype  plugin indent on
@@ -44,9 +45,11 @@ set laststatus=2
 " enable powerline-fonts
 let g:airline_powerline_fonts = 1
 
+"vim-instant-markdown
+let g:instant_markdown_autostart = 0
 
-
-
+"ranger
+let g:ranger_open_new_tab = 1
 
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>','<Down>']
@@ -82,43 +85,32 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_python_exec = '/usr/bin/python2.7'
 
-nnoremap <silent> <F12> :NERDTree<CR>
+nnoremap <silent> <F12> :NERDTreeToggle<CR>
+inoremap <silent> <F12> <ESC>:NERDTreeToggle<CR>
 
-
-
-map <F10> :call CompileRunGCC()<cr>
-imap <F10> <ESC>:call CompileRunGCC()<cr>
-func! CompileRunGCC()
+map <F3> :call RunScript()<CR>
+imap <F3> <ESC>:call RunScript()<CR>
+func! RunScript()
 	exec "w"
-	exec "!gcc % -o %< && ./%<"
+	if &filetype == "c"
+		exec "!gcc % -o %< && ./%<"
+	elseif &filetype == "cpp"
+		exec "!g++ % -o %< && ./%<"
+	elseif &filetype == "java"
+		exec "!javac % && java %<"
+	elseif &filetype == "python"
+		exec "!python %"
+	elseif &filetype == "plaintex"
+		exec "LLPStartPreview"
+	elseif &filetype == "markdown"
+		exec "InstantMarkdownPreview"
+	elseif &filetype == "javascript"
+		exec "!node %"
+	elseif &filetype == "arduino"
+		exec "!arduino --upload $PWD/%"
+	endif
 endfunc
 
-"map <F9> :call CompileRunJava()<cr>
-"func! CompileRunJava()
-"	exec "w"
-"	exec "!javac %"
-"	exec "!java %<"
-"endfunc
-
-nmap <F3> :call RunPython()<cr>
-imap <F3> <ESC>:call RunPython()<cr>
-func! RunPython()
-	exec "w"
-	exec "!python %"
-endfunc
-
-"map <F5> :call CompileUploadArduino()<cr>
-"func! CompileUploadArduino()
-"	exec "w"
-"	exec " !/Applications/Arduino.app/Contents/MacOS/Arduino --upload $PWD/%"
-"endfunc
-
-"map <F2> :call RunLatex()<cr>
-"func! RunLatex()
-"	exec "w"
-"	exec "!pdflatex %"
-"   exec "!xdg-open %<.pdf"
-"endfunc
 
 noremap <C-h> gT 
 noremap <C-l> gt
@@ -141,10 +133,11 @@ inoremap { {}<ESC>i
 inoremap ( ()<ESC>i
 inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
-noremap = <c-w>+
-noremap - <c-w>-
-noremap , <c-w><
-noremap . <c-w>>
+noremap = <C-w>+
+noremap - <C-w>-
+noremap <Esc>, <C-w><
+noremap <Esc>. <C-w>>
+
 
 set keywordprg=sdcv
 runtime! ftplugin/man.vim
