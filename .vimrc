@@ -11,7 +11,9 @@ set nu "number
 set sc "showCommand
 set incsearch "incremental search"
 set history=200
-set pastetoggle=<F2>
+set cursorline
+set clipboard=unnamedplus
+"set pastetoggle=<F2>
 
 autocmd BufWinLeave ?* mkview
 autocmd BufWinEnter ?* silent loadview
@@ -29,11 +31,11 @@ Plugin 'bling/vim-airline'
 Plugin 'pangloss/vim-javascript'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'suan/vim-instant-markdown'
 Plugin 'lervag/vimtex'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'scrooloose/syntastic'
 Plugin 'francoiscabrol/ranger.vim'
+Plugin 'NBUT-Developers/extra-instant-markdown'
 call vundle#end()
 
 filetype  plugin indent on
@@ -110,6 +112,9 @@ func! RunScript()
 		exec "!arduino --upload $PWD/%"
 	endif
 endfunc
+
+noremap <C-v> :-1r!xclip -o<CR>
+inoremap <C-v> <ESC>:-1r!xclip -o<CR>
 
 
 noremap <C-h> gT 
