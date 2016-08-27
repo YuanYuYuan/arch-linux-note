@@ -13,6 +13,7 @@ set incsearch "incremental search"
 set history=200
 set cursorline
 set clipboard=unnamedplus
+set completeopt-=preview
 "set pastetoggle=<F2>
 
 autocmd BufWinLeave ?* mkview
