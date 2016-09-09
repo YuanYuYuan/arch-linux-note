@@ -395,4 +395,25 @@ so you may not need Alt key in other case.
 
 
 
+## Gnome screenshot Usage
+
+Take screenshot and save to clipboard, of which the hotkey is <Ctrl> + <Shift> + <Ptr Scr>.
+
+```sh
+gnome-screenshot -ac
+```
+
+Launch a interactive window to take screenshot.
+
+```sh
+gnome-screenshot -ai
+```
+
+Use xclip command to save the screenshot in command line.
+
+```sh
+xclip -se c -t image/png -o > THE_DESTENATION
+```
+
+
 
