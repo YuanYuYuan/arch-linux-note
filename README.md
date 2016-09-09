@@ -332,10 +332,28 @@ git remote show origin
 git remote set-url origin git+ssh://git@github.com/USERNAME/REPONAME.git
 ```
 
+## Create git repo in command line
+
+Replace the USER with username and REPO with repository name
+```sh
+mkdir REPO && cd REPO
+git init
+echo init > README.md
+git add .
+git commit -m "init"
+curl -u 'USER' https://api.github.com/user/repos -d '{"name":"REPO"}'
+git remote add origin https://github.com/USER/REPO.git
+# If prefer ssh to https, replace it with the following commad. 
+# git remote add origin git@github.com:USER/REPO.git 
+git push origin master
+```
+
+
 ## Gitbook
 
 ```sh
 sudo npm install gitbook gitbook-cli -g
+gitbook init
 gitbook serve
 ```
 
