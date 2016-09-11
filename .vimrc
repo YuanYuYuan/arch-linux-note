@@ -14,6 +14,7 @@ set history=200
 set cursorline
 set clipboard=unnamedplus
 set completeopt-=preview
+set autochdir
 "set pastetoggle=<F2>
 
 autocmd BufWinLeave ?* mkview
@@ -37,6 +38,7 @@ Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'scrooloose/syntastic'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'NBUT-Developers/extra-instant-markdown'
+Plugin 'tpope/vim-surround'
 call vundle#end()
 
 filetype  plugin indent on
@@ -93,7 +95,7 @@ inoremap <silent> <F12> <ESC>:NERDTreeToggle<CR>
 
 map <F3> :call RunScript()<CR>
 imap <F3> <ESC>:call RunScript()<CR>
-func! RunScript()
+func! RunScript(...)
 	exec "w"
 	if &filetype == "c"
 		exec "!gcc % -o %< && ./%<"
@@ -111,8 +113,13 @@ func! RunScript()
 		exec "!node %"
 	elseif &filetype == "arduino"
 		exec "!arduino --upload $PWD/%"
+	elseif &filetype == "sh"
+		exec "!sh %"
+	elseif &filetype == "html"
+		exec "!xdg-open %"
 	endif
 endfunc
+
 
 noremap <C-v> :-1r!xclip -o<CR>
 inoremap <C-v> <ESC>:-1r!xclip -o<CR>
@@ -143,6 +150,8 @@ noremap = <C-w>+
 noremap - <C-w>-
 noremap <Esc>, <C-w><
 noremap <Esc>. <C-w>>
+noremap <CR> i<CR><ESC>
+noremap <C-n> :noh<CR>
 
 
 set keywordprg=sdcv
