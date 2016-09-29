@@ -335,6 +335,7 @@ git remote set-url origin git+ssh://git@github.com/USERNAME/REPONAME.git
 ## Create git repo in command line
 
 Replace the USER with username and REPO with repository name
+
 ```sh
 mkdir REPO && cd REPO
 git init
