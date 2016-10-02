@@ -418,7 +418,7 @@ xclip -se c -t image/png -o > THE_DESTENATION
 
 ## Shell Script Note
 
-Change the file extension from .a.b to .b
+### Change the file extension from .a.b to .b
 
 ```sh
 for file in *.b; do   
@@ -426,10 +426,16 @@ echo  ${file%.a.b}.b
 done
 ```
 
-Use ls + grep + xargs + COMMAND to edit file.
+### Use ls + grep + xargs + COMMAND to edit file.
 
 ```sh
 ls | grep 'PATTERN' | xargs -d '\n' -I {} COMMAND {}
+```
+
+### wget files in list
+
+```sh
+xargs -n 1 wget < filei-urls
 ```
 
 
