@@ -416,6 +416,18 @@ Use xclip command to save the screenshot in command line.
 xclip -se c -t image/png -o > THE_DESTENATION
 ```
 
+## ZSH plugin
+
+```sh
+yaourt -S zsh-syntax-highlighting
+youart -S zsh-autosuggestions
+echo source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh >> ~/.zshrc
+echo source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh >> ~/.zshrc
+```
+
+
+
+
 ## Shell Script Note
 
 ### Change the file extension from .a.b to .b
