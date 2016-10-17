@@ -468,6 +468,11 @@ import sys, urllib.parse as up
 print(up.unquote_plus(sys.argv[1]))
 ```
 
+### Convert PPT to PDF by LibreOffice
+
+```sh
+libreoffice --convert-to pdf FILE_NAME.ptt
+```
 
 
 

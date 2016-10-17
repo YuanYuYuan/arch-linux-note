@@ -23,7 +23,7 @@ bindkey "^[7" select 7
 bindkey "^[8" select 8
 bindkey "^[9" select 9
          
-bindkey "^[s" split
+#bindkey "^[s" split
 bindkey "^[v" split -v
 bindkey "^[x" remove
 bindkey "^[w" focus
@@ -35,4 +35,4 @@ bindkey "^[k" kill
 bindkey "^[c" copy
 bindkey "^[]" paste .
 bindkey "^[/" help
-
+bindkey "^[." eval writebuf 'exec /bin/sh -c "xsel -i -b < /tmp/screen-exchange"' 
