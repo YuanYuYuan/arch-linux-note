@@ -450,6 +450,23 @@ ls | grep 'PATTERN' | xargs -d '\n' -I {} COMMAND {}
 xargs -n 1 wget < filei-urls
 ```
 
+### Use python to decode/encode url
+
+/usr/local/bin/urlencode
+
+```python
+#!/usr/bin/env python
+import sys, urllib.parse as up 
+print(up.quote_plus(sys.argv[1]))
+```
+
+/usr/local/bin/urldecode
+
+```python
+#!/usr/bin/env python
+import sys, urllib.parse as up 
+print(up.unquote_plus(sys.argv[1]))
+```
 
 
 
