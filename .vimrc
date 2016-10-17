@@ -92,7 +92,6 @@ let g:syntastic_python_python_exec = '/usr/bin/python2.7'
 
 nnoremap <silent> <F12> :NERDTreeToggle<CR>
 inoremap <silent> <F12> <ESC>:NERDTreeToggle<CR>
-
 map <F3> :call RunScript()<CR>
 imap <F3> <ESC>:call RunScript()<CR>
 func! RunScript(...)
@@ -106,7 +105,8 @@ func! RunScript(...)
 	elseif &filetype == "python"
 		exec "!python %"
 	elseif &filetype == "plaintex"
-		exec "LLPStartPreview"
+		"exec "!pandoc % -o %<.pdf"
+		exec "!pdflatex % --interaction=nonstopmode"
 	elseif &filetype == "markdown"
 		exec "InstantMarkdownPreview"
 	elseif &filetype == "javascript"
@@ -121,12 +121,10 @@ func! RunScript(...)
 endfunc
 
 
+
 noremap <C-v> :-1r!xclip -o<CR>
 inoremap <C-v> <ESC>:-1r!xclip -o<CR>
 
-
-noremap <C-h> gT 
-noremap <C-l> gt
 noremap tt :tabe  
 noremap vv <C-v>
 inoremap qq <Esc>
@@ -137,6 +135,7 @@ inoremap aa <Esc>la
 inoremap AA <Esc>A
 inoremap OO <Esc>o
 inoremap ;; <Esc>:
+inoremap ;;; ;<Esc>:
 noremap ;; :
 noremap X :x<esc>
 noremap Q :q<esc>
@@ -148,10 +147,18 @@ inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 noremap = <C-w>+
 noremap - <C-w>-
-noremap <Esc>, <C-w><
-noremap <Esc>. <C-w>>
+noremap _ <C-w><
+noremap + <C-w>>
+noremap ssh <C-w>h
+noremap ssl <C-w>l
+noremap ssj <C-w>j
+noremap ssk <C-w>k
+noremap sl gt
+noremap sh gT
 noremap <CR> i<CR><ESC>
 noremap <C-n> :noh<CR>
+tnoremap <Esc> <C-\><C-n><C-w>
+tnoremap qq <C-\><C-n><C-w>
 
 
 set keywordprg=sdcv
