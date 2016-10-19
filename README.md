@@ -346,7 +346,7 @@ curl -u 'USER' https://api.github.com/user/repos -d '{"name":"REPO"}'
 git remote add origin https://github.com/USER/REPO.git
 # If prefer ssh to https, replace it with the following commad. 
 # git remote add origin git@github.com:USER/REPO.git 
-git push origin master
+git push --set-upstream origin master
 ```
 
 
