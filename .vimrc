@@ -9,6 +9,7 @@ set ts=4 "tabstop
 set ruler
 set nu "number
 set sc "showCommand
+set expandtab "change tab to space
 set incsearch "incremental search"
 set history=200
 set cursorline
@@ -39,6 +40,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'NBUT-Developers/extra-instant-markdown'
 Plugin 'tpope/vim-surround'
+Plugin 'Yggdroot/indentLine'
 call vundle#end()
 
 filetype  plugin indent on
@@ -105,8 +107,8 @@ func! RunScript(...)
 	elseif &filetype == "python"
 		exec "!python %"
 	elseif &filetype == "plaintex"
-		"exec "!pandoc % -o %<.pdf"
-		exec "!pdflatex % --interaction=nonstopmode"
+		exec "!pandoc % -o %<.pdf --latex-engine=pdflatex"
+		"exec "!pdflatex % --interaction=nonstopmode"
 	elseif &filetype == "markdown"
 		exec "InstantMarkdownPreview"
 	elseif &filetype == "javascript"
@@ -143,6 +145,7 @@ inoremap [ []<ESC>i
 inoremap {<cr> {<cr>}<ESC>ko
 inoremap { {}<ESC>i
 inoremap ( ()<ESC>i
+inoremap $ $$<ESC>i
 inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 noremap = <C-w>+

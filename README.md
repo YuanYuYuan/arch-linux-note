@@ -474,5 +474,10 @@ print(up.unquote_plus(sys.argv[1]))
 libreoffice --convert-to pdf FILE_NAME.ptt
 ```
 
+### Remove files except specific file
+
+```sh
+ls | grep -v FILE_NAME | xargs rm
+```
 
 
