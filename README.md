@@ -375,7 +375,7 @@ sdcv -l
 
 ```sh
 pacman -S xorg-luit
-luit -encoding big5 ssh bbs@ptt.c
+luit -encoding big5 ssh bbs@ptt.cc
 ```
 
 ## Youtube player hotkeys
