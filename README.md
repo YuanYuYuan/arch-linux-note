@@ -479,5 +479,12 @@ libreoffice --convert-to pdf FILE_NAME.ptt
 ```sh
 ls | grep -v FILE_NAME | xargs rm
 ```
+### Bug: if encountered unable to open display ":0.0" when open gparted, try 
+
+```sh
+export DISPLAY=":0.0"
+xhost +
+sudo gparted
+```
 
 
