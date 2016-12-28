@@ -425,6 +425,44 @@ echo source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighti
 echo source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh >> ~/.zshrc
 ```
 
+## Convert PPT to PDF by LibreOffice
+
+```sh
+libreoffice --convert-to pdf FILE_NAME.ptt
+```
+
+## Remove files except specific file
+
+```sh
+ls | grep -v FILE_NAME | xargs rm
+```
+## Bug: if encountered unable to open display ":0.0" when open gparted, try 
+
+```sh
+export DISPLAY=":0.0"
+xhost +
+sudo gparted
+```
+
+
+## Use netcat for file transfers
+
+On the receiving end
+
+```sh
+nc -l -p PORT > OUTFILE
+```
+
+On the sending end
+
+```sh
+nc -w 3 DESTINATION PORT < FILE_TO_TRANSFER
+```
+
+
+
+
+
 
 
 
@@ -467,24 +505,4 @@ print(up.quote_plus(sys.argv[1]))
 import sys, urllib.parse as up 
 print(up.unquote_plus(sys.argv[1]))
 ```
-
-### Convert PPT to PDF by LibreOffice
-
-```sh
-libreoffice --convert-to pdf FILE_NAME.ptt
-```
-
-### Remove files except specific file
-
-```sh
-ls | grep -v FILE_NAME | xargs rm
-```
-### Bug: if encountered unable to open display ":0.0" when open gparted, try 
-
-```sh
-export DISPLAY=":0.0"
-xhost +
-sudo gparted
-```
-
 

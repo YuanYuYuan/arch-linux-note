@@ -33,7 +33,6 @@ Plugin 'scrooloose/nerdTree'
 Plugin 'bling/vim-airline'
 Plugin 'pangloss/vim-javascript'
 Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
 Plugin 'lervag/vimtex'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'scrooloose/syntastic'
@@ -41,6 +40,7 @@ Plugin 'francoiscabrol/ranger.vim'
 Plugin 'NBUT-Developers/extra-instant-markdown'
 Plugin 'tpope/vim-surround'
 Plugin 'Yggdroot/indentLine'
+Plugin 'plasticboy/vim-markdown'
 call vundle#end()
 
 filetype  plugin indent on
@@ -84,6 +84,9 @@ let g:ycm_semantic_triggers.tex = [
 
 " markdown folding
 let g:vim_markdown_folding_disabled = 1
+
+" disable markdow conceal
+let g:vim_markdown_conceal = 0
 
 
 " syntastic config
@@ -165,5 +168,5 @@ tnoremap qq <C-\><C-n><C-w>
 
 
 set keywordprg=sdcv
-runtime! ftplugin/man.vim
+"runtime! ftplugin/man.vim
 
