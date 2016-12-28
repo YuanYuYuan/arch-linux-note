@@ -459,6 +459,12 @@ On the sending end
 nc -w 3 DESTINATION PORT < FILE_TO_TRANSFER
 ```
 
+## monitor the dd progress with pv
+
+```sh
+dd if=INFILE | pv | dd of=OUTFILE
+```
+
 
 
 
