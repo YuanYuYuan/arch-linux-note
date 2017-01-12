@@ -466,6 +466,51 @@ dd if=INFILE | pv | dd of=OUTFILE
 ```
 
 
+## Backup
+
+backup pacman database
+
+```sh
+tar -cjf pacman_database.tar.bz2 /var/lib/pacman/local
+tar -xjvf pacman_database.tar.bz2
+```
+
+list native, explicitly installed packages
+
+```sh
+pacman -Qqen > pkglist.txt
+```
+
+list foreign, explicitly installed packages
+
+```sh
+pacman -Qem
+```
+
+exclude the foreign packages(ex. AUR)
+
+```sh
+comm -12 <(pacman -Slq | sort) <(sort pkglist.txt)
+```
+
+install packages from list
+
+```sh
+pacman -S - < pkglist
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
