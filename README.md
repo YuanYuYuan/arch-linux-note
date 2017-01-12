@@ -557,3 +557,27 @@ import sys, urllib.parse as up
 print(up.unquote_plus(sys.argv[1]))
 ```
 
+### combine cp and pv to show the progress while copying files
+
+/usr/local/bin/cpv
+
+```sh
+tar c -"$1" | pv | tar x -c "$2"
+```
+
+## Vim-note
+
+Write file with super user privilege
+
+```sh
+:w !sudo tee %
+```
+
+vim markdown
+
+```sh
+TableFormat # format the markdown table
+Toc # create a quickfix vertial window of contents of the markdown file
+```
+
+
