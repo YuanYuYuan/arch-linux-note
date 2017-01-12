@@ -557,13 +557,18 @@ import sys, urllib.parse as up
 print(up.unquote_plus(sys.argv[1]))
 ```
 
-### combine cp and pv to show the progress while copying files
-
-/usr/local/bin/cpv
+### use rsync to copy 
 
 ```sh
-tar c -"$1" | pv | tar x -c "$2"
+rsync -ahP SOURCE DESTINATION
 ```
+
+### cp with pv to monitor progress
+
+```sh
+pv FILE > DESTINATION
+```
+
 
 ## Vim-note
 
