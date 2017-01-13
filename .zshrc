@@ -49,7 +49,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git z)
 #plugins=(colored-man-pages)
 
 # User configuration
@@ -91,12 +91,16 @@ alias y='youtube-dl -f 140 -o "/home/circle/Music/%(title)s.%(ext)s"'
 alias nv=nvim
 alias speak='trans -speak -b'
 alias ez='exec zsh'
+alias g='googler -n 5'
+alias x='xclip -se c'
+alias h='history'
 export NVM_DIR="/home/circle/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 export PATH="/usr/lib/ccache/bin/:$PATH"
 export VISUAL="vim"
 export GOPATH=~/go
 export PATH="$PATH:$GOPATH/bin"
+export EDITOR="/usr/bin/nvim"
 
 if [ "$TERM" = "xterm" ]; then
     export TERM=xterm-256color
@@ -106,11 +110,9 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
     unset TERMCAP
 fi
 
-x () {
-	echo $@ | /usr/bin/xclip -sel clip
-}
 vman () {
-    /usr/bin/man $@ | col -b | vim -R -c 'set ft=man nomod nolist nu!' -
+    /usr/bin/man $@ | col -b | nv -R -c 'set nu! ft=man nomod nolist' -
 }
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+. /home/circle/.oh-my-zsh/plugins/z/z.sh
