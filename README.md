@@ -279,6 +279,14 @@ sudo modprobe vboxdrv
 sudo gpasswd -a $USER vboxusers
 ```
 
+## VirtualBox command line
+
+```sh
+vboxmanage list vms
+vboxmanage list running vms
+```
+
+
 
 ## Nvidia (got some problem)
 
