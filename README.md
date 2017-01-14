@@ -357,6 +357,11 @@ git remote add origin https://github.com/USER/REPO.git
 git push --set-upstream origin master
 ```
 
+## curl with bitbucket api
+
+```sh
+curl -u USERNAME https://api.bitbucket.org/1.0/repositories --data name=REPO_NAME is_priviate='true'
+```
 
 ## Gitbook
 
