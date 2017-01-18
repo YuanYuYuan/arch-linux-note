@@ -148,7 +148,7 @@ inoremap [ []<ESC>i
 inoremap {<cr> {<cr>}<ESC>ko
 inoremap { {}<ESC>i
 inoremap ( ()<ESC>i
-inoremap $ $$<ESC>i
+"inoremap $ $$<ESC>i
 inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 noremap = <C-w>+

@@ -6,22 +6,31 @@ timedatectl set-ntp true
 # echo -n ">> Enter the device (ex. /dev/sdx)to parted > "
 # read device
 device=/dev/sda
-parted $device mklabel gpt
-parted $device mkpart ESP fat32 1M 513M
-parted $device set 1 boot on
-parted $device mkpart primary ext4 513M 100%
-parted $device print
+parted $device
+# parted $device mklabel gpt
+# parted $device mkpart ESP fat32 1M 513M
+# parted $device set 1 boot on
+# parted $device mkpart primary ext4 513M 100%
+# parted $device print
 
-echo 
 echo ">> Format filesystem"
-mkfs.fat ${device}1
-mkfs.ext4 ${device}2
+echo -n ">> Enter the part number to install Arch linux > "
+read arch_part_number
 
-echo 
+arch_part=$device$arch_part_number
+echo $arch_part
+mkfs.ext4 $arch_part
+
 echo ">> Mount root and boot/efi"
-mount ${device}2 /mnt
+echo -n ">> Enter the part number to mount boot/efi > "
+read boot_part_number
+
+boot_part=$device$boot_part_number
+mount $arch_part /mnt
 mkdir -p /mnt/boot/efi
-mount ${device}1 /mnt/boot/efi
+mount $boot_part /mnt/boot/efi
+
+
 
 
 echo 
@@ -50,8 +59,8 @@ arch_chroot passwd
 
 echo 
 echo ">> Enter hostname"
-# read hostname
-hostname=arch-vm
+read hostname
+# hostname=arch-vm
 arch_chroot echo "$hostname" > /etc/hostname
 
 echo 
@@ -101,4 +110,6 @@ echo
 echo "Unmount and poweroff"
 umount -R /mnt
 poweroff
+
+
 

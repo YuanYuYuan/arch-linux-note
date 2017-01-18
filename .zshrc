@@ -101,6 +101,7 @@ export VISUAL="vim"
 export GOPATH=~/go
 export PATH="$PATH:$GOPATH/bin"
 export EDITOR="/usr/bin/nvim"
+export CHEATCOLORS=true
 
 if [ "$TERM" = "xterm" ]; then
     export TERM=xterm-256color
@@ -109,6 +110,12 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
     export TERM=screen-256color
     unset TERMCAP
 fi
+
+# cheat completion
+complete_cheat() {
+	reply=($(cheat -l | cut -d ' ' -f 1))
+}
+compctl -K complete_cheat cheat
 
 vman () {
     /usr/bin/man $@ | col -b | nv -R -c 'set nu! ft=man nomod nolist' -
