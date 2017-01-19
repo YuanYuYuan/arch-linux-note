@@ -75,7 +75,7 @@ for locale_name in 'zh_TW.UTF-8 UTF-8' 'zh_TW BIG5' 'en_US.UTF-8 UTF-8' 'en_US I
     arch_chroot 'sed -i "s/^#$locale_name/$locale_name/" /etc/locale.gen'
 done
 arch_chroot locale-gen
-arch_chroot echo LANG=en_US.UTF-8 > /etc/locale.conf
+arch_chroot echo "LANG=en_US.UTF-8" > /etc/locale.conf
 arch_chroot mkinitcpio -p linux
 
 echo 

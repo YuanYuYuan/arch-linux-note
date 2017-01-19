@@ -11,6 +11,7 @@ bindkey "^[t" screen 1
 bindkey "^[h" prev
 bindkey "^[l" next
 bindkey "^['" windowlist
+bindkey "$[w" other
          
 bindkey "^[0" select 0
 bindkey "^[1" select 1
@@ -24,9 +25,9 @@ bindkey "^[8" select 8
 bindkey "^[9" select 9
          
 #bindkey "^[s" split
-bindkey "^[v" split -v
+#bindkey "^[v" split -v
 bindkey "^[x" remove
-bindkey "^[w" focus
+#bindkey "^[w" focus
 bindkey "^[n" title
 bindkey "^[a" meta
 bindkey "^[;" colon
