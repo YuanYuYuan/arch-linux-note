@@ -11,7 +11,7 @@ bindkey "^[t" screen 1
 bindkey "^[h" prev
 bindkey "^[l" next
 bindkey "^['" windowlist
-bindkey "$[w" other
+bindkey "^[w" other
          
 bindkey "^[0" select 0
 bindkey "^[1" select 1
