@@ -35,7 +35,7 @@ sudo vim /etc/makepkg.conf
 echo -e "\n>> Setup fonts"
 sudo pacman -S powerline-fonts wqy-bitmapfont wqy-microhei wqy-zenhei --noconfirm
 yaourt -S terminess-powerline-font-git --noconfirm
-sudo setfont /usr/share/kbd/ter-powerline-v32n.psf.gz
+sudo setfont /usr/share/kbd/consolefonts/ter-powerline-v32n.psf.gz
 sudo touch /etc/vconsole.conf
 sudo -s 'echo "FONT=ter-powerline-v32n" >> /etc/vconsole.conf'
 # yaourt -S ttf-google-fonts-git --noconfirm
