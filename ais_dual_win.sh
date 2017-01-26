@@ -82,7 +82,7 @@ arch_chroot mkinitcpio -p linux
 
 echo 
 echo ">> Baisc network setting"
-arch_chroot pacman -S iw wpa_supplicant dialog networkmanager --noconfirm
+arch_chroot pacman -S iw wpa_supplicant dialog networkmanager wget --noconfirm
 arch_chroot systemctl enable NetworkManager
 
 echo ">> SSH"
