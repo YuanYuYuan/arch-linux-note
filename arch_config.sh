@@ -2,7 +2,7 @@ echo -e "\n>> Install some packages ... "
 sudo pacman -S zsh vim neovim zip unrar wget git ntfs-3g thunderbird chromium --noconfirm
 sudo pacman -S python python2 bpython bpython2 octave nodejs npm mps-youtube --noconfirm
 sudo pacman -S acpi acpid alsa-utils dhcp elinks gnuplot ibus ibus-chewing mpv --noconfirm
-sudo pacman -S tree surfraw cmus ranger screen xclip youtube-dl mupdf ncdu tig --noconfirm
+sudo pacman -S tree surfraw ranger screen htop cmake python-neovim xclip youtube-dl mupdf ncdu tig --noconfirm
 
 echo -e "\n>> Configure zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -23,7 +23,7 @@ cd yaourt
 makepkg -si --noconfirm
 
 echo -e "\n>> Some AUR packages"
-yaourt -S llpp megatools cheat-git --noconfirm
+yaourt -S cmus-git megatools cheat-git --noconfirm
 
 echo -e "\n >> CCache setup"
 sudo pacman -S ccache --noconfirm
