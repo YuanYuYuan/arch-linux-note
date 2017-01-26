@@ -62,7 +62,7 @@ echo ">> Enter hostname"
 read hostname
 # hostname=arch-vm
 # arch_chroot 'echo "$hostname" > /etc/hostname'
-hostnamectl sethostname $hostname
+hostnamectl set-hostname $hostname
 
 echo 
 echo ">> Set time zone"
