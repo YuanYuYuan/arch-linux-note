@@ -222,7 +222,7 @@ In BUILDDEV uncomment cache.
 ## Console fonts
 
 ```sh
-yaourt -S terminuss-powerline-font-git
+yaourt -S terminess-powerline-font-git
 setfonts /usr/share/kbd/ter-powerline-v32n.psf.gz
 vim /etc/vconsole.conf 
 ```
