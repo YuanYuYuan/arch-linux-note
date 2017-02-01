@@ -6,7 +6,6 @@ sudo pacman -S tree surfraw ranger screen htop cmake python-neovim xclip youtube
 
 echo -e "\n>> Configure zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-mv .zshrc ~/.zshrc
 
 echo -e "\n>> Setup X window and gnome"
 sudo pacman -S xorg xorg-luit gnome gdm gnome-tweak-tool network-manager-applet --noconfirm
