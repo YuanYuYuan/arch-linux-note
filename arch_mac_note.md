@@ -25,4 +25,18 @@ vim /etc/mpbfan.conf
 sudo systemctl enable mbpfan
 sudo systemctl start mbpfan
 ```
+# gnome extenstion
+
+```sh
+yaourt -S chrome-gnome-shell-git
+```
+
+# powerdown
+
+```sh
+sudo pacman -S tlp
+sudo systemctl enable tlp.service
+sudo systemctl enable tlp-sleep.service
+sudo systemctl disable systemd-rfkill.service
+```
 
