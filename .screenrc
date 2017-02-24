@@ -4,7 +4,10 @@ defutf8 on
 term screen-256color
 altscreen on
 termcapinfo xterm* ti@:te@
-caption always '%{= G}[ %{G}%H %{g}][%= %{= w}%?%-Lw%?%{= b}%n*%f %t%?%{= b}(%u)%?%{= w}%+Lw%?%= %{= g}][%{B}%Y-%m-%d %D %{W}%c:%s %{g}]'
+
+backtick 1 0 5 sh -c 'acpi | sed "s/Battery 0: //" | sed "s/Discharging, //" | sed "s/Unknown, //"'
+
+caption always '%{= G}[ %{G}%H %1` %{g} ][%= %{= w}%?%-Lw%?%{= b}%n*%f %t%?%{= b}(%u)%?%{= w}%+Lw%?%= %{= g}][%{B}%Y-%m-%d %D %{W}%c:%s %{g}]'
 
 screen 1
 bindkey "^[t" screen 1

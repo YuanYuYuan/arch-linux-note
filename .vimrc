@@ -41,6 +41,8 @@ Plugin 'NBUT-Developers/extra-instant-markdown'
 Plugin 'tpope/vim-surround'
 Plugin 'Yggdroot/indentLine'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'taglist.vim'
+
 call vundle#end()
 
 filetype  plugin indent on
@@ -95,8 +97,14 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_python_exec = '/usr/bin/python2.7'
 
-nnoremap <silent> <F12> :NERDTreeToggle<CR>
-inoremap <silent> <F12> <ESC>:NERDTreeToggle<CR>
+" taglist
+let Tlist_Use_Right_Window = 1
+let Tlist_Exit_OnlyWindow = 1
+
+nnoremap <silent> <F2> :NERDTreeToggle<CR>
+inoremap <silent> <F2> <ESC>:NERDTreeToggle<CR>
+nnoremap <silent> <F4> :TlistToggle<CR>
+inoremap <silent> <F4> <ESC>:TlistToggle<CR>
 map <F3> :call RunScript()<CR>
 imap <F3> <ESC>:call RunScript()<CR>
 func! RunScript(...)
@@ -139,9 +147,9 @@ inoremap zz <Esc>zza
 inoremap aa <Esc>la
 inoremap AA <Esc>A
 inoremap OO <Esc>o
-inoremap ;; <Esc>:
-inoremap ;;; ;<Esc>:
-noremap ;; :
+"inoremap ;; <Esc>:
+"inoremap ;;; ;<Esc>:
+"noremap ;; :
 noremap X :x<esc>
 noremap Q :q<esc>
 inoremap [ []<ESC>i
