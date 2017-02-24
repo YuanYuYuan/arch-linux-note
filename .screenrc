@@ -5,8 +5,7 @@ term screen-256color
 altscreen on
 termcapinfo xterm* ti@:te@
 
-backtick 1 0 5 sh -c 'acpi | sed "s/Battery 0: //" | sed "s/Discharging, //" | sed "s/Unknown, //"'
-
+backtick 1 0 5 sh -c 'acpi | sed "s/Battery 0://; s/Discharging, //; s/Unknown, //; s/Charging, //"'
 caption always '%{= G}[ %{G}%H %1` %{g} ][%= %{= w}%?%-Lw%?%{= b}%n*%f %t%?%{= b}(%u)%?%{= w}%+Lw%?%= %{= g}][%{B}%Y-%m-%d %D %{W}%c:%s %{g}]'
 
 screen 1
