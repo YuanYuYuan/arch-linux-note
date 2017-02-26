@@ -5,8 +5,9 @@ term screen-256color
 altscreen on
 termcapinfo xterm* ti@:te@
 
-backtick 1 0 5 sh -c 'acpi | sed "s/Battery 0://; s/Discharging, //; s/Unknown, //; s/Charging, //"'
-caption always '%{= G}[ %{G}%H %1` %{g} ][%= %{= w}%?%-Lw%?%{= b}%n*%f %t%?%{= b}(%u)%?%{= w}%+Lw%?%= %{= g}][%{B}%Y-%m-%d %D %{W}%c:%s %{g}]'
+#backtick 1 0 5 sh -c 'acpi | sed "s/Battery 0://; s/Discharging, //; s/Unknown, //; s/Charging, //"'
+backtick 1 0 5 sh -c 'acpi | sed "s/,//g; s/Battery 0://; s/D[^ ]*/D/; s/C[^]/C s/U[^ ]*/U/; s/[F].*/F/" | cut -d " " -f 2-4'
+caption always '%{= G}[ %{G}%H %{r}%1`%{g} ][%= %{= w}%?%-Lw%?%{= b}%n*%f %t%?%{= b}(%u)%?%{= w}%+Lw%?%= %{= g}][%{B}%Y-%m-%d %D %{W}%c:%s %{g}]'
 
 screen 1
 bindkey "^[t" screen 1
