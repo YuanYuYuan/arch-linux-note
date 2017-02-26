@@ -1,0 +1,84 @@
+syntax on
+set nocompatible
+set ai "autoIndent
+set smartindent
+set background=dark
+set sw=4 "shiftWidth
+set ts=4 "tabstop
+set ruler
+set nu "number
+set sc "showCommand
+set expandtab "change tab to space
+set incsearch "incremental search"
+set history=200
+set cursorline
+set clipboard=unnamedplus
+set completeopt-=preview
+set autochdir
+filetype indent on
+autocmd BufWinLeave ?* mkview
+autocmd BufWinEnter ?* silent loadview
+
+
+map <F3> :call RunScript()<CR>
+imap <F3> <ESC>:call RunScript()<CR>
+func! RunScript(...)
+    exec "w"
+    if &filetype == "c"
+        exec "!gcc % -o %< && ./%<"
+    elseif &filetype == "cpp"
+        exec "!g++ % -o %< && ./%<"
+    elseif &filetype == "java"
+        exec "!javac % && java %<"
+    elseif &filetype == "python"
+        exec "!python %"
+    elseif &filetype == "markdown"
+        exec "InstantMarkdownPreview"
+    elseif &filetype == "javascript"
+        exec "!node %"
+    elseif &filetype == "arduino"
+        exec "!arduino --upload $PWD/%"
+    elseif &filetype == "sh"
+        exec "!sh %"
+    elseif &filetype == "html"
+        exec "!xdg-open %"
+    endif
+endfunc
+
+
+
+noremap <C-v> :-1r!xclip -o<CR>
+inoremap <C-v> <ESC>:-1r!xclip -o<CR>
+
+noremap tt :tabe  
+noremap vv <C-v>
+inoremap qq <Esc>
+vnoremap qq <Esc>
+inoremap uu <Esc>u
+inoremap zz <Esc>zza
+inoremap aa <Esc>la
+inoremap AA <Esc>A
+inoremap OO <Esc>o
+noremap X :x<esc>
+noremap Q :q<esc>
+inoremap [ []<ESC>i
+inoremap {<cr> {<cr>}<ESC>ko
+inoremap { {}<ESC>i
+inoremap ( ()<ESC>i
+inoremap " ""<ESC>i
+inoremap ' ''<ESC>i
+noremap = <C-w>+
+noremap - <C-w>-
+noremap _ <C-w><
+noremap + <C-w>>
+noremap sh <C-w>h
+noremap sl <C-w>l
+noremap sj <C-w>j
+noremap sk <C-w>k
+noremap ssl gt
+noremap ssh gT
+noremap <CR> i<CR><ESC>
+noremap <C-n> :noh<CR>
+
+
+
