@@ -25,7 +25,7 @@ arch_chroot() {
 }
 
 arch_chroot passwd
-arch_chroot 'echo "arch-mac" > /etc/hostname'
+arch_chroot "echo arch-mac > /etc/hostname"
 arch_chroot mv /etc/localtime /etc/localtime.bak
 arch_chroot ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
@@ -35,7 +35,7 @@ for locale_name in 'zh_TW.UTF-8 UTF-8' 'zh_TW BIG5' 'en_US.UTF-8 UTF-8' 'en_US I
 done
 
 arch_chroot locale-gen
-arch_chroot 'LANG=en_US.UTF-8 > /etc/locale.conf'
+arch_chroot "echo LANG=en_US.UTF-8 > /etc/locale.conf"
 arch_chroot mkinitcpio -p linux
 
 arch_chroot pacman -S iw wpa_supplicant dialog networkmanager --noconfirm
