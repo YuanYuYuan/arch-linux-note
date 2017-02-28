@@ -1,6 +1,8 @@
-vboxmanage controlvm arch_test poweroff
-vboxmanage unregistervm arch_test --delete
-./create_arch_vm.sh arch_test 2048 10000 /home/circle/Downloads/archlinux-2017.01.01-dual.iso
+vm_name=arch_test
+
+vboxmanage controlvm $vm_name poweroff
+vboxmanage unregistervm $vm_name --delete
+./create_arch_vm.sh $vm_name 2048 10000 /home/circle/Downloads/archlinux-2017.01.01-dual.iso
 
 echo 'wait for run the ssh service and set the passwd in guest vm ... '
 read

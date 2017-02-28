@@ -87,6 +87,7 @@ arch_chroot passwd $username
 echo 
 echo  ">> Add the wheel group to sudoers"
 #arch_chroot 'sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers'
+arch_chroot pacman -S vim --noconfirm
 arch_chroot visudo
 
 echo 
