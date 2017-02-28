@@ -5,6 +5,8 @@
 #parted $device mkpart primary linux-swap 513M 100%
 #parted $device print
 
+parted /dev/sda
+
 mkfs.fat /dev/sda4
 mkswap /dev/sda5
 swapon /dev/sda5
