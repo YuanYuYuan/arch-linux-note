@@ -12,6 +12,7 @@ cd ..
 git clone https://aur.archlinux.org/yaourt.git
 cd yaourt
 makepkg -si --noconfirm
+cd ~
 
 echo -e "\n>> Install packages"
 for pkg in $(cat pkg_list.txt)
