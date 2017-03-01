@@ -1,4 +1,5 @@
 nmap
+guake
 netcat 
 iptraf 
 speedtest-cli
@@ -56,4 +57,4 @@ youtube-dl
 mupdf
 ncdu
 tig
-
+chrome-gnome-shell-git

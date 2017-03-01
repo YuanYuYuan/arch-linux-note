@@ -48,4 +48,8 @@ arch_chroot passwd circle
 arch_chroot pacman -S vim --noconfirm
 arch_chroot visudo
 
+echo ">> SSH"
+arch_chroot pacman -S openssh --noconfirm
+arch_chroot systemctl enable sshd
+
 arch_chroot bootctl --path=/boot install
