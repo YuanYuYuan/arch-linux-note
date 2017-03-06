@@ -40,7 +40,7 @@ arch_chroot locale-gen
 arch_chroot "echo LANG=en_US.UTF-8 > /etc/locale.conf"
 arch_chroot mkinitcpio -p linux
 
-arch_chroot pacman -S wget iw wpa_supplicant dialog networkmanager --noconfirm
+arch_chroot pacman -S dnsmasq wget iw wpa_supplicant dialog networkmanager --noconfirm
 arch_chroot systemctl enable NetworkManager
 
 arch_chroot useradd -m -g users -G wheel -s /bin/bash circle
