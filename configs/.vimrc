@@ -159,20 +159,35 @@ inoremap ( ()<ESC>i
 "inoremap $ $$<ESC>i
 inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
+
 noremap = <C-w>+
 noremap - <C-w>-
 noremap _ <C-w><
 noremap + <C-w>>
+
 noremap sh <C-w>h
 noremap sl <C-w>l
 noremap sj <C-w>j
 noremap sk <C-w>k
-noremap ssl gt
-noremap ssh gT
+
+noremap <C-l> gt
+if has('nvim')
+    noremap <BS> gT
+    tnoremap <Esc> <C-\><C-n><C-w>
+    tnoremap qq <C-\><C-n><C-w>
+else
+    noremap <C-h> gT
+endif
+
+noremap H 7h
+noremap L 7l
+noremap J 7j
+noremap K 7k
+noremap S K
+
 noremap <CR> i<CR><ESC>
 noremap <C-n> :noh<CR>
-tnoremap <Esc> <C-\><C-n><C-w>
-tnoremap qq <C-\><C-n><C-w>
+
 
 
 set keywordprg=sdcv
