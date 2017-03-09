@@ -31,11 +31,14 @@ bindkey "^[9" select 9
 #bindkey "^[v" split -v
 bindkey "^[x" remove
 #bindkey "^[w" focus
-bindkey "^[n" title
+#bindkey "^[n" title
 bindkey "^[a" meta
 bindkey "^[;" colon
 bindkey "^[d" detach
-bindkey "^[k" kill
+bindkey "^[i" kill
+bindkey "^[k" eval "copy" "stuff ^u"
+bindkey "^[j" eval "copy" "stuff ^d"
+
 bindkey "^[c" copy
 bindkey "^[]" paste .
 bindkey "^[/" help
