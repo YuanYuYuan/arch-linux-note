@@ -75,8 +75,13 @@ noremap sh <C-w>h
 noremap sl <C-w>l
 noremap sj <C-w>j
 noremap sk <C-w>k
-noremap ssl gt
-noremap ssh gT
+noremap H 7h
+noremap L 7l
+noremap J 7j
+noremap K 7k
+noremap <C-l> gt
+noremap <C-h> gT
+
 noremap <CR> i<CR><ESC>
 noremap <C-n> :noh<CR>
 
