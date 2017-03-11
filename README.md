@@ -598,4 +598,12 @@ TableFormat # format the markdown table
 Toc # create a quickfix vertial window of contents of the markdown file
 ```
 
+Search selected text
+
+```sh
+(visual-mode)y
+/
+<Ctrl>+R
+"
+```
 
