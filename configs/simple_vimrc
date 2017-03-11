@@ -47,8 +47,6 @@ endfunc
 
 
 
-noremap <C-v> :-1r!xclip -o<CR>
-inoremap <C-v> <ESC>:-1r!xclip -o<CR>
 
 noremap tt :tabe  
 noremap vv <C-v>
