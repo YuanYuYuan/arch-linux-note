@@ -20,6 +20,11 @@ autocmd BufWinLeave ?* mkview
 autocmd BufWinEnter ?* silent loadview
 
 
+" netrw/explore config
+let g:netrw_winsize = 25
+
+nnoremap <silent> <F2> :Lex<CR>
+inoremap <silent> <F2> <ESC>:Lex<CR>
 map <F3> :call RunScript()<CR>
 imap <F3> <ESC>:call RunScript()<CR>
 func! RunScript(...)

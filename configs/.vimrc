@@ -29,7 +29,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdTree'
+"Plugin 'scrooloose/nerdTree'
 Plugin 'bling/vim-airline'
 Plugin 'pangloss/vim-javascript'
 Plugin 'godlygeek/tabular'
@@ -101,8 +101,10 @@ let g:syntastic_python_python_exec = '/usr/bin/python2.7'
 let Tlist_Use_Right_Window = 1
 let Tlist_Exit_OnlyWindow = 1
 
-nnoremap <silent> <F2> :NERDTreeToggle<CR>
-inoremap <silent> <F2> <ESC>:NERDTreeToggle<CR>
+" netrw/explore config
+let g:netrw_winsize = 25
+nnoremap <silent> <F2> :Lex<CR>
+inoremap <silent> <F2> <ESC>:Lex<CR>
 nnoremap <silent> <F4> :TlistToggle<CR>
 inoremap <silent> <F4> <ESC>:TlistToggle<CR>
 map <F3> :call RunScript()<CR>
