@@ -613,5 +613,12 @@ Replace quotes around words, ex: '123', '456' -> "123", "456"
 :s/'\([^']*\)'/"\1"/g
 ```
 
+error: Cannot write, 'bufftype' option is set
+
+```sh
+:setlocal buftype=
+```
+
+
 
 
