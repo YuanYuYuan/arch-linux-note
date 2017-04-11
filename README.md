@@ -607,3 +607,11 @@ Search selected text
 "
 ```
 
+Replace quotes around words, ex: '123', '456' -> "123", "456"
+
+```sh
+:s/'\([^']*\)'/"\1"/g
+```
+
+
+
