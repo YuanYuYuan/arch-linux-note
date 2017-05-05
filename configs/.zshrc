@@ -86,7 +86,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 # synclient TouchpadOff=1
-alias open=gio open
+alias open='gio open'
 alias y='youtube-dl -f 140 -o "/home/circle/Music/%(title)s.%(ext)s"'
 alias nv=nvim
 alias speak='trans -speak -b'
