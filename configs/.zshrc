@@ -49,7 +49,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z)
+plugins=(git autojump)
 #plugins=(colored-man-pages)
 
 # User configuration
@@ -86,7 +86,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 # synclient TouchpadOff=1
-alias open=xdg-open
+alias open=gio open
 alias y='youtube-dl -f 140 -o "/home/circle/Music/%(title)s.%(ext)s"'
 alias nv=nvim
 alias speak='trans -speak -b'
@@ -94,6 +94,7 @@ alias ez='exec zsh'
 alias g='googler -n 5'
 alias x='xclip -se c'
 alias h='history'
+alias s='sdcv'
 export NVM_DIR="/home/circle/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 export PATH="/usr/lib/ccache/bin/:$PATH"
