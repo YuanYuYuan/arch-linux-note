@@ -64,26 +64,37 @@ inoremap AA <Esc>A
 inoremap OO <Esc>o
 noremap X :x<esc>
 noremap Q :q<esc>
+
 inoremap [ []<ESC>i
 inoremap {<cr> {<cr>}<ESC>ko
 inoremap { {}<ESC>i
 inoremap ( ()<ESC>i
 inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
+
 noremap = <C-w>+
 noremap - <C-w>-
 noremap _ <C-w><
 noremap + <C-w>>
+
 noremap sh <C-w>h
 noremap sl <C-w>l
 noremap sj <C-w>j
 noremap sk <C-w>k
+
 noremap H 7h
 noremap L 7l
 noremap J 7j
 noremap K 7k
+
 noremap <C-l> gt
 noremap <C-h> gT
+nnoremap <C-j> :m .+1<CR>
+nnoremap <C-k> :m .-2<CR>
+inoremap <C-j> <Esc>:m .+1<CR>gi
+inoremap <C-k> <Esc>:m .-2<CR>gi
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
 
 noremap <CR> i<CR><ESC>
 noremap <C-n> :noh<CR>

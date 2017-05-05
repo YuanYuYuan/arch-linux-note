@@ -103,6 +103,7 @@ let Tlist_Exit_OnlyWindow = 1
 
 " netrw/explore config
 let g:netrw_winsize = 25
+
 nnoremap <silent> <F2> :Lex<CR>
 inoremap <silent> <F2> <ESC>:Lex<CR>
 nnoremap <silent> <F4> :TlistToggle<CR>
@@ -128,6 +129,7 @@ func! RunScript(...)
 		exec "!node %"
 	elseif &filetype == "arduino"
 		exec "!arduino --upload $PWD/%"
+        "exec "!pio run -t upload"
 	elseif &filetype == "sh"
 		exec "!sh %"
 	elseif &filetype == "html"
@@ -181,11 +183,18 @@ else
     noremap <C-h> gT
 endif
 
+nnoremap <C-j> :m .+1<CR>
+nnoremap <C-k> :m .-2<CR>
+inoremap <C-j> <Esc>:m .+1<CR>gi
+inoremap <C-k> <Esc>:m .-2<CR>gi
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
 noremap H 7h
 noremap L 7l
 noremap J 7j
 noremap K 7k
-noremap S K
+noremap s K
 
 noremap <CR> i<CR><ESC>
 noremap <C-n> :noh<CR>
@@ -193,5 +202,3 @@ noremap <C-n> :noh<CR>
 
 
 set keywordprg=sdcv
-"runtime! ftplugin/man.vim
-
