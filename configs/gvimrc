@@ -1,0 +1,112 @@
+syntax on
+set nocompatible
+set ai "autoIndent
+set smartindent
+set background=dark
+set sw=4 "shiftWidth
+set ts=4 "tabstop
+set ruler
+set nu "number
+set sc "showCommand
+set expandtab "change tab to space
+set incsearch "incremental search"
+set history=200
+set cursorline
+set clipboard=unnamed
+set completeopt-=preview
+set autochdir
+
+colorscheme desert
+set backspace=2
+set guifont=Consolas:h24
+set langmenu=en_US
+let $LANG='en_US'
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+filetype indent on
+autocmd BufWinLeave ?* mkview
+autocmd BufWinEnter ?* silent loadview
+
+
+" netrw/explore config
+let g:netrw_winsize = 25
+
+nnoremap <silent> <F2> :Lex<CR>
+inoremap <silent> <F2> <ESC>:Lex<CR>
+map <F3> :call RunScript()<CR>
+imap <F3> <ESC>:call RunScript()<CR>
+func! RunScript(...)
+    exec "w"
+    if &filetype == "c"
+        exec "!gcc % -o %< && ./%<"
+    elseif &filetype == "cpp"
+        exec "!g++ % -o %< && ./%<"
+    elseif &filetype == "java"
+        exec "!javac % && java %<"
+    elseif &filetype == "python"
+        exec "!python %"
+    elseif &filetype == "markdown"
+        exec "InstantMarkdownPreview"
+    elseif &filetype == "javascript"
+        exec "!node %"
+    elseif &filetype == "arduino"
+        exec "!arduino --upload $PWD/%"
+    elseif &filetype == "sh"
+        exec "!sh %"
+    elseif &filetype == "html"
+        exec "!xdg-open %"
+    endif
+endfunc
+
+
+
+
+noremap tt :tabe  
+noremap vv <C-v>
+inoremap qq <Esc>
+vnoremap qq <Esc>
+inoremap uu <Esc>u
+inoremap zz <Esc>zza
+inoremap aa <Esc>la
+inoremap AA <Esc>A
+inoremap OO <Esc>o
+noremap X :x<esc>
+noremap Q :q<esc>
+
+inoremap [ []<ESC>i
+inoremap {<cr> {<cr>}<ESC>ko
+inoremap { {}<ESC>i
+inoremap ( ()<ESC>i
+inoremap " ""<ESC>i
+inoremap ' ''<ESC>i
+
+noremap = <C-w>+
+noremap - <C-w>-
+noremap _ <C-w><
+noremap + <C-w>>
+
+noremap sh <C-w>h
+noremap sl <C-w>l
+noremap sj <C-w>j
+noremap sk <C-w>k
+
+noremap H 7h
+noremap L 7l
+noremap J 7j
+noremap K 7k
+
+noremap <C-l> gt
+noremap <C-h> gT
+nnoremap <C-j> :m .+1<CR>
+nnoremap <C-k> :m .-2<CR>
+inoremap <C-j> <Esc>:m .+1<CR>gi
+inoremap <C-k> <Esc>:m .-2<CR>gi
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
+noremap <CR> i<CR><ESC>
+noremap <C-n> :noh<CR>
+
+
+

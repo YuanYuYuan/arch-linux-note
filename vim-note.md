@@ -77,6 +77,16 @@ Save in vimrc
 let @d='<commands>'
 ```
 
+### vim infomation
+
+```sh
+:echo $HOME
+:echo $VIM
+:echo $VIMRUNTIME
+```
+
+
+
 
 
 
