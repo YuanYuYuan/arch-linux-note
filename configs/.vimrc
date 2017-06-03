@@ -1,25 +1,40 @@
 syntax on
 filetype off
 set nocompatible
+set mouse=a 
 set ai "autoIndent
 set smartindent
 set background=dark
-set sw=4 "shiftWidth
-set ts=4 "tabstop
+set shiftwidth=4
+set tabstop=4 
 set ruler
-set nu "number
-set sc "showCommand
+set number
+set showcmd
 set expandtab "change tab to space
 set incsearch "incremental search"
+set ignorecase
 set history=200
 set cursorline
-set clipboard=unnamedplus
 set completeopt-=preview
 set autochdir
-"set pastetoggle=<F2>
+set splitbelow
+set splitright
+set hidden
+set shell=/usr/bin/zsh
+set wildmenu
+set hlsearch
+set t_Co=256
 
-autocmd BufWinLeave ?* mkview
-autocmd BufWinEnter ?* silent loadview
+if has('clipboard')
+    if has('unnamedplus') " When possible use + register for copy-paste
+        set clipboard=unnamed,unnamedplus
+    else " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
+    endif
+endif
+
+" autocmd BufWinLeave ?* mkview
+" autocmd BufWinEnter ?* silent loadview
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -29,7 +44,6 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe'
-"Plugin 'scrooloose/nerdTree'
 Plugin 'bling/vim-airline'
 Plugin 'pangloss/vim-javascript'
 Plugin 'godlygeek/tabular'
@@ -41,11 +55,64 @@ Plugin 'NBUT-Developers/extra-instant-markdown'
 Plugin 'tpope/vim-surround'
 Plugin 'Yggdroot/indentLine'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'taglist.vim'
+Plugin 'tpope/vim-vinegar'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'skywind3000/asyncrun.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'junegunn/limelight.vim'
 
 call vundle#end()
 
 filetype  plugin indent on
+
+
+" remap leader key
+let mapleader = ","
+
+" NERDCommenter
+let g:NERDSpaceDelims            = 1
+let g:NERDCommentEmptyLines      = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDCompactSexyComs        = 1
+let g:NERDDefaultAlign           = 'left'
+nmap <BS> <plug>NERDCommenterToggle
+vmap <BS> <plug>NERDCommenterToggle
+
+
+" Limelight
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+let g:limelight_paragraph_span = 1
+
+" Quickfix toggle
+nnoremap <F5> :call asyncrun#quickfix_toggle(8)<cr> 
+
+" Tagbar
+let g:tagbar_compact   = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_width = 30
+let g:tagbar_type_arduino = {
+    \ 'ctagstype' : 'c++',
+    \ 'kinds'     : [
+        \ 'd:macros:1:0',
+        \ 'p:prototypes:1:0',
+        \ 'g:enums',
+        \ 'e:enumerators:0:0',
+        \ 't:typedefs:0:0',
+        \ 'n:namespaces',
+        \ 'c:classes',
+        \ 's:structs',
+        \ 'u:unions',
+        \ 'f:functions',
+        \ 'm:members:0:0',
+        \ 'v:variables:0:0'
+    \ ],
+    \ 'sro'        : '::',
+\ }
 
 "vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -53,6 +120,11 @@ let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
 " enable powerline-fonts
 let g:airline_powerline_fonts = 1
+" show file name only
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+"vim-airline-themes
+let g:airline_theme = 'wombat'
 
 "vim-instant-markdown
 let g:instant_markdown_autostart = 0
@@ -93,21 +165,26 @@ let g:vim_markdown_conceal = 0
 
 " syntastic config
 set statusline+=%#warningmsg#
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open      = 1
+let g:syntastic_check_on_wq        = 0
 let g:syntastic_python_python_exec = '/usr/bin/python2.7'
 
-" taglist
-let Tlist_Use_Right_Window = 1
-let Tlist_Exit_OnlyWindow = 1
-
 " netrw/explore config
-let g:netrw_winsize = 25
+let g:netrw_winsize   = 25
+let g:netrw_banner    = 0
+let g:netrw_liststyle = 3
 
-nnoremap <silent> <F2> :Lex<CR>
-inoremap <silent> <F2> <ESC>:Lex<CR>
-nnoremap <silent> <F4> :TlistToggle<CR>
-inoremap <silent> <F4> <ESC>:TlistToggle<CR>
+" ctrlp
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_types       = ['mru', 'buf', 'fil']
+
+
+"nnoremap <silent> <F2> :Lex<CR>
+"inoremap <silent> <F2> <ESC>:Lex<CR>
+nnoremap <silent> <F2> :NERDTreeToggle<CR>
+inoremap <silent> <F2> <ESC>:NERDTreeToggle<CR>
+nnoremap <silent> <F4> :TagbarToggle<CR>
+inoremap <silent> <F4> <ESC>:TagbarToggle<CR>
 map <F3> :call RunScript()<CR>
 imap <F3> <ESC>:call RunScript()<CR>
 func! RunScript(...)
@@ -128,21 +205,19 @@ func! RunScript(...)
 	elseif &filetype == "javascript"
 		exec "!node %"
 	elseif &filetype == "arduino"
-		exec "!arduino --upload $PWD/%"
+		exec "AsyncRun arduino --upload $PWD/%"
         "exec "!pio run -t upload"
 	elseif &filetype == "sh"
 		exec "!sh %"
 	elseif &filetype == "html"
 		exec "!xdg-open %"
+    elseif &filetype == "xdefaults"
+        exec "!xrdb %"
 	endif
 endfunc
 
-
-
-noremap <C-v> :-1r!xclip -o<CR>
-inoremap <C-v> <ESC>:-1r!xclip -o<CR>
-
-noremap tt :tabe  
+nnoremap U <C-r>
+nnoremap E b
 noremap vv <C-v>
 inoremap qq <Esc>
 vnoremap qq <Esc>
@@ -160,45 +235,94 @@ inoremap [ []<ESC>i
 inoremap {<cr> {<cr>}<ESC>ko
 inoremap { {}<ESC>i
 inoremap ( ()<ESC>i
-"inoremap $ $$<ESC>i
+inoremap $ $$<ESC>i
+inoremap $$ $
 inoremap " ""<ESC>i
+inoremap "" "
 inoremap ' ''<ESC>i
+inoremap '' '
 
-noremap = <C-w>+
-noremap - <C-w>-
-noremap _ <C-w><
-noremap + <C-w>>
+nnoremap = <C-w>+
+nnoremap - <C-w>-
+nnoremap _ <C-w><
+nnoremap + <C-w>>
 
-noremap sh <C-w>h
-noremap sl <C-w>l
-noremap sj <C-w>j
-noremap sk <C-w>k
+nnoremap sh <C-w>h
+nnoremap sl <C-w>l
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
 
-noremap <C-l> gt
+"augroup netrw_mapping
+    "autocmd!
+    "autocmd filetype netrw call NetrwMapping()
+"augroup END
+
+"function! NetrwMapping()
+    "nnoremap <buffer> sh <C-w>h
+    "nnoremap <buffer> sl <C-w>l
+    "nnoremap <buffer> sj <C-w>j
+    "nnoremap <buffer> sk <C-w>k
+"endfunc
+
+"17-05-17 change tab to buffer
+"noremap tt :tabe 
+"noremap <C-l> gt
+""if has('nvim')
+""    noremap <BS> gT
+""    tnoremap <Esc> <C-\><C-n><C-w>
+""    tnoremap qq <C-\><C-n><C-w>
+""else
+""    noremap <C-h> gT
+""endif
+"noremap <C-h> gT
+
+
+"buffer
+nnoremap <C-n> :ene\|e 
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
+nnoremap <Leader>l :ls<CR>
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+nnoremap <Leader>0 :10b<CR>
+nnoremap <Tab> <C-^>
+
 if has('nvim')
-    noremap <BS> gT
-    tnoremap <Esc> <C-\><C-n><C-w>
-    tnoremap qq <C-\><C-n><C-w>
-else
-    noremap <C-h> gT
+    tnoremap \ <C-\><C-n>
 endif
 
-nnoremap <C-j> :m .+1<CR>
-nnoremap <C-k> :m .-2<CR>
-inoremap <C-j> <Esc>:m .+1<CR>gi
-inoremap <C-k> <Esc>:m .-2<CR>gi
-vnoremap <C-j> :m '>+1<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
+nnoremap <C-u> :m .-2<CR>
+nnoremap <C-d> :m .+1<CR>
+inoremap <C-u> <Esc>:m .-2<CR>gi
+inoremap <C-d> <Esc>:m .+1<CR>gi
+vnoremap <C-u> :m '<-2<CR>gv=gv
+vnoremap <C-d> :m '>+1<CR>gv=gv
 
-noremap H 7h
-noremap L 7l
-noremap J 7j
-noremap K 7k
-noremap s K
+nnoremap L 7l
+nnoremap J <C-d>
+nnoremap K <C-u>
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+inoremap <C-j> <Esc><C-d>
+inoremap <C-k> <Esc><C-u>
 
-noremap <CR> i<CR><ESC>
-noremap <C-n> :noh<CR>
+nnoremap <CR> i<CR><ESC>
+nnoremap H :set hlsearch! hlsearch?<CR>
+
+cnoremap <C-a> <Home>
+cnoremap <C-h> <S-Left>
+cnoremap <C-l> <S-Right>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
 
 
 
+noremap S K
 set keywordprg=sdcv

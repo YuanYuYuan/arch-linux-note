@@ -85,6 +85,12 @@ let @d='<commands>'
 :echo $VIMRUNTIME
 ```
 
+### get filetype
+
+```sh
+:set filetype?
+:set ft
+```
 
 
 

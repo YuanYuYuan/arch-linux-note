@@ -1,7 +1,8 @@
 startup_message off
 defscrollback 2048
 defutf8 on
-term screen-256color
+#term screen-256color
+term xterm
 altscreen on
 termcapinfo xterm* ti@:te@
 
