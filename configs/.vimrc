@@ -24,6 +24,9 @@ set shell=/usr/bin/zsh
 set wildmenu
 set hlsearch
 set t_Co=256
+set relativenumber
+
+hi search ctermfg=red ctermbg=none
 
 if has('clipboard')
     if has('unnamedplus') " When possible use + register for copy-paste
@@ -63,21 +66,32 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'junegunn/limelight.vim'
+Plugin 'dhruvasagar/vim-table-mode'
 
 call vundle#end()
 
 filetype  plugin indent on
 
 
+" vim-latex-live-preview
+let g:livepreview_previewer = 'zathura'
+let g:livepreview_engine = 'pdflatex'
+
+" vim-table-mode
+let g:table_mode_corner = '|'
+
+
 " remap leader key
-let mapleader = ","
+" let mapleader = ","
+let mapleader = "\<space>"
 
 " NERDCommenter
 let g:NERDSpaceDelims            = 1
 let g:NERDCommentEmptyLines      = 1
-let g:NERDTrimTrailingWhitespace = 1
 let g:NERDCompactSexyComs        = 1
+let g:NERDTrimTrailingWhitespace = 1
 let g:NERDDefaultAlign           = 'left'
+let g:NERDCustomDelimiters       = {'c':{'left':'//'}, 'python':{'left':'#'}, 'arduino':{'left':'//'}}
 nmap <BS> <plug>NERDCommenterToggle
 vmap <BS> <plug>NERDCommenterToggle
 
@@ -88,7 +102,7 @@ let g:limelight_conceal_ctermfg = 240
 let g:limelight_paragraph_span = 1
 
 " Quickfix toggle
-nnoremap <F5> :call asyncrun#quickfix_toggle(8)<cr> 
+nnoremap <F5> :call asyncrun#quickfix_toggle(8)<cr>
 
 " Tagbar
 let g:tagbar_compact   = 1
@@ -116,12 +130,13 @@ let g:tagbar_type_arduino = {
 
 "vim-airline
 let g:airline#extensions#tabline#enabled = 1
-" set status line
-set laststatus=2
-" enable powerline-fonts
-let g:airline_powerline_fonts = 1
-" show file name only
-let g:airline#extensions#tabline#fnamemod = ':t'
+set laststatus=2                                           " set status line
+let g:airline_powerline_fonts = 1                          " enable powerline-fonts
+let g:airline#extensions#tabline#fnamemod = ':t'           " show file name only
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+
 
 "vim-airline-themes
 let g:airline_theme = 'wombat'
@@ -130,7 +145,8 @@ let g:airline_theme = 'wombat'
 let g:instant_markdown_autostart = 0
 
 "ranger
-let g:ranger_open_new_tab = 1
+let g:ranger_open_new_tab = 0
+nnoremap <leader>r :RangerCurrentDirectory<CR>
 
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>','<Down>']
@@ -167,7 +183,7 @@ let g:vim_markdown_conceal = 0
 set statusline+=%#warningmsg#
 let g:syntastic_check_on_open      = 1
 let g:syntastic_check_on_wq        = 0
-let g:syntastic_python_python_exec = '/usr/bin/python2.7'
+let g:syntastic_python_python_exec = '/usr/bin/python'
 
 " netrw/explore config
 let g:netrw_winsize   = 25
@@ -197,9 +213,10 @@ func! RunScript(...)
 		exec "!javac % && java %<"
 	elseif &filetype == "python"
 		exec "!python %"
-	elseif &filetype == "plaintex"
-		exec "!pandoc % -o %<.pdf --latex-engine=pdflatex"
+	elseif &filetype == "tex"
+		"exec "!pandoc % -o %<.pdf --latex-engine=pdflatex"
 		"exec "!pdflatex % --interaction=nonstopmode"
+        exec "LLPStartPreview"
 	elseif &filetype == "markdown"
 		exec "InstantMarkdownPreview"
 	elseif &filetype == "javascript"
@@ -218,6 +235,9 @@ endfunc
 
 nnoremap U <C-r>
 nnoremap E b
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>x :x<CR>
 noremap vv <C-v>
 inoremap qq <Esc>
 vnoremap qq <Esc>
@@ -229,8 +249,6 @@ inoremap OO <Esc>o
 "inoremap ;; <Esc>:
 "inoremap ;;; ;<Esc>:
 "noremap ;; :
-noremap X :x<esc>
-noremap Q :q<esc>
 inoremap [ []<ESC>i
 inoremap {<cr> {<cr>}<ESC>ko
 inoremap { {}<ESC>i
@@ -247,10 +265,10 @@ nnoremap - <C-w>-
 nnoremap _ <C-w><
 nnoremap + <C-w>>
 
-nnoremap sh <C-w>h
-nnoremap sl <C-w>l
-nnoremap sj <C-w>j
-nnoremap sk <C-w>k
+nnoremap <leader>h <C-w>h
+nnoremap <leader>l <C-w>l
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
 
 "augroup netrw_mapping
     "autocmd!
@@ -281,18 +299,33 @@ nnoremap sk <C-w>k
 nnoremap <C-n> :ene\|e 
 nnoremap <C-l> :bn<CR>
 nnoremap <C-h> :bp<CR>
-nnoremap <Leader>l :ls<CR>
-nnoremap <Leader>1 :1b<CR>
-nnoremap <Leader>2 :2b<CR>
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
 nnoremap <Tab> <C-^>
+
+if filereadable(expand("~/.vim/bundle/vim-airline/plugin/airline.vim"))
+    nmap <leader>1 <Plug>AirlineSelectTab1
+    nmap <leader>2 <Plug>AirlineSelectTab2
+    nmap <leader>3 <Plug>AirlineSelectTab3
+    nmap <leader>4 <Plug>AirlineSelectTab4
+    nmap <leader>5 <Plug>AirlineSelectTab5
+    nmap <leader>6 <Plug>AirlineSelectTab6
+    nmap <leader>7 <Plug>AirlineSelectTab7
+    nmap <leader>8 <Plug>AirlineSelectTab8
+    nmap <leader>9 <Plug>AirlineSelectTab9
+else
+    nnoremap <Leader>1 :1b<CR>
+    nnoremap <Leader>2 :2b<CR>
+    nnoremap <Leader>3 :3b<CR>
+    nnoremap <Leader>4 :4b<CR>
+    nnoremap <Leader>5 :5b<CR>
+    nnoremap <Leader>6 :6b<CR>
+    nnoremap <Leader>7 :7b<CR>
+    nnoremap <Leader>8 :8b<CR>
+    nnoremap <Leader>9 :9b<CR>
+    nnoremap <Leader>0 :10b<CR>
+endif
+
+
+
 
 if has('nvim')
     tnoremap \ <C-\><C-n>
@@ -310,11 +343,12 @@ nnoremap J <C-d>
 nnoremap K <C-u>
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
-inoremap <C-j> <Esc><C-d>
-inoremap <C-k> <Esc><C-u>
+" inoremap <C-j> <Esc><C-d>
+" inoremap <C-k> <Esc><C-u>
 
 nnoremap <CR> i<CR><ESC>
-nnoremap H :set hlsearch! hlsearch?<CR>
+nnoremap <leader>n :set hlsearch! hlsearch?<CR>
+vnoremap <leader>= :Tabularize /=<CR>
 
 cnoremap <C-a> <Home>
 cnoremap <C-h> <S-Left>
@@ -322,6 +356,7 @@ cnoremap <C-l> <S-Right>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 
+vnoremap n y/<C-r>"<CR>
 
 
 noremap S K

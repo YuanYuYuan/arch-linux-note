@@ -82,4 +82,13 @@ add Control = Control_L
 xmodmap ~/.Xmodmap
 ```
 
+## Network Manager CLI
+
+```sh
+nmcli radio wifi on
+nmcli radio wifi off
+nmcli dev wifi
+nmcli con up id ID
+nmcli con down id ID
+```
 
