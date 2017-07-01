@@ -512,4 +512,11 @@ install packages from list
 pacman -S - < pkglist
 ```
 
+fullly backup with rsync
+
+```sh
+sudo rsync -aAXv --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /run/media/circle/toshiba-linux/arch-linux-backup/
+```
+
+
 
