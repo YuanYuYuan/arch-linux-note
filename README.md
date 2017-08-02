@@ -330,6 +330,14 @@ ssh-add ~/.ssh/id_rsa
 sudo pacman -S xclip
 xclip -sel clip < ~/.ssh/id_rsa.pub
 ```
+if got error "Could not open a connection to your authentication agent", try
+
+```sh
+eval `ssh-agent`
+eval ssh-agent -s
+```
+
+
 
 Then go ssh settings to add the ssh key.
 
