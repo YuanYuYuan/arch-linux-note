@@ -92,6 +92,38 @@ let @d='<commands>'
 :set ft
 ```
 
+### format json
+
+```sh
+:%!python -m json.tool
+```
+
+### folding
+
+```sh
+zf{motion} or {Visual}zf #Operator to create a fold.
+zf'a # fold to mark
+zF :Create a fold for N lines.
+zd :Delete one fold at the cursor.
+zD :Delete folds recursively at the cursor.
+zE :Eliminate all folds in the window.
+zo :Open one fold.
+zO :Open all folds recursively.
+zc :Close one fold.
+zC :Close all folds recursively.
+za :When on a closed fold: open it.and vice-versa.
+zA :When on a closed fold: open it recursively.and vice-versa.
+zR :Open all folds.
+zM :Close all folds:
+zn :Fold none: reset 'foldenable'. All folds will be open.
+zN :Fold normal: set 'foldenable'. All folds will be as they were before.
+zi :Invert 'foldenable'.
+
+[z :Move to the start of the current open fold.
+]z :Move to the end of the current open fold.
+zj :Move downwards. to the start of the next fold.
+zk :Move upwards to the end of the previous fold.
+```
 
 
 

@@ -15,8 +15,7 @@ makepkg -si --noconfirm
 cd ~
 
 echo -e "\n>> Install packages"
-for pkg in $(cat pkg_list.txt)
-do
+for pkg in $(cat pkg_list.txt); do
     yaourt -S $pkg --noconfirm
 done
 
@@ -31,8 +30,9 @@ sudo modprobe vboxdrv
 sudo gpasswd -a $USER vboxusers
 
 echo -e "\n>> Setup fonts"
-sudo pacman -S powerline-fonts wqy-bitmapfont wqy-microhei wqy-zenhei --noconfirm
+sudo pacman -S wqy-bitmapfont wqy-microhei wqy-zenhei --noconfirm
 yaourt -S terminess-powerline-font-git --noconfirm
+yaourt -S powerline-fonts-git --noconfirm
 sudo setfont /usr/share/kbd/consolefonts/ter-powerline-v32n.psf.gz
 sudo touch /etc/vconsole.conf
 sudo sh -c "echo FONT=ter-powerline-v32n >> /etc/vconsole.conf"

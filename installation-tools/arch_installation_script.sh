@@ -31,7 +31,6 @@ cp ranked_mirrorlist /etc/pacman.d/mirrorlist
 
 echo 
 echo ">> Install base packages"
-# pacstrap /mnt base
 pacstrap /mnt base base-devel
 
 echo 
@@ -39,12 +38,13 @@ echo ">> Generate fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
 
 
+echo 
+echo "===== Configurations under chroot ====="
 arch_chroot() {
     arch-chroot /mnt /bin/bash -c "${*}"
 }
 
 echo 
-echo ">> Configurations under chroot"
 echo ">> Enter root password"
 arch_chroot passwd 
 
@@ -52,10 +52,11 @@ echo
 echo ">> Enter hostname"
 # read hostname
 hostname=arch-vm
-arch_chroot "echo $hostname > /etc/hostname"
+arch_chroot "hostnamectl set-hostname $hostname"
+
 echo 
 echo ">> Set time zone"
-arch_chroot mv /etc/localtime /etc/localtime.bak
+arch_chroot rm /etc/localtime
 arch_chroot ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 arch_chroot hwclock --systohc --utc
 
