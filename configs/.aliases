@@ -1,0 +1,46 @@
+# vim:filetype=zsh
+
+alias tm='tmux attach-session || tmux -c'
+alias o='gio open'
+alias speak='trans -speak -b'
+alias ez='exec zsh'
+alias g='googler -n 5'
+alias s='sdcv'
+alias p='python'
+alias p2='python2'
+alias ipy='ipython'
+alias v='vim --servername vim'
+alias rg='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias uv='urlview'
+
+## Arch linux
+alias pac='pacman'
+alias yao='yaourt'
+
+
+## asciidoc
+alias adoc='$HOME/Workings/scripts/asciidoc-autoreload.sh'
+
+## xclip
+alias x='xclip -se c -r'
+alias cx='cd $(x -o)'
+alias wx='wget --user-agent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36" $(x -o)'
+alias gdx='gdrive download -r $(x -o | cut -d = -f 2)'
+alias gx='git clone $(x -o)'
+
+## configure
+alias cfg-zsh='vim ~/.zshrc'
+alias cfg-i3='vim ~/.config/i3/config'
+alias cfg-tmux='vim ~/.config/tmux/tmux.conf'
+alias cfg-vim='vim ~/.vimrc'
+alias cfg-mutt='vim ~/.config/mutt/muttrc'
+alias cfg-ssh='vim ~/.ssh/config'
+alias cfg-alias='vim ~/.aliases'
+alias cfg-ranger='vim ~/.config/ranger/rc.conf'
+
+## youtube
+alias yt-music='youtube-dl --config-location $HOME/.config/youtube-dl/music.conf'
+alias yt-musicpl='youtube-dl --config-location $HOME/.config/youtube-dl/music-playlist.conf'
+alias yt-video='youtube-dl --config-location $HOME/.config/youtube-dl/video.conf'
+alias yt-videopl='youtube-dl --config-location $HOME/.config/youtube-dl/video-playlist.conf'
+alias yt-update='$HOME/Workings/scripts/sync-youtube-playlist.sh'

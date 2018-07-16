@@ -1,0 +1,10 @@
+# vim:filetype=zsh
+
+alias tm='tmux attach-session || tmux -c'
+alias ez='exec zsh'
+alias p='python'
+alias p2='python2'
+alias ipy='ipython'
+alias v='vim --servername vim'
+alias rg='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias uv='urlview'

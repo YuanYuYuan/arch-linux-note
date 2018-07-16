@@ -1,93 +1,119 @@
 syntax on
 filetype off
 set nocompatible
-set mouse=a 
-set ai "autoIndent
-set smartindent
-set background=dark
+set mouse=a " enable mouse
 set shiftwidth=4
 set tabstop=4 
 set ruler
-set number
 set showcmd
 set expandtab "change tab to space
-set incsearch "incremental search"
-set ignorecase
 set history=200
 set cursorline
-set completeopt-=preview
+set smarttab
 set autochdir
-set splitbelow
-set splitright
-set hidden
-set shell=/usr/bin/zsh
+set hidden " hides buffers instead of closing them
 set wildmenu
-set hlsearch
-set t_Co=256
+set encoding=utf-8
+set timeout timeoutlen=400 " set timeout to use double key in imap confortablely
+
+" line number
+set number
 set relativenumber
 
-hi search ctermfg=red ctermbg=none
+" color/colorscheme/syntax
+set background=dark
+set synmaxcol=150 " set syntax (highlight) max columns to avoid slow down
+set t_Co=256
+colorscheme elflord
 
-if has('clipboard')
-    if has('unnamedplus') " When possible use + register for copy-paste
-        set clipboard=unnamed,unnamedplus
-    else " On mac and Windows, use * register for copy-paste
-        set clipboard=unnamed
-    endif
+" line wrap(shows a too long line in multiple rows)
+set wrap
+nnoremap j gj
+nnoremap k gk
+
+" scroll offset(line numbers)
+if !&scrolloff
+    set scrolloff=1
 endif
 
-" autocmd BufWinLeave ?* mkview
-" autocmd BufWinEnter ?* silent loadview
+" auto save
+let blacklist = ['qf']
+autocmd BufWinLeave ?* if index(blacklist, &ft) < 0 | mkview
+autocmd BufWinEnter ?* if index(blacklist, &ft) < 0 | silent loadview
+autocmd VimLeave * call system("xclip -o | xclip -selection c")
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Plugins
+call plug#begin('~/.vim/plugged')
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'ervandew/supertab'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'bling/vim-airline'
-Plugin 'pangloss/vim-javascript'
-Plugin 'godlygeek/tabular'
-Plugin 'lervag/vimtex'
-Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'scrooloose/syntastic'
-Plugin 'francoiscabrol/ranger.vim'
-Plugin 'NBUT-Developers/extra-instant-markdown'
-Plugin 'tpope/vim-surround'
-Plugin 'Yggdroot/indentLine'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'tpope/vim-vinegar'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'skywind3000/asyncrun.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'junegunn/limelight.vim'
-Plugin 'dhruvasagar/vim-table-mode'
+Plug 'godlygeek/tabular'                                      " vim script for text filtering and alignment
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }         " markdown Vim Mode
+Plug 'PotatoesMaster/i3-vim-syntax', { 'for': 'i3' }          " supports i3 syntax
+Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'config' } " supports systemd syntax
+Plug 'ervandew/supertab'                                      " perform all vim insert mode completions with Tab
+Plug 'bling/vim-airline'                                      " lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline-themes'                         " collection of themes for vim-airline
+Plug 'NBUT-Developers/extra-instant-markdown'                 " instant Markdown previews from VIM
+Plug 'tpope/vim-surround'                                     " quoting/parenthesizing made simple
+Plug 'Yggdroot/indentLine'                                    " display the indention levels with thin vertical lines
+Plug 'skywind3000/asyncrun.vim'                               " run Async Shell Commands in  Quickfix Window
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }            " vim plugin that displays tags in a window, ordered by scope
+Plug 'easymotion/vim-easymotion'                              " vim motions on speed
+Plug 'junegunn/limelight.vim'                                 " hyperfocus-writing in Vim
+Plug 'junegunn/goyo.vim'                                      " distraction-free mode
+Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                 " Rich text highlighting in Vim! (colors, underline, bold, italic, etc...)
+Plug 'yegappan/mru'                                           " Most Recently Used (MRU) Vim Plugin 
+Plug 'tpope/vim-repeat'                                       " enable repeating suppordted plugin maps with dot
+Plug 'lervag/vimtex', { 'for': 'tex' }                        " plugin for editing LaTeX files
+Plug 'SirVer/ultisnips'                                       " ultimate snippet solution for Vim
+Plug 'w0rp/ale'                                               " Asynchronous Lint Engine
+Plug 'tpope/vim-commentary'                                   " comment stuff out
+Plug 'scrooloose/nerdcommenter'                               " vim plugin for intensely orgasmic commenting
+Plug 'jpalardy/vim-slime'
+Plug 'ajh17/VimCompletesMe'
 
-call vundle#end()
+
+" ==================== Unused plugins ====================
+" Plug 'ervandew/screen'
+" Plug 'python-mode/python-mode'                                " Vim python-mode. PyLint, Rope, Pydoc, breakpoints from box
+" Plug 'honza/vim-snippets'                                     " vim-snipmate default snippets
+" Plug 'junegunn/vim-easy-align'                                " alignment plugin
+" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }        " tree explorer plugin for vim
+" Plug 'Xuyuanp/nerdtree-git-plugin'                            " plugin of NERDTree showing git status
+" Plug 'francoiscabrol/ranger.vim'                              " ranger integration in vim
+" Plug 'Valloric/YouCompleteMe'                                 " code completion engine for vim
+" Plug 'terryma/vim-multiple-cursors'                           " True Sublime Text style multiple selections for Vim
+" Plug 'scrooloose/syntastic'                                   " syntax checking hacks for vim
+" Plug 'dhruvasagar/vim-table-mode'
+" Plug 'ctrlpvim/ctrlp.vim'                                     " fuzzy file, buffer, mru, tag, etc finder.
+
+call plug#end()
 
 filetype  plugin indent on
 
+"  ==================== Plugin Config ====================
 
-" vim-latex-live-preview
-let g:livepreview_previewer = 'zathura'
-let g:livepreview_engine = 'pdflatex'
+" VimCompletesMe
+" let g:vcm_direction = 'p'
 
+" vim-slime
+let g:slime_target = "tmux"
+let g:slime_python_ipython = 1
+let g:slime_default_config = {"socket_name": split($TMUX, ",")[0], "target_pane": ":.2"}
+
+" easymotion
+nmap s <Plug>(easymotion-s)
+nmap S <Plug>(easymotion-s2)
+let g:EasyMotion_smartcase = 1
+
+" indentline
+let g:indentLine_conceallevel = 0
+ 
 " vim-table-mode
 let g:table_mode_corner = '|'
 
-
-" remap leader key
-" let mapleader = ","
-let mapleader = "\<space>"
-
 " NERDCommenter
 let g:NERDSpaceDelims            = 1
-let g:NERDCommentEmptyLines      = 1
+let g:NERDCommentEmptyLines      = 0
 let g:NERDCompactSexyComs        = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDDefaultAlign           = 'left'
@@ -95,20 +121,21 @@ let g:NERDCustomDelimiters       = {'c':{'left':'//'}, 'python':{'left':'#'}, 'a
 nmap <BS> <plug>NERDCommenterToggle
 vmap <BS> <plug>NERDCommenterToggle
 
-
 " Limelight
 let g:limelight_conceal_ctermfg = 'gray'
 let g:limelight_conceal_ctermfg = 240
-let g:limelight_paragraph_span = 1
+let g:limelight_paragraph_span  = 1
 
-" Quickfix toggle
-nnoremap <F5> :call asyncrun#quickfix_toggle(8)<cr>
+" Goyo
+let g:goyo_width = '100'
+let g:goyo_hight = '85%'
+let g:goyo_linenr = '1'
 
 " Tagbar
-let g:tagbar_compact   = 1
-let g:tagbar_autoclose = 1
-let g:tagbar_autofocus = 1
-let g:tagbar_width = 30
+let g:tagbar_compact      = 1
+let g:tagbar_autoclose    = 1
+let g:tagbar_autofocus    = 1
+let g:tagbar_width        = 30
 let g:tagbar_type_arduino = {
     \ 'ctagstype' : 'c++',
     \ 'kinds'     : [
@@ -128,7 +155,7 @@ let g:tagbar_type_arduino = {
     \ 'sro'        : '::',
 \ }
 
-"vim-airline
+" vim-airline
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2                                           " set status line
 let g:airline_powerline_fonts = 1                          " enable powerline-fonts
@@ -136,171 +163,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'           " show file name only
 let g:airline#extensions#tabline#show_tab_nr = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-
-
-"vim-airline-themes
-let g:airline_theme = 'wombat'
-
-"vim-instant-markdown
-let g:instant_markdown_autostart = 0
-
-"ranger
-let g:ranger_open_new_tab = 0
-nnoremap <leader>r :RangerCurrentDirectory<CR>
-
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>','<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" better key bindings fot UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-if !exists('g:ycm_semantic_triggers')
-	let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers.tex = [
-	\ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
-	\ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
-	\ 're!\\hyperref\[[^]]*',
-	\ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
-	\ 're!\\(include(only)?|input){[^}]*',
-	\ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
-	\ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
-	\ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
-	\ ]
-
-" markdown folding
-let g:vim_markdown_folding_disabled = 1
-
-" disable markdow conceal
-let g:vim_markdown_conceal = 0
-
-
-" syntastic config
-set statusline+=%#warningmsg#
-let g:syntastic_check_on_open      = 1
-let g:syntastic_check_on_wq        = 0
-let g:syntastic_python_python_exec = '/usr/bin/python'
-
-" netrw/explore config
-let g:netrw_winsize   = 25
-let g:netrw_banner    = 0
-let g:netrw_liststyle = 3
-
-" ctrlp
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_types       = ['mru', 'buf', 'fil']
-
-
-"nnoremap <silent> <F2> :Lex<CR>
-"inoremap <silent> <F2> <ESC>:Lex<CR>
-nnoremap <silent> <F2> :NERDTreeToggle<CR>
-inoremap <silent> <F2> <ESC>:NERDTreeToggle<CR>
-nnoremap <silent> <F4> :TagbarToggle<CR>
-inoremap <silent> <F4> <ESC>:TagbarToggle<CR>
-map <F3> :call RunScript()<CR>
-imap <F3> <ESC>:call RunScript()<CR>
-func! RunScript(...)
-	exec "w"
-	if &filetype == "c"
-		exec "!gcc % -o %< && ./%<"
-	elseif &filetype == "cpp"
-		exec "!g++ % -o %< && ./%<"
-	elseif &filetype == "java"
-		exec "!javac % && java %<"
-	elseif &filetype == "python"
-		exec "!python %"
-	elseif &filetype == "tex"
-		"exec "!pandoc % -o %<.pdf --latex-engine=pdflatex"
-		"exec "!pdflatex % --interaction=nonstopmode"
-        exec "LLPStartPreview"
-	elseif &filetype == "markdown"
-		exec "InstantMarkdownPreview"
-	elseif &filetype == "javascript"
-		exec "!node %"
-	elseif &filetype == "arduino"
-		exec "AsyncRun arduino --upload $PWD/%"
-        "exec "!pio run -t upload"
-	elseif &filetype == "sh"
-		exec "!sh %"
-	elseif &filetype == "html"
-		exec "!xdg-open %"
-    elseif &filetype == "xdefaults"
-        exec "!xrdb %"
-	endif
-endfunc
-
-nnoremap U <C-r>
-nnoremap E b
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
-nnoremap <leader>x :x<CR>
-noremap vv <C-v>
-inoremap qq <Esc>
-vnoremap qq <Esc>
-inoremap uu <Esc>u
-inoremap zz <Esc>zza
-inoremap aa <Esc>la
-inoremap AA <Esc>A
-inoremap OO <Esc>o
-"inoremap ;; <Esc>:
-"inoremap ;;; ;<Esc>:
-"noremap ;; :
-inoremap [ []<ESC>i
-inoremap {<cr> {<cr>}<ESC>ko
-inoremap { {}<ESC>i
-inoremap ( ()<ESC>i
-inoremap $ $$<ESC>i
-inoremap $$ $
-inoremap " ""<ESC>i
-inoremap "" "
-inoremap ' ''<ESC>i
-inoremap '' '
-
-nnoremap = <C-w>+
-nnoremap - <C-w>-
-nnoremap _ <C-w><
-nnoremap + <C-w>>
-
-nnoremap <leader>h <C-w>h
-nnoremap <leader>l <C-w>l
-nnoremap <leader>j <C-w>j
-nnoremap <leader>k <C-w>k
-
-"augroup netrw_mapping
-    "autocmd!
-    "autocmd filetype netrw call NetrwMapping()
-"augroup END
-
-"function! NetrwMapping()
-    "nnoremap <buffer> sh <C-w>h
-    "nnoremap <buffer> sl <C-w>l
-    "nnoremap <buffer> sj <C-w>j
-    "nnoremap <buffer> sk <C-w>k
-"endfunc
-
-"17-05-17 change tab to buffer
-"noremap tt :tabe 
-"noremap <C-l> gt
-""if has('nvim')
-""    noremap <BS> gT
-""    tnoremap <Esc> <C-\><C-n><C-w>
-""    tnoremap qq <C-\><C-n><C-w>
-""else
-""    noremap <C-h> gT
-""endif
-"noremap <C-h> gT
-
-
-"buffer
-nnoremap <C-n> :ene\|e 
-nnoremap <C-l> :bn<CR>
-nnoremap <C-h> :bp<CR>
-nnoremap <Tab> <C-^>
-
+let g:airline#extensions#whitespace#enabled = 0            " disable whitespace check
 if filereadable(expand("~/.vim/bundle/vim-airline/plugin/airline.vim"))
     nmap <leader>1 <Plug>AirlineSelectTab1
     nmap <leader>2 <Plug>AirlineSelectTab2
@@ -324,13 +187,165 @@ else
     nnoremap <Leader>0 :10b<CR>
 endif
 
+"vim-airline-themes
+let g:airline_theme = 'wombat'
+
+" vim-instant-markdown
+let g:instant_markdown_autostart = 0
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 1
+let g:vim_markdown_frontmatter = 1
+
+" netrw/explore config
+let g:netrw_winsize   = 25
+let g:netrw_banner    = 0
+let g:netrw_liststyle = 3
+
+" ultisnips config
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
+nnoremap <F9> :exec 'edit $HOME/.vim/my-snippets/' .  &ft . '.snippets' <CR>
 
 
+" supertab config
+let g:SuperTabContextDefaultCompletionType = "<c-p>"
+let g:SuperTabDefaultCompletionType = "<c-p>"
+let g:SuperTabClosePreviewOnPopupClose = 1
 
-if has('nvim')
-    tnoremap \ <C-\><C-n>
-endif
+" Presentation/Focus mode
+nnoremap <silent> <F7> :Goyo \| Limelight!! \| so ~/.vimrc<CR>
+inoremap <silent> <F7> <ESC>:Goyo \| Limelight!! \| so ~/.vimrc<CR>
 
+" Quickfix toggle
+nnoremap <silent> <F4> :call asyncrun#quickfix_toggle(8)<cr>
+
+" Tabular config
+vnoremap t :Tabularize /
+
+" Tagbar config
+nnoremap <silent> <F2> :TagbarToggle<CR>
+inoremap <silent> <F2> <ESC>:TagbarToggle<CR>
+
+" ALE config
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_fixers = {
+\    'python': ['autopep8']
+\}
+let g:ale_linters = {
+\   'python': ['flake8'],
+\   'zsh': ['shell'],
+\}
+
+
+" nnoremap <silent> <F5> :source ~/.vimrc<CR>
+
+" ==================== Run Script Function ====================
+nnoremap <silent> <F3> :call RunScript()<CR>
+imap <silent> <F3> <ESC>:call RunScript()<CR>
+func! RunScript(...)
+	exec "w"
+	if &filetype == "c"
+		exec "!gcc % -o %< && ./%<"
+	elseif &filetype == "cpp"
+		exec "!g++ % -o %< && ./%<"
+	elseif &filetype == "java"
+		exec "!javac % && java %<"
+	elseif &filetype == "markdown"
+		exec "InstantMarkdownPreview"
+	elseif &filetype == "javascript"
+		exec "!node %"
+	elseif &filetype == "python"
+		exec "!python %"
+	elseif &filetype == "arduino"
+		exec "AsyncRun arduino --upload $PWD/%"
+        "exec "!pio run -t upload"
+	elseif &filetype == "sh"
+		exec "!sh %"
+	elseif &filetype == "html"
+		exec "!gio open %"
+	elseif &filetype == "asciidoc"
+        exec "AsyncRun ~/Workings/scripts/asciidoc-autoreload.sh %"
+    elseif &filetype == "xdefaults"
+        exec "!xrdb %"
+	endif
+endfunc
+
+" remap leader key
+let mapleader = "\<space>"
+
+" avoid plaintex
+let g:tex_flavor='latex'
+
+" Escape key mapping
+vnoremap qq <Esc>
+inoremap qq <Esc>
+nnoremap qq <Esc>
+
+" redo/undo
+nnoremap U <C-r>
+inoremap uu <Esc>u
+
+nnoremap vv <C-v>
+
+" Text editing
+inoremap aa <Esc>la
+nnoremap O o<ESC>
+
+" brackets completion
+inoremap [ []<ESC>i
+inoremap {<CR> {<CR>}<ESC>ko
+inoremap { {}<ESC>i
+inoremap ( ()<ESC>i
+
+" Auto quotes
+inoremap " ""<ESC>i
+inoremap ' ''<ESC>i
+
+" window resize
+nnoremap = <C-w>+
+nnoremap - <C-w>-
+nnoremap _ <C-w><
+nnoremap + <C-w>>
+
+" window navigation
+nnoremap <leader>h <C-w>h
+nnoremap <leader>l <C-w>l
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" split window
+set splitbelow
+set splitright
+
+" search 
+set ignorecase " search ignorecasely
+set smartcase  " ignore case if search pattern is all lowercase
+set hlsearch   " highlight search
+set incsearch  " incremental search
+hi search ctermfg=red ctermbg=none
+vnoremap n y/<C-r>"<CR>N
+vnoremap s :s///gc<Left><Left><Left><Left>
+nnoremap <Space>n :set hlsearch! hlsearch?<CR>
+
+" buffer
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
+" nnoremap L :bn<CR>
+" nnoremap H :bp<CR>
+nnoremap <Tab> <C-^>
+nnoremap <leader>q :bd<CR>
+
+" move lines
 nnoremap <C-u> :m .-2<CR>
 nnoremap <C-d> :m .+1<CR>
 inoremap <C-u> <Esc>:m .-2<CR>gi
@@ -338,26 +353,82 @@ inoremap <C-d> <Esc>:m .+1<CR>gi
 vnoremap <C-u> :m '<-2<CR>gv=gv
 vnoremap <C-d> :m '>+1<CR>gv=gv
 
-nnoremap L 7l
-nnoremap J <C-d>
-nnoremap K <C-u>
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
-" inoremap <C-j> <Esc><C-d>
-" inoremap <C-k> <Esc><C-u>
+" page scrolling
+nnoremap J <C-e>
+nnoremap K <C-y>
+vnoremap J <C-e>
+vnoremap K <C-y>
 
-nnoremap <CR> i<CR><ESC>
-nnoremap <leader>n :set hlsearch! hlsearch?<CR>
-vnoremap <leader>= :Tabularize /=<CR>
+" command mode mapping 
+cnoremap b      <S-Left>
+cnoremap f      <S-Right>
+cnoremap <C-a>    <Home>
 
-cnoremap <C-a> <Home>
-cnoremap <C-h> <S-Left>
-cnoremap <C-l> <S-Right>
-inoremap <C-a> <Home>
-inoremap <C-e> <End>
+" cursor movement in imap
+inoremap <C-a>    <Home>
+inoremap <C-e>    <End>
 
-vnoremap n y/<C-r>"<CR>
+" macros
+nnoremap T qt
+nnoremap t @t
 
+" indent
+set autoindent
+set smartindent
+nnoremap > >>
+nnoremap < <<
 
-noremap S K
+" copy/paste/clipboard
+if has('clipboard')
+    if has('unnamedplus') " + register
+        set clipboard=unnamed,unnamedplus
+    else " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
+    endif
+endif
+nnoremap PP "0p
+vnoremap PP "0p
+
+" quit/exit
+noremap Q :q<CR>
+noremap ! :q!<CR>
+noremap X :x<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>x :x<CR>
+autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif
+
+noremap ;; q:
+
+" naviagate in <++>
+inoremap <Space><Tab> <Esc>/<+.*+><Enter>ca<
+vnoremap <Space><Tab> <Esc>/<+.*+><Enter>ca<
+map      <Space><Tab> <Esc>/<+.*+><Enter>ca<
+
+" fold
+nnoremap zp vipzf
+set foldmethod=manual
+
+" MRU/most recently used file list
+nnoremap <Space>f :MRU<CR>
+
+" dictionary
+nnoremap <leader>d K
 set keywordprg=sdcv
+
+" spell check
+setlocal spell spelllang=en_us
+set spell!
+nnoremap <silent> <F8> :set spell!<CR>
+inoremap <silent> <F8> <ESC>:set spell!<CR>i
+
+" completion
+" set complete+=k$HOME/.vim/spell/en.utf-8.add
+set omnifunc=syntaxcomplete#Complete
+" set completeopt=menuone,preview
+set completeopt=menuone
+autocmd FileType python set omnifunc=python3complete#Complete
+inoremap <C-f> <C-x><C-F>
+inoremap <C-d> <C-x>s
+inoremap <expr> <C-o> pumvisible() ? "\<C-y>" : "\<C-o>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+
