@@ -34,6 +34,6 @@ alias pu=pushd
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
-alias lt='ls-rlath'
+alias lt='ls -rlath'
 alias ls='ls --color=tty'
 alias lsa='ls -lah'
