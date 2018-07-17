@@ -59,7 +59,6 @@ Plug 'yegappan/mru'                                           " Most Recently Us
 Plug 'tpope/vim-repeat'                                       " enable repeating suppordted plugin maps with dot
 Plug 'lervag/vimtex', { 'for': 'tex' }                        " plugin for editing LaTeX files
 Plug 'SirVer/ultisnips'                                       " ultimate snippet solution for Vim
-Plug 'w0rp/ale'                                               " Asynchronous Lint Engine
 Plug 'tpope/vim-commentary'                                   " comment stuff out
 Plug 'scrooloose/nerdcommenter'                               " vim plugin for intensely orgasmic commenting
 Plug 'jpalardy/vim-slime'
@@ -200,17 +199,6 @@ vnoremap t :Tabularize /
 nnoremap <silent> <F2> :TagbarToggle<CR>
 inoremap <silent> <F2> <ESC>:TagbarToggle<CR>
 
-" ALE config
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
-let g:ale_fixers = {
-\    'python': ['autopep8']
-\}
-let g:ale_linters = {
-\   'python': ['flake8'],
-\   'zsh': ['shell'],
-\}
 
 
 " nnoremap <silent> <F5> :source ~/.vimrc<CR>
