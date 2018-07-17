@@ -5,7 +5,7 @@ alias ez='exec zsh'
 alias p='python'
 alias p2='python2'
 alias ipy='ipython'
-alias v='vim --servername vim'
+alias v='vim'
 alias rg='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
 

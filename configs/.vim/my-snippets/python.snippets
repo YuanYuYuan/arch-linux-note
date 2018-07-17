@@ -1,0 +1,37 @@
+snippet "ifm(ain)?" "ifmain" br
+if __name__ == '__main__':
+	${1:${VISUAL:main()}}
+endsnippet
+
+snippet "sh(ebang)?" "shebang" br
+#!/usr/bin/env python
+endsnippet
+
+## ========== import libraries ==========
+snippet ipl "pyplot" b
+import matplotlib.pyplot as plt
+endsnippet
+
+snippet inp "numpy" b
+import numpy as np
+endsnippet
+## ======================================
+
+snippet "fo(r)?" "for loop" br
+for ${1:item} in ${2:iterable}:
+	${3:${VISUAL:pass}}
+endsnippet
+
+snippet "wi(th)?" "with open" br
+with open(${1:file}, ${2:mode}) as f:
+	${3:${VISUAL:pass}}
+endsnippet
+
+snippet "de(f)?" "def" br
+def ${1:function}(${2:parameters}):
+	${3:${VISUAL:pass}}
+endsnippet
+
+snippet db "ipdb" b
+import ipdb; ipdb.set_trace()
+endsnippet

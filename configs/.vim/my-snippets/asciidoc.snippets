@@ -1,0 +1,39 @@
+snippet "be(gin)?" "begin{} / end{}" br
+\begin{${1:something}}
+	${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+snippet "emph(asize)?" "High Light" br
+[big red yellow-background]#($0)#
+endsnippet
+
+snippet cbl "Codeblock" b
+.${1:name}
+[source, ${2:python}, linenums]
+----
+include::{codedir}/${3:file}[]
+----
+endsnippet
+
+snippet "vid(eo)?" "video" br
+video::${1:file}[width=${2:800}]
+[red]#_${3:name}_#
+endsnippet
+
+snippet img "image" b
+image::${1:file}[align="center"]
+[.text-center]
+[red]#_${2:name}_#
+endsnippet
+
+snippet tbl "table" b
+.${1:name}
+|===
+| ${2:Col_1} | ${3:Col_2}
+
+| ${4:Col_1 Row_1}
+| ${5:Col_2 Row_1}
+
+|===
+endsnippet

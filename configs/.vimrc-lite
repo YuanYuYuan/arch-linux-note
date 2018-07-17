@@ -1,103 +1,386 @@
 syntax on
+filetype off
 set nocompatible
-set ai "autoIndent
-set smartindent
-set background=dark
-set sw=4 "shiftWidth
-set ts=4 "tabstop
+set mouse=a " enable mouse
+set shiftwidth=4
+set tabstop=4 
 set ruler
-set nu "number
-set sc "showCommand
+set showcmd
 set expandtab "change tab to space
-set incsearch "incremental search"
 set history=200
 set cursorline
-set clipboard=unnamedplus
-set completeopt-=preview
+set smarttab
 set autochdir
-filetype indent on
-autocmd BufWinLeave ?* mkview
-autocmd BufWinEnter ?* silent loadview
+set hidden " hides buffers instead of closing them
+set wildmenu
+set encoding=utf-8
+set timeout timeoutlen=400 " set timeout to use double key in imap confortablely
 
+" line number
+set number
+set relativenumber
+
+" color/colorscheme/syntax
+set background=dark
+set synmaxcol=150 " set syntax (highlight) max columns to avoid slow down
+set t_Co=256
+colorscheme elflord
+
+" line wrap(shows a too long line in multiple rows)
+set wrap
+nnoremap j gj
+nnoremap k gk
+
+" scroll offset(line numbers)
+if !&scrolloff
+    set scrolloff=1
+endif
+
+" auto save
+let blacklist = ['qf']
+autocmd BufWinLeave ?* if index(blacklist, &ft) < 0 | mkview
+autocmd BufWinEnter ?* if index(blacklist, &ft) < 0 | silent loadview
+
+" Plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'godlygeek/tabular'                                      " vim script for text filtering and alignment
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }         " markdown Vim Mode
+Plug 'ervandew/supertab'                                      " perform all vim insert mode completions with Tab
+Plug 'bling/vim-airline'                                      " lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline-themes'                         " collection of themes for vim-airline
+Plug 'tpope/vim-surround'                                     " quoting/parenthesizing made simple
+Plug 'Yggdroot/indentLine'                                    " display the indention levels with thin vertical lines
+Plug 'skywind3000/asyncrun.vim'                               " run Async Shell Commands in  Quickfix Window
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }            " vim plugin that displays tags in a window, ordered by scope
+Plug 'easymotion/vim-easymotion'                              " vim motions on speed
+Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                 " Rich text highlighting in Vim! (colors, underline, bold, italic, etc...)
+Plug 'yegappan/mru'                                           " Most Recently Used (MRU) Vim Plugin 
+Plug 'tpope/vim-repeat'                                       " enable repeating suppordted plugin maps with dot
+Plug 'lervag/vimtex', { 'for': 'tex' }                        " plugin for editing LaTeX files
+Plug 'SirVer/ultisnips'                                       " ultimate snippet solution for Vim
+Plug 'w0rp/ale'                                               " Asynchronous Lint Engine
+Plug 'tpope/vim-commentary'                                   " comment stuff out
+Plug 'scrooloose/nerdcommenter'                               " vim plugin for intensely orgasmic commenting
+Plug 'jpalardy/vim-slime'
+Plug 'ajh17/VimCompletesMe'
+
+
+
+call plug#end()
+
+filetype  plugin indent on
+
+"  ==================== Plugin Config ====================
+
+" VimCompletesMe
+" let g:vcm_direction = 'p'
+
+" vim-slime
+let g:slime_target = "tmux"
+let g:slime_python_ipython = 1
+let g:slime_default_config = {"socket_name": split($TMUX, ",")[0], "target_pane": ":.2"}
+
+" easymotion
+nmap s <Plug>(easymotion-s)
+nmap S <Plug>(easymotion-s2)
+let g:EasyMotion_smartcase = 1
+
+" indentline
+let g:indentLine_conceallevel = 0
+ 
+" vim-table-mode
+let g:table_mode_corner = '|'
+
+" NERDCommenter
+let g:NERDSpaceDelims            = 1
+let g:NERDCommentEmptyLines      = 0
+let g:NERDCompactSexyComs        = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDDefaultAlign           = 'left'
+let g:NERDCustomDelimiters       = {'c':{'left':'//'}, 'python':{'left':'#'}, 'arduino':{'left':'//'}}
+nmap <BS> <plug>NERDCommenterToggle
+vmap <BS> <plug>NERDCommenterToggle
+
+
+
+" Tagbar
+let g:tagbar_compact      = 1
+let g:tagbar_autoclose    = 1
+let g:tagbar_autofocus    = 1
+let g:tagbar_width        = 30
+let g:tagbar_type_arduino = {
+    \ 'ctagstype' : 'c++',
+    \ 'kinds'     : [
+        \ 'd:macros:1:0',
+        \ 'p:prototypes:1:0',
+        \ 'g:enums',
+        \ 'e:enumerators:0:0',
+        \ 't:typedefs:0:0',
+        \ 'n:namespaces',
+        \ 'c:classes',
+        \ 's:structs',
+        \ 'u:unions',
+        \ 'f:functions',
+        \ 'm:members:0:0',
+        \ 'v:variables:0:0'
+    \ ],
+    \ 'sro'        : '::',
+\ }
+
+" vim-airline
+let g:airline#extensions#tabline#enabled = 1
+set laststatus=2                                           " set status line
+let g:airline_powerline_fonts = 1                          " enable powerline-fonts
+let g:airline#extensions#tabline#fnamemod = ':t'           " show file name only
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#whitespace#enabled = 0            " disable whitespace check
+if filereadable(expand("~/.vim/bundle/vim-airline/plugin/airline.vim"))
+    nmap <leader>1 <Plug>AirlineSelectTab1
+    nmap <leader>2 <Plug>AirlineSelectTab2
+    nmap <leader>3 <Plug>AirlineSelectTab3
+    nmap <leader>4 <Plug>AirlineSelectTab4
+    nmap <leader>5 <Plug>AirlineSelectTab5
+    nmap <leader>6 <Plug>AirlineSelectTab6
+    nmap <leader>7 <Plug>AirlineSelectTab7
+    nmap <leader>8 <Plug>AirlineSelectTab8
+    nmap <leader>9 <Plug>AirlineSelectTab9
+else
+    nnoremap <Leader>1 :1b<CR>
+    nnoremap <Leader>2 :2b<CR>
+    nnoremap <Leader>3 :3b<CR>
+    nnoremap <Leader>4 :4b<CR>
+    nnoremap <Leader>5 :5b<CR>
+    nnoremap <Leader>6 :6b<CR>
+    nnoremap <Leader>7 :7b<CR>
+    nnoremap <Leader>8 :8b<CR>
+    nnoremap <Leader>9 :9b<CR>
+    nnoremap <Leader>0 :10b<CR>
+endif
+
+"vim-airline-themes
+let g:airline_theme = 'wombat'
+
+" vim-instant-markdown
+let g:instant_markdown_autostart = 0
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 1
+let g:vim_markdown_frontmatter = 1
 
 " netrw/explore config
-let g:netrw_winsize = 25
+let g:netrw_winsize   = 25
+let g:netrw_banner    = 0
+let g:netrw_liststyle = 3
 
-nnoremap <silent> <F2> :Lex<CR>
-inoremap <silent> <F2> <ESC>:Lex<CR>
-map <F3> :call RunScript()<CR>
-imap <F3> <ESC>:call RunScript()<CR>
+" ultisnips config
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
+nnoremap <F9> :exec 'edit $HOME/.vim/my-snippets/' .  &ft . '.snippets' <CR>
+
+
+" supertab config
+let g:SuperTabContextDefaultCompletionType = "<c-p>"
+let g:SuperTabDefaultCompletionType = "<c-p>"
+let g:SuperTabClosePreviewOnPopupClose = 1
+
+
+" Quickfix toggle
+nnoremap <silent> <F4> :call asyncrun#quickfix_toggle(8)<cr>
+
+" Tabular config
+vnoremap t :Tabularize /
+
+" Tagbar config
+nnoremap <silent> <F2> :TagbarToggle<CR>
+inoremap <silent> <F2> <ESC>:TagbarToggle<CR>
+
+" ALE config
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_fixers = {
+\    'python': ['autopep8']
+\}
+let g:ale_linters = {
+\   'python': ['flake8'],
+\   'zsh': ['shell'],
+\}
+
+
+" nnoremap <silent> <F5> :source ~/.vimrc<CR>
+
+" ==================== Run Script Function ====================
+nnoremap <silent> <F3> :call RunScript()<CR>
+imap <silent> <F3> <ESC>:call RunScript()<CR>
 func! RunScript(...)
-    exec "w"
-    if &filetype == "c"
-        exec "!gcc % -o %< && ./%<"
-    elseif &filetype == "cpp"
-        exec "!g++ % -o %< && ./%<"
-    elseif &filetype == "java"
-        exec "!javac % && java %<"
-    elseif &filetype == "python"
-        exec "!python %"
-    elseif &filetype == "markdown"
-        exec "InstantMarkdownPreview"
-    elseif &filetype == "javascript"
-        exec "!node %"
-    elseif &filetype == "arduino"
-        exec "!arduino --upload $PWD/%"
-    elseif &filetype == "sh"
-        exec "!sh %"
-    elseif &filetype == "html"
-        exec "!xdg-open %"
-    endif
+	exec "w"
+	if &filetype == "c"
+		exec "!gcc % -o %< && ./%<"
+	elseif &filetype == "cpp"
+		exec "!g++ % -o %< && ./%<"
+	elseif &filetype == "java"
+		exec "!javac % && java %<"
+	elseif &filetype == "javascript"
+		exec "!node %"
+	elseif &filetype == "python"
+		exec "!python %"
+	elseif &filetype == "sh"
+		exec "!sh %"
+	endif
 endfunc
 
+" remap leader key
+let mapleader = "\<space>"
 
+" avoid plaintex
+let g:tex_flavor='latex'
 
-
-noremap tt :tabe  
-noremap vv <C-v>
-inoremap qq <Esc>
+" Escape key mapping
 vnoremap qq <Esc>
-inoremap uu <Esc>u
-inoremap zz <Esc>zza
-inoremap aa <Esc>la
-inoremap AA <Esc>A
-inoremap OO <Esc>o
-noremap X :x<esc>
-noremap Q :q<esc>
+inoremap qq <Esc>
+nnoremap qq <Esc>
 
+" redo/undo
+nnoremap U <C-r>
+inoremap uu <Esc>u
+
+nnoremap vv <C-v>
+
+" Text editing
+inoremap aa <Esc>la
+nnoremap O o<ESC>
+
+" brackets completion
 inoremap [ []<ESC>i
-inoremap {<cr> {<cr>}<ESC>ko
+inoremap {<CR> {<CR>}<ESC>ko
 inoremap { {}<ESC>i
 inoremap ( ()<ESC>i
+
+" Auto quotes
 inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 
-noremap = <C-w>+
-noremap - <C-w>-
-noremap _ <C-w><
-noremap + <C-w>>
+" window resize
+nnoremap = <C-w>+
+nnoremap - <C-w>-
+nnoremap _ <C-w><
+nnoremap + <C-w>>
 
-noremap sh <C-w>h
-noremap sl <C-w>l
-noremap sj <C-w>j
-noremap sk <C-w>k
+" window navigation
+nnoremap <leader>h <C-w>h
+nnoremap <leader>l <C-w>l
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-noremap H 7h
-noremap L 7l
-noremap J 7j
-noremap K 7k
+" split window
+set splitbelow
+set splitright
 
-noremap <C-l> gt
-noremap <C-h> gT
-nnoremap <C-j> :m .+1<CR>
-nnoremap <C-k> :m .-2<CR>
-inoremap <C-j> <Esc>:m .+1<CR>gi
-inoremap <C-k> <Esc>:m .-2<CR>gi
-vnoremap <C-j> :m '>+1<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
+" search 
+set ignorecase " search ignorecasely
+set smartcase  " ignore case if search pattern is all lowercase
+set hlsearch   " highlight search
+set incsearch  " incremental search
+hi search ctermfg=red ctermbg=none
+vnoremap n y/<C-r>"<CR>N
+vnoremap s :s///gc<Left><Left><Left><Left>
+nnoremap <Space>n :set hlsearch! hlsearch?<CR>
 
-noremap <CR> i<CR><ESC>
-noremap <C-n> :noh<CR>
+" buffer
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
+" nnoremap L :bn<CR>
+" nnoremap H :bp<CR>
+nnoremap <Tab> <C-^>
+nnoremap <leader>q :bd<CR>
+
+" move lines
+nnoremap <C-u> :m .-2<CR>
+nnoremap <C-d> :m .+1<CR>
+inoremap <C-u> <Esc>:m .-2<CR>gi
+inoremap <C-d> <Esc>:m .+1<CR>gi
+vnoremap <C-u> :m '<-2<CR>gv=gv
+vnoremap <C-d> :m '>+1<CR>gv=gv
+
+" page scrolling
+nnoremap J <C-e>
+nnoremap K <C-y>
+vnoremap J <C-e>
+vnoremap K <C-y>
+
+" command mode mapping 
+cnoremap b      <S-Left>
+cnoremap f      <S-Right>
+cnoremap <C-a>    <Home>
+
+" cursor movement in imap
+inoremap <C-a>    <Home>
+inoremap <C-e>    <End>
+
+" macros
+nnoremap T qt
+nnoremap t @t
+
+" indent
+set autoindent
+set smartindent
+nnoremap > >>
+nnoremap < <<
+
+" copy/paste/clipboard
+if has('clipboard')
+    if has('unnamedplus') " + register
+        set clipboard=unnamed,unnamedplus
+    else " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
+    endif
+endif
+nnoremap PP "0p
+vnoremap PP "0p
+
+" quit/exit
+noremap Q :q<CR>
+noremap ! :q!<CR>
+noremap X :x<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>x :x<CR>
+autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif
+
+noremap ;; q:
 
 
+" fold
+nnoremap zp vipzf
+set foldmethod=manual
+
+" MRU/most recently used file list
+nnoremap <Space>f :MRU<CR>
+
+
+" spell check
+setlocal spell spelllang=en_us
+set spell!
+nnoremap <silent> <F8> :set spell!<CR>
+inoremap <silent> <F8> <ESC>:set spell!<CR>i
+
+" completion
+" set complete+=k$HOME/.vim/spell/en.utf-8.add
+set omnifunc=syntaxcomplete#Complete
+" set completeopt=menuone,preview
+set completeopt=menuone
+autocmd FileType python set omnifunc=python3complete#Complete
+inoremap <C-f> <C-x><C-F>
+inoremap <C-d> <C-x>s
+inoremap <expr> <C-o> pumvisible() ? "\<C-y>" : "\<C-o>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 

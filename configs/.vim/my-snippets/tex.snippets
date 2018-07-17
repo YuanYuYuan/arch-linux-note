@@ -1,0 +1,36 @@
+snippet "be(gin)?" "begin{} / end{}" br
+\begin{${1:something}}
+	${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+snippet "eq(uation)?" "equatoin" br
+\begin{equation*}
+	${0:${VISUAL}}
+\end{equation*}
+endsnippet
+
+
+snippet "te(xt)?" "text" r
+\text{$0}
+endsnippet
+
+snippet "te(xtbf)?" "text bold font" r
+\textbf{$0}
+endsnippet
+
+snippet "pm(atrix)?" "pmatrix" r
+\begin{pmatrix}
+	$0	
+\end{pmatrix}
+endsnippet
+
+snippet "bm(atrix)?" "bmatrix" r
+\begin{bmatrix}
+	$0	
+\end{bmatrix}
+endsnippet
+
+snippet "fr(ac)?" "fraction" r
+\frac{$1}{$2}$0
+endsnippet
