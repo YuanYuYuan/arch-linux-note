@@ -105,7 +105,7 @@ set -g status-justify centre
 set -g status-left-length 60
 set -g status-right-length 60
 set -g status-position bottom
-set -g status-left '#[fg=colour120][IBM2]#[fg=colour203][#S]'
+set -g status-left '#[fg=colour120][#H]#[fg=colour203][#S]'
 set -g status-right '[%D %a #[fg=colour75]%T]'
 set -g status-fg colour48
 set -g status-bg default
