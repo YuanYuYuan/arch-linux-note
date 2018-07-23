@@ -224,7 +224,7 @@ inoremap <silent> <F7> <ESC>:Goyo \| Limelight!! \| so ~/.vimrc<CR>
 nnoremap <silent> <F4> :call asyncrun#quickfix_toggle(8)<cr>
 
 " Tabular config
-vnoremap t :Tabularize /
+vnoremap T :Tabularize /
 
 " Tagbar config
 nnoremap <silent> <F2> :TagbarToggle<CR>
