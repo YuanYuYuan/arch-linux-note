@@ -1,6 +1,6 @@
 # vim:filetype=zsh
 
-alias tm='tmux attach-session || tmux -c'
+alias tm='tmux attach-session || tmux'
 alias o='gio open'
 alias speak='trans -speak -b'
 alias ez='exec zsh'
@@ -12,6 +12,7 @@ alias ipy='ipython'
 alias v='vim --servername vim'
 alias rg='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 alias uv='urlview'
+alias h='history'
 
 ## Arch linux
 alias pac='pacman'
