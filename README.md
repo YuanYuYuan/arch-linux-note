@@ -527,4 +527,16 @@ sudo rsync -aAXv --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/
 ```
 
 
+_Fri Aug 31 11:23:37 CST 2018_
+
+Remove a large file from git history
+
+```sh
+git filter-branch -f --index-filter "git rm -rf --cached --ignore-unmatch FOLDERNAME" -- --all
+m -rf .git/refs/original/
+git reflog expire --expire=now --all
+git gc --prune=now
+git gc --aggressive --prune=now
+git push --all --force
+```
 
