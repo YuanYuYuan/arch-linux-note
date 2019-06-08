@@ -1,0 +1,478 @@
+# vim:filetype=i3
+
+## Variables
+set $mod Mod4
+set $alt Mod1
+set $term alacritty
+# set $term termite
+set $i3folder $HOME/.config/i3
+
+## keyboard settings
+bindsym $mod+Shift+k exec --no-startup-id xmodmap $HOME/.Xmodmap && xset r rate 300 50
+exec_always xmodmap ~/.Xmodmap
+# set key to delay: 300ms, rate: 50Hz
+exec_always --no-startup-id xset r rate 300 50
+
+
+## Font
+font pango:System San Francisco Display 10
+
+## Border
+# new_window pixel 0
+new_window none
+bindsym $mod+t exec --no-startup-id python $i3folder/toggle-window-title.py
+
+## Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+## Scratchpad mode
+set $scratchpad_mode "{Scratchpad} [t]erminal, [r]anger, [s]how, [m]ove, hide [a]ll, [n]cmpcpp"
+mode $scratchpad_mode {
+    bindsym shift+t exec --no-startup-id $term --title=dropdown,         mode "default"
+    bindsym shift+r exec --no-startup-id $term --title=ranger -e ranger, mode "default"
+    bindsym t [title="dropdown"] scratchpad show,                        mode "default"
+    bindsym r [title="ranger"] scratchpad show,                          mode "default"
+    bindsym s scratchpad show,                                           mode "default"
+    bindsym m move scratchpad,                                           mode "default"
+    bindsym a [floating] scratchpad show, move scratchpad,               mode "default"
+
+    bindsym q       mode "default"
+    bindsym Return  mode "default"
+    bindsym Escape  mode "default"
+    bindsym Ctrl+c  mode "default"
+}
+bindsym $mod+s mode $scratchpad_mode
+
+## Scratchpad settings
+bindsym $mod+Shift+Return exec --no-startup-id $term --title=dropdown
+for_window [title="dropdown"] floating enable
+for_window [title="dropdown"] move position 0 0
+for_window [title="dropdown"] move scratchpad
+for_window [title="dropdown"] resize set 1920 1080
+
+### ranger
+# for_window [title="ranger"] floating enable
+# for_window [title="ranger"] move position 360 140
+# for_window [title="ranger"] move scratchpad
+# for_window [title="ranger"] resize set 1200 800
+
+bindsym $alt+grave [title="^(?!dropdown$)"] scratchpad show
+bindsym $mod+grave move scratchpad
+
+
+## Terminal/Dropdown
+bindsym $mod+Return       exec $term
+bindsym grave [title="dropdown"] scratchpad show
+# bindsym grave exec --no-startup-id python $i3folder/dropdown-terminal.py
+
+
+## Transparency
+bindsym $alt+equal   exec transset-df -a --dec .05
+bindsym $alt+minus   exec transset-df -a --inc .05
+
+
+## kill focused window
+bindsym $mod+q kill
+
+
+## fn mapping
+bindsym $alt+F1  exec --no-startup-id $term --title=ranger -e ranger
+bindsym $alt+F2  exec --no-startup-id firefox
+bindsym $alt+F3  exec --no-startup-id $term --title=htop -e htop
+bindsym $alt+F8  exec --no-startup-id $i3folder/toggle-transparent.sh
+bindsym $alt+F12 exec --no-startup-id messengerfordesktop
+
+
+## Mail
+bindsym $mod+m exec --no-startup-id $term --title=neomutt -e neomutt
+# for_window [title="neomutt"] floating enable
+# for_window [title="neomutt"] move position 360 140
+# for_window [title="neomutt"] move scratchpad
+# for_window [title="neomutt"] resize set 1200 800
+
+
+## Htop
+# for_window [title="htop"] floating enable
+# for_window [title="htop"] move position 260 90
+# for_window [title="htop"] resize set 1400 900
+
+## dmenu/rofi
+# bindsym $alt+space exec rofi -show run
+# bindsym $alt+space exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -fn 'DejaVu Sans-16' -l 20"
+# bindsym $alt+Tab exec --no-startup-id $i3folder/j4-dmenu-script.sh
+bindsym $alt+space exec --no-startup-id $i3folder/j4-dmenu-script.sh
+# bindsym $alt+Tab exec rofi -show window
+bindsym $mod+space exec "rofi -show clipboard -modi 'run,window,clipboard:greenclip print'"
+
+## Full screen
+bindsym F11 fullscreen toggle
+bindsym $mod+shift+f resize set 1920 1080, move position 0 0
+
+## Screenshot
+bindsym --release Print exec ~/.config/i3/screenshot.sh
+bindsym --release shift+Print exec import /tmp/crop.png && feh /tmp/crop.png
+bindsym $mod+Print exec scrot /tmp/screenshot.png
+# bindsym shift+Print exec scrot -e 'mv $f ~/Pictures'
+
+
+## Window focus
+# bindsym $mod+Shift+Left      focus left
+# bindsym $mod+Shift+Down      focus down
+# bindsym $mod+Shift+Up        focus up
+# bindsym $mod+Shift+Right     focus right
+bindsym $mod+h	       focus left
+bindsym $mod+j	       focus down
+bindsym $mod+k		   focus up
+bindsym $mod+l 	       focus right
+
+bindsym $alt+Tab       focus right
+bindsym $alt+Shift+Tab focus left
+bindsym $mod+Next      focus right
+bindsym $mod+Prior     focus left
+
+bindsym $mod+c         exec --no-startup-id i3-easyfocus
+
+## Window movement
+bindsym $mod+Shift+Left   move left
+bindsym $mod+Shift+Down   move down
+bindsym $mod+Shift+Up     move up
+bindsym $mod+Shift+Right  move right
+
+# bindsym $mod+Shift+h      move left
+# bindsym $mod+Shift+j      move down
+# bindsym $mod+Shift+k      move up
+# bindsym $mod+Shift+l      move right
+
+bindsym $mod+Left	      move left
+bindsym $mod+Down	      move down
+bindsym $mod+Up		      move up
+bindsym $mod+Right 	      move right
+
+
+bindsym $mod+bracketleft  move left
+bindsym $mod+bracketright move right
+
+
+
+## Adjusting floating window mode
+set $adjust_mode "{Floating Adjust} Resize:[y,u,i,o] | Move:[h,j,k,l,arrows] | shift for fine tune"
+mode $adjust_mode {
+    bindsym y       resize shrink width  10 px or 10 ppt
+    bindsym u       resize grow   height 10 px or 10 ppt
+    bindsym i       resize shrink height 10 px or 10 ppt
+    bindsym o       resize grow   width  10 px or 10 ppt
+
+    bindsym shift+y resize shrink width  5 px or 5 ppt
+    bindsym shift+u resize grow   height 5 px or 5 ppt
+    bindsym shift+i resize shrink height 5 px or 5 ppt
+    bindsym shift+o resize grow   width  5 px or 5 ppt
+
+    bindsym h       move left  20 px
+    bindsym j       move down  20 px
+    bindsym k       move up    20 px
+    bindsym l       move right 20 px
+
+    bindsym Left    move left  20 px
+    bindsym Down    move down  20 px
+    bindsym Up      move up    20 px
+    bindsym Right   move right 20 px
+
+    bindsym shift+h move left  10 px
+    bindsym shift+j move down  10 px
+    bindsym shift+k move up    10 px
+    bindsym shift+l move right 10 px
+
+    bindsym q       mode "default"
+    bindsym Return  mode "default"
+    bindsym Escape  mode "default"
+    bindsym Ctrl+c  mode "default"
+}
+bindsym $mod+r mode $adjust_mode
+
+## Resize
+bindsym $mod+shift+9 resize shrink width  5 px or 5 ppt
+bindsym $mod+shift+0 resize grow   width  5 px or 5 ppt
+
+## Floating windows
+for_window [window_role="pop-up"]                floating enable
+for_window [window_role="bubble"]                floating enable
+# for_window [window_role="browser-window"]        floating enable
+for_window [class="feh"]                         floating enable
+for_window [class="Thunar"]                      floating enable
+# for_window [instance="sun-awt-X11-XFramePeer"] floating enable; resize set 1200 800, move position 360 140
+for_window [window_role="task_dialog"]           floating enable
+for_window [window_role="Preferences"]           floating enable
+for_window [window_type="dialog"]                floating enable
+for_window [window_type="menu"]                  floating enable
+for_window [window_role="gimp-dock"]             floating disable; move left; resize shrink width 50 px or 50ppt
+for_window [window_role="gimp-toolbox"]          floating disable; move right; resize grow width 30 px or 30ppt
+for_window [class="^(?i)gnome-pie"]              floating enable
+for_window [instance="nm-connection-editor"]     floating enable
+for_window [instance="vncviewer"]                floating enable
+for_window [instance="matplotlib"]               floating enable
+
+
+
+## windows layout
+# bindsym $mod+backslash        split h
+# bindsym $mod+shift+backslash  split v
+bindsym $mod+backslash        split toggle
+# bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f floating toggle, border none
+# bindsym $mod+shift+u focus mode_toggle
+
+
+
+## workspace
+# set $ws1 "1: "
+# set $ws2 "2: "
+# set $ws3 "3: "
+# set $ws4 "4: "
+# set $ws5 "5: "
+# set $ws6 "6: "
+# set $ws7 "7: "
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+
+## Window classification
+assign [class="qutebrowser"]                $ws1
+assign [class="Chromium"]                   $ws1
+# assign [window_role="browser"]              $ws1
+assign [class="Thunderbird"]                $ws2
+# assign [class="mpv"]                        $ws3
+assign [class="^(?i)libreoffice-*"]         $ws4
+assign [instance="libreoffice"]             $ws4
+assign [class="XMind"]                      $ws4
+assign [title="XMind"]                      $ws4
+# assign [class="Zathura"]                    $ws4
+assign [instance="draw.io"]                 $ws4
+assign [title="LINE"]                       $ws5
+assign [class="^(?i)messenger for Desktop"] $ws5
+assign [instance="messenger for desktop"]   $ws5
+assign [class="fritzing"]                   $ws6
+assign [class="processing-app-base"]        $ws6
+assign [instance="SlicerApp-real"]          $ws6
+assign [class="VirtualBox"]                 $ws7
+
+## Switch workspace
+workspace_auto_back_and_forth yes
+bindsym $mod+Tab workspace back_and_forth
+# bindsym $alt+Tab workspace back_and_forth
+# bindsym $alt+shift+Tab move container to workspace back_and_forth; workspace back_and_forth
+
+bindsym $mod+d    workspace next_on_output
+bindsym $mod+a    workspace prev_on_output
+bindsym $mod+End  workspace next_on_output
+bindsym $mod+Home workspace prev_on_output
+
+bindsym $mod+1    workspace $ws1
+bindsym $mod+2    workspace $ws2
+bindsym $mod+3    workspace $ws3
+bindsym $mod+5    workspace $ws5
+bindsym $mod+4    workspace $ws4
+bindsym $mod+6    workspace $ws6
+bindsym $mod+7    workspace $ws7
+bindsym $mod+8    workspace 8
+# bindsym $mod+9 workspace 9
+# bindsym $mod+0 workspace 10
+
+bindsym $mod+shift+1 move container to workspace $ws1
+bindsym $mod+shift+2 move container to workspace $ws2
+bindsym $mod+shift+3 move container to workspace $ws3
+bindsym $mod+shift+4 move container to workspace $ws4
+bindsym $mod+shift+5 move container to workspace $ws5
+bindsym $mod+shift+6 move container to workspace $ws6
+bindsym $mod+shift+7 move container to workspace $ws7
+bindsym $mod+shift+8 move container to workspace 8
+# bindsym $mod+shift+9 move container to workspace 9
+# bindsym $mod+shift+0 move container to workspace 10
+
+bindsym $mod+period move container to workspace next
+bindsym $mod+comma  move container to workspace prev
+
+## Presentation display
+# bindsym $mod+shift+p move container to output VGA-1
+
+
+## reload the configuration file
+bindsym $mod+shift+r reload; restart
+
+## Exit System Mode
+set $exit_mode "{System Exit} loc[k], [l]ogout, [s]uspend, [r]eboot, shut[d]own"
+set $exit_script $HOME/.config/i3/i3exit.sh
+mode $exit_mode {
+    bindsym k exec --no-startup-id $exit_script lock, mode "default"
+    bindsym l exec --no-startup-id $exit_script logout, mode "default"
+    bindsym s exec --no-startup-id $exit_script suspend, mode "default"
+    bindsym r exec --no-startup-id $exit_script reboot, mode "default"
+    bindsym d exec --no-startup-id $exit_script shutdown, mode "default"
+
+    bindsym q      mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym Ctrl+c mode "default"
+}
+bindsym $mod+x mode $exit_mode
+bindsym XF86PowerOff exec --no-startup-id $i3folder/i3exit.sh suspend
+
+set $lock i3lock && sleep 1
+
+set $transparent #000000000
+## status bar
+bar {
+        font pango:system san francisco display 15
+        mode hide
+        position bottom
+        colors {
+            background $transparent
+        }
+        # status_command bumblebee-status -m mpd memory pasink brightness datetime -p interval=1 memory.usedonly=1 -t solarized-powerline
+        # status_command bumblebee-status -m memory pasink brightness battery datetime -p interval=1 memory.usedonly=1 -t solarized-powerline
+        status_command i3blocks
+}
+bindsym $mod+z bar hidden_state toggle
+
+## cmus
+# bindsym $mod+F5 exec --no-startup-id cmus-remote -r previous song
+# bindsym $mod+F6 exec --no-startup-id cmus-remote -u pause
+# bindsym $mod+F7 exec --no-startup-id cmus-remote -p play
+# bindsym $mod+F8 exec --no-startup-id cmus-remote -n next song
+
+## Music
+bindsym $mod+shift+m exec --no-startup-id $term --title=music -e ncmpcpp
+
+## Music Player: mpd + mpc
+bindsym $mod+F5 exec --no-startup-id mpc prev
+bindsym $mod+F6 exec --no-startup-id mpc toggle
+bindsym $mod+F7 exec --no-startup-id mpc pause
+bindsym $mod+F8 exec --no-startup-id mpc next
+bindsym XF86AudioPause exec --no-startup-id mpc toggle
+
+## Pulse Audio Controls
+set $output_sink "$(pactl list short sinks | grep output | head -n1 | cut -f2)"
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $output_sink +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $output_sink -5%
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute   $output_sink toggle
+
+bindsym $mod+equal           exec --no-startup-id pactl set-sink-volume $output_sink +5%
+bindsym $mod+minus           exec --no-startup-id pactl set-sink-volume $output_sink -5%
+bindsym $mod+BackSpace       exec --no-startup-id pactl set-sink-mute   $output_sink toggle
+
+## Sreen Brightness Controls
+bindsym $mod+0                exec light -A 5
+bindsym $mod+9                exec light -U 5
+bindsym XF86MonBrightnessUp   exec light -A 5
+bindsym XF86MonBrightnessDown exec light -U 5
+
+## Touchpad Controls
+bindsym $mod+F1 exec $i3folder/toggle-touchpad.sh
+exec --no-startup-id exec $i3folder/config-touchpad.sh
+
+
+## mouse
+# bindsym --release button2 kill
+# bindsym --whole-window button2 bar hidden_state toggle
+
+## Focus
+focus_follows_mouse no
+focus_on_window_activation smart
+
+## i3-gaps
+hide_edge_borders both
+# for_window [class="^.*"] border pixel 4
+gaps inner 7
+gaps outer 1
+smart_gaps on
+
+
+## Dislplay
+# bindsym XF86Display exec arandr
+# bindsym XF86Display exec xrandr --auto
+bindsym $mod+shift+p exec xrandr --auto
+exec_always xrandr --output vga-1 --off --output hdmi-1 --off --output edp-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal
+exec_always --no-startup-id feh --bg-scale ~/Pictures/macOS-10-13-high-sierra.jpg
+
+## Switch output mode
+set $switch_output_mode "{Output Movement} cross:[arrow,h,j,k,l], hdm[i]-2, [e]dp-1"
+mode $switch_output_mode {
+    bindsym h       move workspace to output left,    mode "default"
+    bindsym j       move workspace to output down,    mode "default"
+    bindsym k       move workspace to output up,      mode "default"
+    bindsym l       move workspace to output right,   mode "default"
+
+    bindsym Left    move workspace to output left,    mode "default"
+    bindsym Down    move workspace to output down,    mode "default"
+    bindsym Up      move workspace to output up,      mode "default"
+    bindsym Right   move workspace to output right,   mode "default"
+
+    bindsym i       move workspace to output HDMI-2,  mode "default"
+    bindsym e       move workspace to output eDP-1,   mode "default"
+
+    bindsym q      mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym Ctrl+c mode "default"
+}
+bindsym $mod+o mode $switch_output_mode
+
+## Switch monitors mode
+set $switch_monitor_mode "{Monitors Layout} [n]ormal, [h]dmi, [d]ual, [m]irror, [a]randr, [u]p-down"
+mode $switch_monitor_mode {
+    bindsym n exec --no-startup-id sh $i3folder/switch-monitors.sh normal,       mode "default"
+    bindsym h exec --no-startup-id sh $i3folder/switch-monitors.sh hdmi,         mode "default"
+    bindsym d exec --no-startup-id sh $i3folder/switch-monitors.sh dual,         mode "default"
+    bindsym m exec --no-startup-id sh $i3folder/switch-monitors.sh mirror,       mode "default"
+    bindsym a exec --no-startup-id sh $i3folder/switch-monitors.sh arandr,       mode "default"
+    bindsym u exec --no-startup-id sh $i3folder/switch-monitors.sh up-down,      mode "default"
+
+    bindsym q      mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym Ctrl+c mode "default"
+}
+bindsym $mod+p mode $switch_monitor_mode
+
+## Network Manager Mode
+set $network_manager_mode "{NetworkManager} [e]ditor, [r]estart, wifi of[f], wifi [o]n"
+mode $network_manager_mode {
+    bindsym e exec --no-startup-id nm-connection-editor,                     mode "default"
+    bindsym r exec --no-startup-id systemctl restart NetworkManager.service, mode "default"
+    bindsym f exec --no-startup-id nmcli radio wifi off,                     mode "default"
+    bindsym o exec --no-startup-id nmcli radio wifi on,                      mode "default"
+
+    bindsym q      mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym Ctrl+c mode "default"
+}
+bindsym $mod+n mode $network_manager_mode
+
+
+## autostart
+exec_always --no-startup-id libinput-gestures-setup start
+exec --no-startup-id nm-applet
+exec --no-startup-id dunst -conf ~/.config/dunst/duntrc
+exec --no-startup-id unclutter
+exec --no-startup-id greenclip clear
+exec --no-startup-id greenclip daemon
+exec --no-startup-id udiskie
+exec --no-startup-id /usr/lib/xfce-polkit/xfce-polkit
+exec --no-startup-id compton -b --config=$HOME/.config/compton/compton.conf
+exec --no-startup-id insync start
+# exec --no-startup-id dropbox
+# exec --no-startup-id easystroke
+exec_always --no-startup-id xset dpms 120
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id mpd
+# exec --no-startup-id $term --title=dropdown
+# exec xrdb ~/.xresources
+exec ibus-daemon -dr
+exec --no-startup-id $i3folder/detect-monitors.sh

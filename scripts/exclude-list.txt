@@ -1,0 +1,17 @@
+/dev/*
+/proc/*
+/sys/*
+/tmp/*
+/run/*
+/mnt/*
+/media/*
+/lost+found/*
+$HOME/.cache/*
+$HOME/Videos/*
+$HOME/Music/*
+$HOME/Downloads/*
+$HOME/matlab-2016/*
+$HOME/VirtualBox\ VMs/*
+$HOME/.mozilla/firefox/*
+$HOME/.config/google-chrome/*
+$HOME/storage/*
