@@ -1,17 +1,10 @@
 # vim:filetype=tmux
 
+config_folder=$HOME/.config/tmux
+
 ## Basic
 unbind C-b
 set -g prefix C-a
-bind C-a            send-prefix
-bind -n M-a         send-prefix
-bind -n M-\;        command-prompt
-bind -n M-/         list-keys
-bind -n M-D         confirm-before -p "detach? (y/n)" detach
-bind -n M-r         source-file ~/.tmux.conf
-bind -T copy-mode-vi y send -X copy-pipe-and-cancel "xclip -se c -i"
-bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "xclip -se c -i"
-set -g mouse on
 set -g mode-keys vi
 set -g status-keys emacs
 set -g set-titles on
@@ -20,6 +13,18 @@ set -g terminal-overrides 'xterm*:smcup@:rmcup@'
 set -g default-shell /bin/bash
 set -g renumber-windows on
 set -g detach-on-destroy off
+set -s escape-time 0 # prevent alt behavior
+bind C-a            send-prefix
+bind -n M-a         send-prefix
+bind -n M-\;        command-prompt
+bind -n M-/         list-keys
+bind -n M-D         confirm-before -p "detach? (y/n)" detach
+bind -n M-r         source-file ~/.tmux.conf
+bind -T copy-mode-vi y send -X copy-pipe-and-cancel "xclip -se c -i"
+
+## mouse
+set -g mouse on
+bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "xclip -se c -i"
 
 ## copy mode/scroll mode
 bind -n M-c         copy-mode
@@ -45,9 +50,15 @@ bind -n M-h         previous-window
 bind -n C-PPage     previous-window
 bind -n M-w         last-window
 bind -n M-p         choose-window -s
-bind -n M-|         split-window -h -c "#{pane_current_path}"
-bind -n M-\         split-window -v -c "#{pane_current_path}"
-bind -n M-Enter     split-window -v -c "#{pane_current_path}"
+bind -n M-\         if 'tmux list-panes -F "#F" | grep -q Z' \
+                        'resize-pane -Z; last-pane' \
+                        'split-window -v -c "#{pane_current_path}"'
+bind -n M-Enter     if 'tmux list-panes -F "#F" | grep -q Z' \
+                        'resize-pane -Z; last-pane' \
+                        'split-window -v -c "#{pane_current_path}"'
+bind -n M-|         if 'tmux list-panes -F "#F" | grep -q Z' \
+                        'resize-pane -Z; last-pane' \
+                        'split-window -h -c "#{pane_current_path}"'
 bind -n M-1         select-window -T -t :=1
 bind -n M-2         select-window -T -t :=2
 bind -n M-3         select-window -T -t :=3
@@ -60,8 +71,9 @@ bind -n M-n         command-prompt -I "#W" "rename-window '%%'"
 bind -n M-,       	swap-window -t -1
 bind -n M-.       	swap-window -t +1
 bind -n M-q         confirm-before -p "kill-window #W? (y/n)" kill-window
-bind -n M-B       	move-window -t background
-bind -n M-F       	move-window -t session
+bind -n M-B       	if 'tmux break-pane' 'move-window -t background' 'move-window -t background'
+bind -n M-BSpace    if 'tmux break-pane' 'move-window -t background' 'move-window -t background'
+bind -n M-F       	if 'tmux break-pane' 'move-window -t session' 'move-window -t main'
 
 ## Pane
 bind -n M-Left      select-pane -L
@@ -83,10 +95,8 @@ bind -n M-}         swap-pane -D
 bind -n M-z         resize-pane -Z
 
 # Pane color
-set -g pane-border-bg colour235
-set -g pane-border-fg colour238
-set -g pane-active-border-bg colour236
-set -g pane-active-border-fg colour51
+set -g pane-border-style fg=colour238,bg=colour235
+set -g pane-active-border-style fg=colour51,bg=colour236
 
 ## Copy-mode-vi
 bind -T copy-mode-vi C-j send-keys -X halfpage-down
@@ -104,11 +114,9 @@ set -g status-justify centre
 set -g status-left-length 60
 set -g status-right-length 60
 set -g status-position bottom
-set -g status-left '#[fg=colour120][#H]#[fg=colour203][#S]'
+set -g status-left '#[fg=colour120][#($config_folder/battery-status.sh)]#[fg=colour203][#S]'
 set -g status-right '[%D %a #[fg=colour75]%T]'
-set -g status-fg colour48
-set -g status-bg default
-set -g status-attr bold
+set -g status-style fg=colour48,bg=default,bold
 
 ## Window title
 
@@ -116,22 +124,24 @@ set -g status-attr bold
 set -g allow-rename off
 
 # default window title colors
-setw -g window-status-attr none
+# setw -g window-status-attr none
 # setw -g window-status-format '#[fg=colour37]#{window_index}:#{window_name}#{window_flags}'
-setw -g window-status-format '#[fg=colour37]#{window_index}:#{window_name}#{window_flags}'
+setw -g window-status-format \
+    '#[fg=colour37]#{window_index}:#($config_folder/title.sh #{window_name} #{pane_current_path})#{window_flags}'
 
 # active window title colors
-setw -g window-status-current-bg default
-setw -g window-status-current-attr bold
+# setw -g window-status-current-bg default
+# setw -g window-status-current-attr bold
 # setw -g window-status-current-format '#[fg=yellow]#{window_index}:#{window_name}'
-setw -g window-status-current-format '#[fg=yellow]#{window_index}:#{window_name}'
+setw -g window-status-current-format \
+    '#[fg=yellow]#{window_index}:#($config_folder/title.sh #{window_name} #{pane_current_path})'
+setw -g window-status-current-style bg=default,bold
 
 # bell
-setw -g window-status-bell-attr bold
-setw -g window-status-bell-fg colour255
-setw -g window-status-bell-bg colour1
+# setw -g window-status-bell-attr bold
+# setw -g window-status-bell-fg colour255
+# setw -g window-status-bell-bg colour1
+set -g window-status-bell-style fg=colour255,bg=colour1,bold
 
 ## command/message line colors
-set -g message-fg yellow
-set -g message-bg default
-set -g message-attr bright
+set -g message-style fg=yellow,bg=default,bright
