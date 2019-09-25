@@ -19,6 +19,8 @@ set hidden                 " hides buffers instead of closing them
 set timeout timeoutlen=400 " set timeout to use double key in imap confortablely
 set number relativenumber  " line number
 set wrap                   " line wrap(shows a too long line in multiple rows)
+set backspace=indent,eol,start
+" set iskeyword-=_
 
 " color/colorscheme/syntax
 set background=dark
@@ -76,6 +78,17 @@ Plug 'skywind3000/asyncrun.vim'                               " run Async Shell 
 Plug 'maralla/completor.vim'                                  " Async completion framework made ease
 Plug 'w0rp/ale'                                               " Asynchronous Lint Engine
 Plug 'michaeljsmith/vim-indent-object'                        " Defines new text objects representing lines at the same indent level.
+Plug 'cespare/vim-toml'                                       " Vim syntax for TOML
+Plug 'racer-rust/vim-racer', { 'for': 'tex' }
+Plug 'PeterRincker/vim-argumentative'                         " Argumentative aids with manipulating and moving between function arguments.
+Plug 'FooSoft/vim-argwrap'                                    " Wrap and unwrap function arguments, lists, and dictionaries in Vim.
+Plug 'tmhedberg/matchit'
+Plug 'mattn/emmet-vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'lepture/vim-jinja'
+Plug 'pangloss/vim-javascript'
+
+" Plug 'rust-lang/rust.vim'                                     " Vim configuration for Rust.
 
 
 
@@ -106,6 +119,42 @@ filetype plugin indent on
 
 
 ""  ==================== Plugin Config ====================
+
+" vim-multiple-cursors
+
+let g:multi_cursor_use_default_mapping   = 0
+let g:multi_cursor_start_word_key        = '<C-n>'
+let g:multi_cursor_select_all_word_key   = '<A-n>'
+let g:multi_cursor_start_key             = 'g<C-n>'
+let g:multi_cursor_select_all_key        = 'g<A-n>'
+let g:multi_cursor_next_key              = '<C-n>'
+let g:multi_cursor_prev_key              = '<C-p>'
+let g:multi_cursor_skip_key              = '<C-x>'
+let g:multi_cursor_quit_key              = 'qq'
+let g:multi_cursor_exit_from_visual_mode = 1
+let g:multi_cursor_exit_from_insert_mode = 1
+
+" emmet-vim
+let g:user_emmet_leader_key=','
+
+" vim-argumentative
+nmap [\ <Plug>Argumentative_Prev
+nmap ]\ <Plug>Argumentative_Next
+xmap [\ <Plug>Argumentative_XPrev
+xmap ]\ <Plug>Argumentative_XNext
+nmap <C-n> <Plug>Argumentative_MoveLeft
+nmap <C-m> <Plug>Argumentative_MoveRight
+xmap i\ <Plug>Argumentative_InnerTextObject
+xmap a\ <Plug>Argumentative_OuterTextObject
+omap i\ <Plug>Argumentative_OpPendingInnerTextObject
+omap a\ <Plug>Argumentative_OpPendingOuterTextObject
+
+" vim-argwrap
+nnoremap <silent> <Space>a :ArgWrap<CR>
+
+" rust-racer
+let g:racer_experimental_completer = 1  " show the complete function definition
+let g:racer_insert_paren = 1            " insert the parenthesis in the completion
 
 " completor
 function! s:check_back_space() abort
@@ -288,11 +337,14 @@ let g:tex_flavor='latex'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_fold_manual=1
 
+" vim-fugitive
+nnoremap <Space>g :G<CR>
 
 " ==================== Run Script Function ====================
 nnoremap <silent> <Space>r :call RunScript()<CR>
 nnoremap <silent> <F3> :call RunScript()<CR>
-imap <silent> <F3> <ESC>:call RunScript()<CR>
+inoremap <silent> <F3> <ESC>:call RunScript()<CR>
+
 func! RunScript(...)
 	exec "w"
 	if &filetype == "c"
@@ -301,6 +353,8 @@ func! RunScript(...)
 		exec "!g++ % -o %< && ./%<"
 	elseif &filetype == "java"
 		exec "!javac % && java %<"
+	elseif &filetype == "rust"
+		exec "!rustc % && ./%<"
 	elseif &filetype == "markdown"
 		exec "MarkdownPreview"
 	elseif &filetype == "javascript"
@@ -373,6 +427,7 @@ hi search ctermfg=red ctermbg=none
 " next/previous search
 vnoremap n y/<C-r>"<CR>
 vnoremap N y/<C-r>"<CR>NN
+vnoremap C y/<C-r>"<CR>Ncgn
 
 " toggle highltight search
 nnoremap <Space>n :set hlsearch! hlsearch?<CR>
@@ -392,6 +447,7 @@ vnoremap , f,
 vnoremap ; f;
 vnoremap ) f)
 vnoremap <CR> $h
+vnoremap <CR><CR> $hy
 
 
 " number increment
