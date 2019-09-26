@@ -55,7 +55,6 @@ Plug 'PotatoesMaster/i3-vim-syntax', { 'for': 'i3' }          " supports i3 synt
 Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'config' } " supports systemd syntax
 Plug 'bling/vim-airline'                                      " lean & mean status/tabline for vim that's light as air
 Plug 'vim-airline/vim-airline-themes'                         " collection of themes for vim-airline
-Plug 'iamcco/markdown-preview.vim'                            " Real-time markdown preview plugin for vim
 Plug 'iamcco/mathjax-support-for-mkdp'                        " mathjax support for markdown-preview.vim plugin
 Plug 'tpope/vim-surround'                                     " quoting/parenthesizing made simple
 Plug 'Yggdroot/indentLine'                                    " display the indention levels with thin vertical lines
@@ -82,6 +81,7 @@ Plug 'cespare/vim-toml'                                       " Vim syntax for T
 Plug 'racer-rust/vim-racer', { 'for': 'tex' }
 Plug 'PeterRincker/vim-argumentative'                         " Argumentative aids with manipulating and moving between function arguments.
 Plug 'FooSoft/vim-argwrap'                                    " Wrap and unwrap function arguments, lists, and dictionaries in Vim.
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'tmhedberg/matchit'
 Plug 'mattn/emmet-vim'
 Plug 'terryma/vim-multiple-cursors'
