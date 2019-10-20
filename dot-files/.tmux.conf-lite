@@ -145,3 +145,8 @@ set -g window-status-bell-style fg=colour255,bg=colour1,bold
 
 ## command/message line colors
 set -g message-style fg=yellow,bg=default,bright
+
+## initial sessions
+new-session -A -s background
+new-session -A -s main
+
