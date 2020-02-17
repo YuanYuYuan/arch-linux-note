@@ -44,13 +44,41 @@
     " }}}
 
     " { Terminal } {{{
-        " Exit
+        " exit key mappings
         tnoremap <Esc> <C-\><C-n>
         tnoremap qq <C-\><C-n>
+        tnoremap q<Tab> <C-\><C-n>:b#<CR>
 
-        " Default settings
-        autocmd TermOpen * setlocal listchars= nonumber norelativenumber
+        " clean settings in terminal
+        autocmd TermOpen * set nonumber norelativenumber signcolumn=no
         autocmd TermOpen * startinsert
+        autocmd BufWinEnter,WinEnter term://* startinsert
+
+        " auto close after exited
+        autocmd TermClose * call nvim_input("<CR>")
+
+        " function to toggle terminal
+        let g:term_buf = 0
+        let g:term_win = 0
+        function! ToggleTerminal(height)
+            if win_gotoid(g:term_win)
+                hide
+            else
+                if bufexists(g:term_buf)
+                    exec "split | buffer " . g:term_buf
+                else
+                    exec "split | terminal"
+                    let g:term_buf = bufnr("")
+                endif
+                let g:term_win = win_getid()
+                exec "resize " . a:height
+            endif
+        endfunction
+
+        " press <F1> to toggle terminal
+        nnoremap <silent> <F1> :call ToggleTerminal(12)<CR>
+        inoremap <silent> <F1> <Esc>:call ToggleTerminal(12)<CR>
+        tnoremap <silent> <F1> <C-\><C-n>:call ToggleTerminal(12)<CR>
     " }}}
 
 " }}}
@@ -151,6 +179,7 @@
     Plug 'Lokaltog/neoranger'                                               " integrate ranger with vim
     Plug 'neomake/neomake'                                                  " asynchronous linting and make framework
     Plug 'davidhalter/jedi-vim', { 'for': 'python' }                        " jedi autocompletion library
+    Plug 'skywind3000/asyncrun.vim'                                         " run shell asynchronously and output to quickfix
     call plug#end()
 " }}}
 
@@ -168,7 +197,7 @@
         let g:jedi#documentation_command = "K"
     " }}}
 
-    " { ranger.vim } {{{
+    " { neoranger } {{{
         let g:neoranger_viewmode='miller'
         nnoremap <Space>r :Ranger<CR>
     " }}}
@@ -320,7 +349,7 @@
 
     " { vim-airline config } {{{
         set laststatus=2                                           " set status line
-        let g:airline#extensions#tabline#enabled = 1               " Automatically displays all buffers when there's only one tab open
+        let g:airline#extensions#tabline#enabled = 1               " displays all buffers when there's only one tab open
         let g:airline#extensions#bufferline#enabled = 1
         let g:airline_powerline_fonts = 1                          " enable powerline-fonts
         let g:airline#extensions#tabline#fnamemod = ':t'           " show file name only
@@ -328,17 +357,23 @@
         let g:airline#extensions#tabline#tab_nr_type = 1
         let g:airline#extensions#tabline#buffer_idx_mode = 1
         let g:airline#extensions#whitespace#enabled = 0            " disable whitespace check
-        nmap <Space>1 <Plug>AirlineSelectTab1
-        nmap <Space>2 <Plug>AirlineSelectTab2
-        nmap <Space>3 <Plug>AirlineSelectTab3
-        nmap <Space>4 <Plug>AirlineSelectTab4
-        nmap <Space>5 <Plug>AirlineSelectTab5
-        nmap <Space>6 <Plug>AirlineSelectTab6
-        nmap <Space>7 <Plug>AirlineSelectTab7
-        nmap <Space>8 <Plug>AirlineSelectTab8
-        nmap <Space>9 <Plug>AirlineSelectTab9
+
+        " map <space>+1~9 to switch no.1~9 tab on tabline
+        let i = 1
+        while i <= 9
+            execute 'nmap <Space>' . i . ' <Plug>AirlineSelectTab' . i
+            let i = i + 1
+        endwhile
+
+        " next/previous tab
         nmap <C-l> <Plug>AirlineSelectNextTab
         nmap <C-h> <Plug>AirlineSelectPrevTab
+    " }}}
+
+    " { asyncrun.vim } {{{
+        " integration with vim airline(must after airline config)
+        let g:asyncrun_status = ''
+        let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
     " }}}
 
 " }}}
@@ -458,7 +493,7 @@
 " { Windows/Buffers settings } {{{
 
     " jump between buffers
-    nnoremap <Space><Tab> :b#<CR>
+    nnoremap <Tab> :b#<CR>
 
     " resizing
     nnoremap = <C-w>+
@@ -467,11 +502,11 @@
     nnoremap + <C-w>>
 
     " navigation
-    nnoremap <Space>h <C-w>h
-    nnoremap <Space>l <C-w>l
-    nnoremap <Space>j <C-w>j
-    nnoremap <Space>k <C-w>k
-    nnoremap <Tab> <C-w><C-p>
+    nnoremap <Space>h     <C-w>h
+    nnoremap <Space>l     <C-w>l
+    nnoremap <Space>j     <C-w>j
+    nnoremap <Space>k     <C-w>k
+    nnoremap <Space><Tab> <C-w><C-p>
 
     " split window
     set splitbelow splitright " specify the location
