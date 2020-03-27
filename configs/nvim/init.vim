@@ -12,13 +12,44 @@
     set timeout timeoutlen=400        " set timeout to use double key in imap confortablely
     set number relativenumber         " line number
     set backspace=indent,eol,start    " normal delete
-    set clipboard=unnamedplus         " use system's clipboard
     set showmatch                     " highlight matching brackets
     set wildmenu                      " show menu for the command completion
     set previewheight=5               " hight of completion preview
-    set pumheight=15                  " height of pop-up menu
-    set lazyredraw                    " redraw only in need
+    set pumheight=10                  " height of pop-up menu
     set conceallevel=2                " concealment
+
+    " { Clipboard } {{{
+        " use system's clipboard
+        set clipboard=unnamedplus
+
+        " paste last buffer
+        vnoremap <Space>p "0p
+        nnoremap <Space>p "0p
+    " }}}
+
+    " { Ignoring case } {{{
+        set ignorecase  " ignore case during search
+        set smartcase   " ignore case if search pattern is all lowercase
+        set wildignorecase " ignore case when doing completion
+    " }}}
+
+    " { Lazyredraw } {{{
+        " TODO: Improve implementation
+        " redraw only in need
+        set nolazyredraw
+        " autocmd InsertLeave * set lazyredraw
+        " autocmd InsertEnter * set nolazyredraw
+
+        function! ToggleLazyRedraw()
+            exec 'set lazyredraw!'
+            if &lazyredraw == 0
+                echo 'LazyRedraw off'
+            else
+                echo 'LazyRedraw on'
+            endif
+        endfunction
+        nnoremap <Space>cl :call ToggleLazyRedraw()<CR>
+    " }}}
 
     " { Tab/spaces } {{{
         set expandtab              " expand tab to spaces
@@ -47,7 +78,7 @@
         " exit key mappings
         tnoremap <Esc> <C-\><C-n>
         tnoremap qq <C-\><C-n>
-        tnoremap q<Tab> <C-\><C-n>:b#<CR>
+        tnoremap q<Tab> <C-\><C-n><C-w><C-p>
 
         " clean settings in terminal
         autocmd TermOpen * set nonumber norelativenumber signcolumn=no
@@ -64,7 +95,7 @@
             if win_gotoid(g:term_win)
                 hide
             else
-                if bufexists(g:term_buf)
+                if bufexists(g:term_buf) && g:term_buf != 0
                     exec "split | buffer " . g:term_buf
                 else
                     exec "split | terminal"
@@ -87,6 +118,9 @@
     " default foldmethod
     " set foldmethod=syntax
 
+    " disable auto-open while paragraph navigation
+    set foldopen-=block
+
     " fold methods for different filetypes
     autocmd FileType zsh,snippets setlocal foldenable foldmethod=marker foldmarker={{{,#\ }}}
     autocmd FileType vim setlocal foldenable foldmethod=marker
@@ -95,8 +129,17 @@
     " TODO: Python folding
     autocmd FileType python setlocal foldenable foldmethod=manual
 
+    function! FoldOrSelect()
+        if foldlevel(line('.')) == 0
+            call feedkeys("vip")
+        else
+            call feedkeys("za")
+        endif
+    endfunction
+
     " Press Enter to toggle folding except in quickfix
-    nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : 'za'
+    " nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : "call FoldOrSelect()"
+    nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : ":call FoldOrSelect()<CR>"
 
     " Press Enter to create folding
     vnoremap <CR> zf
@@ -114,16 +157,16 @@
     autocmd FileType markdown nnoremap <silent> <F3> :MarkdownPreview<CR>
 
     " yaml, json indent space
-    autocmd FileType yaml,json setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType yaml,json,json5 setlocal tabstop=2 softtabstop=2 shiftwidth=2
 " }}}
 
 " { Search configuration } {{{
-    set ignorecase  " ignore case during search
-    set smartcase   " ignore case if search pattern is all lowercase
     set hlsearch    " highlight search
     set incsearch   " incremental search
 
     " next/previous search
+    vnoremap 0 n
+    vnoremap 9 N
     vnoremap n "ny/<C-r>n<CR>
     vnoremap N "ny/<C-r>n<CR>NN
     vnoremap C "ny/<C-r>n<CR>Ncgn
@@ -134,7 +177,7 @@
     nnoremap <C-f> :vimgrep <C-r>/ %<CR> \| :copen <CR>
 
     " search/substitute
-    vnoremap / :s///gc<Left><Left><Left><Left>
+    vnoremap S :s///gc<Left><Left><Left><Left>
 " }}}
 
 " { Color } {{{
@@ -180,10 +223,22 @@
     Plug 'neomake/neomake'                                                  " asynchronous linting and make framework
     Plug 'davidhalter/jedi-vim', { 'for': 'python' }                        " jedi autocompletion library
     Plug 'skywind3000/asyncrun.vim'                                         " run shell asynchronously and output to quickfix
+    Plug 'mattn/emmet-vim', { 'for': 'html,jinja' }                         " provides support for expanding abbreviations similar to emmet
+    Plug 'cespare/vim-toml'                                                 " toml syntax
+    Plug 'AndrewRadev/switch.vim'                                           " switch segments of text with predefined replacements
+    Plug 'gutenye/json5.vim'                                                " syntax for json5
     call plug#end()
 " }}}
 
 " { Plugins config } {{{
+
+    " { swithc.vim } {{{
+        let g:switch_mapping = "<C-t>"
+        let g:switch_custom_definitions =
+            \ [
+            \   [1, 0],
+            \ ]
+    " }}}
 
     " { jedi-vim } {{{
         " disable jedi default completion, use depolete-jedi at below instead
@@ -246,6 +301,10 @@
         call neomake#configure#automake('w')
         let g:neomake_python_enabled_makers = ['flake8', 'mypy']
 
+        " for python
+        call neomake#configure#automake('w')
+        let g:neomake_python_enabled_makers = ['flake8', 'mypy']
+
         " TODO: for tex
         " let g:neomake_tex_enabled_makers = ['chktex', 'rubberinfo', 'proselint']
     " }}}
@@ -297,6 +356,7 @@
         " customize delimiters
         let g:NERDCustomDelimiters       = {
             \ 'c':{'left':'//'},
+            \ 'json5':{'left':'//'},
             \ 'python':{'left':'#'},
             \ 'arduino':{'left':'//'}
         \ }
@@ -308,8 +368,10 @@
     " }}}
 
     " { vim-surround } {{{
-        " press s to trigger surround
-        xmap s <Plug>VSurround
+        let g:surround_no_mappings = 1
+        nmap ds <Plug>Dsurround
+        nmap cs <Plug>Csurround
+        xmap s  <Plug>VSurround
         xmap gs <Plug>VgSurround
     " }}}
 
@@ -336,11 +398,18 @@
         " press <F10> to toggle deoplete
         nnoremap <F10> :call deoplete#toggle()<CR>
         inoremap <F10> :call deoplete#toggle()<CR>
+
+        " ignore errors
+        let g:deoplete#sources#jedi#ignore_errors = v:true
+        let g:deoplete#sources#rust#ignore_errors = v:true
     " }}}
 
     " { vim-racer } {{{
         let g:racer_experimental_completer = 1  " show the complete function definition
         let g:racer_insert_paren = 1            " insert the parenthesis in the completion
+        let g:racer_cmd = "/usr/bin/racer"
+        autocmd FileType rust nmap <buffer> gd <Plug>(rust-def)
+        autocmd FileType rust nmap <buffer> K <Plug>(rust-doc)
     " }}}
 
     " { auto-pairs } {{{
@@ -376,6 +445,10 @@
         let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
     " }}}
 
+    " { emmet-vim } {{{
+        let g:user_emmet_leader_key=','
+    " }}}
+
 " }}}
 
 " { Buffer saving/loading/exit } {{{
@@ -394,7 +467,7 @@
     noremap X :x<CR>
     nnoremap <Space>w :w<CR>
     nnoremap <Space>x :x<CR>
-    autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif
+    autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | bdelete | endif
 
     function! QuitOrBufferDelete()
         let buf_len = (len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1)
@@ -405,7 +478,7 @@
             exec 'bd'
         endif
     endfunction
-    nnoremap <silent> <Space>q :exec QuitOrBufferDelete()<CR>
+    nnoremap <silent> <Space>q :call QuitOrBufferDelete()<CR>
 " }}}
 
 " { Key mappings } {{{
@@ -424,6 +497,8 @@
 
     " visual selection
     nnoremap vv <C-v>
+    " select last pasted
+    nnoremap gp `[v`]
 
     " Text editing
     inoremap aa <Esc>la
@@ -448,6 +523,10 @@
         " emacs-like
         inoremap <M-f> <Esc>lwi
         inoremap <M-b> <Esc>bi
+        inoremap <C-a> <Esc>I
+        cnoremap <C-f> <Right>
+        cnoremap <C-o> <C-f>
+        cnoremap <C-b> <Left>
     " }}}
 
     " { Command mode mapping } {{{
@@ -493,7 +572,7 @@
 " { Windows/Buffers settings } {{{
 
     " jump between buffers
-    nnoremap <Tab> :b#<CR>
+    nnoremap <Space><Tab> :b#<CR>
 
     " resizing
     nnoremap = <C-w>+
@@ -506,12 +585,27 @@
     nnoremap <Space>l     <C-w>l
     nnoremap <Space>j     <C-w>j
     nnoremap <Space>k     <C-w>k
-    nnoremap <Space><Tab> <C-w><C-p>
+    nnoremap <Tab> <C-w><C-p>
 
     " split window
     set splitbelow splitright " specify the location
     nnoremap <Space>s :vsp \| b<Space>
 
+" }}}
+
+" { Location list } {{{
+    function! ToggleLocationList(height)
+        let n1 = winnr("$")
+        exec "lwindow " . a:height
+        let n2 = winnr("$")
+        if n1 == n2
+            lclose
+        endif
+    endfunction
+
+    " Toggle location list
+    nnoremap <silent> <F2> :call ToggleLocationList(5)<CR>
+    inoremap <silent> <F2> <Esc>:call ToggleLocationList(5)<CR>
 " }}}
 
 " { spell check } {{{
