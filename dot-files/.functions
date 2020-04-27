@@ -1,0 +1,21 @@
+# vim:filetype=sh
+
+exists() { which $1 &> /dev/null }
+
+td() { termdown $1 && notify-send "Time's up!!!" && mpv ~/Music/apple_ring.mp3 --no-resume-playback }
+
+xrp() { realpath $1 | xclip -selection clipboard -in -rmlastnl }
+
+# xp() { xclip -selection clipboard -out -target image/png > ${1}.png }
+xp() { cp /tmp/screenshot.png ${1}.png }
+
+xc() { cat $1 | xclip -selection clipboard -in -rmlastnl }
+
+vman() { /usr/bin/man $@ | col -b | /usr/bin/vim -R -c 'set nu! ft=man nomod nolist' - }
+
+tbd() { pkill tensorboard; tensorboard --logdir $1 > /dev/null 2>&1 & $BROWSER http://localhost:6006}
+
+function rnpdf {
+    pdftotext $1 -f 1 /tmp/tmp.txt; cat /tmp/tmp.txt | head -n 20 | vim -
+    mv -v $1 "$(xclip -se c -r -o)".pdf
+}
