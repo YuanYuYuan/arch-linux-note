@@ -135,6 +135,8 @@
     autocmd FileType vim setlocal foldenable foldmethod=marker
     autocmd FileType json setlocal foldenable foldmethod=syntax
     autocmd FileType json5 setlocal foldenable foldmethod=indent
+    autocmd FileType asciidoc,dot setlocal noexpandtab
+    autocmd BufRead,BufNewFile *.gv set filetype=dot
 
     " TODO: Python folding
     autocmd FileType python setlocal foldenable foldmethod=manual

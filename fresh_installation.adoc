@@ -1,0 +1,274 @@
+= Title
+:nofooter:
+:toc: left
+:toclevels: 3
+:icons: font
+:source-highlighter: rouge
+:rouge-style: thankful_eyes
+:sectnums:
+:sectlinks:
+:sectanchors:
+:stem:
+
+This is a installation note for Acer Nitro 5 AN515-55-521N.
+
+== BIOS Setup
+
+. Disable secure boot
+. Disable fast boot
+. Enable F12Boot
+. Set SataMode to AHCi (press Ctrl + S in the MAIN tab if needed)
+
+
+== Fresh Installation
+
+. Download the latest Arch ISO.
+. Burn it into a USB stick.
+. Power on the PC but press F12 repeatedly before the Acer logo pop out.
+. Choose the USB to boot.
+
+=== Partition
+
+[options="header", frame="topbot", grid="none"]
+|===
+
+| Mount Point | Partition  | Name | Partition type (Hex code) | Size
+| /mnt/boot   | /dev/PART_BOOT | boot | EFI (ef00)                | 512M
+| [SWAP]      | /dev/PART_SWAP | swap | Linux swap (8200)         | 1G
+| /mnt        | /dev/PART_ROOT | root | Linux x86-64 root (8300)  | Remainder
+
+|===
+
+	cgdisk DEVICE
+
+
+=== Format the partitions
+
+	mkfs.ext4 /dev/PART_ROOT
+	mkfs.vfat -F 32 /dev/PART_BOOT
+	mkswap /dev/PART_SWAP
+
+=== Mount the file systems
+
+	mount /dev/PART_ROOT /mnt
+	mkdir /mnt/boot
+	mount /dev/PART_BOOT /mnt/boot
+	swapon /dev/PART_SWAP
+
+=== Connect to WiFi
+
+	iwctl
+	device list
+	station DEVICE scan
+	station DEVICE get-network
+	station DEVICE connect SSID
+
+===  Update the system clock
+
+	timedatectl set-ntp true
+	timedatectl status
+
+=== Select the mirrors
+
+	reflector --verbose --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
+	reflector | grep "\.tw" > /etc/pacman.d/mirrorlist
+
+=== Install essential packages
+
+	pacstrap /mnt base linux linux-firmware
+
+=== Fstab
+
+	genfstab -U /mnt >> /mnt/etc/fstab
+
+
+=== Chroot into the new system
+
+	arch-chroot /mnt
+
+==== Set the initial root password
+
+	passwd
+
+==== Configure Network
+
+	pacman -S networkmanager
+	hostnamectl set-hostname MY_HOSTNAME
+
+==== Bootloader GRUB
+
+Installation
+
+	pacman -S grub efibootmgr
+
+Install GRUB EFI application *grubx64.efi* to */boot/EFI/GRUB* and install its modules to */boot/grub/x86_64-efi*
+
+	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+	grub-mkconfig -o /boot/grub/grub.cfg
+
+
+Finally, we exit the chroot by Ctrl+d
+
+=== Reboot
+
+Unmount
+
+	umount -R /mnt
+
+Poweroff, remove the usb, and then restart the PC
+
+	poweroff
+
+
+After installation, you may enable FastBoot and SecureBoot.
+But you need to add the /boot/EFI/GRUB/grubx64.efi into the database
+in the settings  of BIOS (Select an UEFI file as trusted).
+
+
+== Post-installation
+
+=== Connect to WiFi
+
+Enable/start the NetworkManager
+
+	systemctl enable NetworkManager.service
+	systemctl start NetworkManager.service
+
+Connect to a WiFi with TUI
+
+	nmtui
+
+
+=== Install AUR helper
+
+	pacman -S --needed git base-devel
+	git clone https://aur.archlinux.org/yay.git
+	cd yay
+	makepkg -si
+
+Enable color
+
+	vim /etc/pacman.conf
+
+=== Enlarge console font
+
+	pacman -S terminus-font
+	echo FONT=ter-m28n >> /etc/vconsole.conf
+
+=== Xorg
+
+Since we're going to use both Intel  and
+
+	pacman -S xf86-video-intel xorg-server xorg-apps
+
+Test xorg
+
+	pacman -S xorg-xinit xterm
+	xinit
+
+=== Create a sudo user
+
+Uncomment the wheel group
+
+	pacman -S vi sudo
+	visudo
+
+Create a user and add it to the group
+
+	useradd -m -g users -G wheel -s /bin/bash USERNAME
+	passwd USERNAME
+
+
+=== XMonad
+
+	pacman -S xmonad xmonad-contrib
+	echo "exec xmonad" >> ~/.xinitrc
+
+=== Power Manager
+
+	pacman -S tlp
+	yay -S tlpui
+	systemctl enable tlp
+	systemctl start tlp
+
+Install acpi for directly check on the battery status
+
+	pacman -S acpi
+	acpi
+
+=== Sound
+
+Note that the default of ALSA is muted. We need to toggle the speaker by some utils.
+
+	pacman -S pavucontrol
+
+=== TexLive
+
+	pacman -S texlive-most texlive-lang biber
+
+=== GPU
+
+List devices
+
+    lspci -k | grep -A 2 -E "(VGA|3D)"
+
+Install pacakge
+
+	pacman -S nvidia
+
+Reboot since *nvidia* contains a file blacklisting the *nouveau* module.
+
+	reboot
+
+Check the driver works normally
+
+	nvidia-smi
+	pacman -S nvtop
+	nvtop
+
+Xorg configuration
+
+	nvidia-xconfig
+
+List graphic driver providers
+
+	xrandr --listproviders
+
+=== Torch
+
+	pacman -S python-pytorch-cuda
+
+Add the following line to shell config
+
+	export CUDA_HOME=/opt/cuda
+
+Install ninja for faster build
+
+	pacman -S ninja
+
+Install torchvision and remember to skip the check step to avoid out of memory
+
+	yay -S python-torchvision-cuda --editmenu
+
+=== Font
+
+	yay -S \
+		ttf-droid \
+		wqy-bitmapfont \
+		powerline-fonts \
+		ttf-ms-fonts \
+		ttf-roboto \
+		noto-fonts \
+		noto-fonts-cjk \
+		adobe-source-han-sans-cn-fonts \
+		adobe-source-han-serif-cn-fonts \
+		ttf-dejavu
+
+=== Locale
+
+/etc/locale.conf
+
+	export LANG=en_US.UTF-8
+	export LC_CTYPE=en_US.UTF-8
+
+Edit /etc/locale.gen
