@@ -264,11 +264,28 @@ Install torchvision and remember to skip the check step to avoid out of memory
 		adobe-source-han-serif-cn-fonts \
 		ttf-dejavu
 
+=== Chinese Input Method
+
+	yay -S fcitx-chewing fcitx-configtool
+
+Then run *fcitx-config-gtk3* to enable chewing input method.
+
+Modify the xinitrc
+
+	export GTK_IM_MODULE=fcitx
+	export QT_IM_MODULE=fcitx
+	export XMODIFIERS=@im=fcitx
+	fcitx &
+	exec xmonad
+
 === Locale
+
+Edit */etc/locale.gen*, and generate the locale
+
+	locale-gen
 
 /etc/locale.conf
 
 	export LANG=en_US.UTF-8
 	export LC_CTYPE=en_US.UTF-8
 
-Edit /etc/locale.gen

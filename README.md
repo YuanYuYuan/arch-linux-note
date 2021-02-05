@@ -129,8 +129,8 @@ grub-install /dev/sdX
 Desktop
 
 ```sh
-pacman -S zsh vim guake gnome network-manager-applet 
-useradd -m -g users -G wheel -s /bin/zsh USERNAME 
+pacman -S zsh vim guake gnome network-manager-applet
+useradd -m -g users -G wheel -s /bin/zsh USERNAME
 passwd USERNAME
 pacman -S gdm
 systemctl enable gdm
@@ -149,7 +149,7 @@ reboot
 ```sh
 nmcli dev wifi connect WIFISSID password WIFIPASSWROD
 su
-visudo 
+visudo
 pacman -S os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
 reboot
@@ -161,7 +161,7 @@ reboot
 ```sh
 sudo pacman -Syyu
 sudo pacman -S wget chromium git mpv cmus gnome-tweak-tool zip unrar
-sudo pacman -S python python2 
+sudo pacman -S python python2
 sudo pacman -S wqy-bitmapfont wqy-zenhei ttf-arphic-ukai ttf-arphic-uming opendesktop-fonts
 ```
 
@@ -224,7 +224,7 @@ In BUILDDEV uncomment cache.
 ```sh
 yaourt -S terminess-powerline-font-git
 setfonts /usr/share/kbd/ter-powerline-v32n.psf.gz
-vim /etc/vconsole.conf 
+vim /etc/vconsole.conf
 ```
 then set FONT=ter-powerline-v32n.
 
@@ -272,7 +272,7 @@ yaourt -S ncurses5-compat-libs
 ## VirtualBox
 
 ```sh
-sudo pacman -S virtualbox virtualbox-host-modules-arch virtualbox-guest-iso qt4 
+sudo pacman -S virtualbox virtualbox-host-modules-arch virtualbox-guest-iso qt4
 yaourt -S virtualbox-ext-oracle
 sudo systemctl start systemd-modules-load.service
 sudo modprobe vboxdrv
@@ -297,7 +297,7 @@ sudo systemctl enable bumblebeed
 sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet rcutree.rcu_idle_gp_delay=1"/' /etc/default/grub
 ```
 
-Edit /etc/bumblebee/xorg.conf.nvidia, set BusID "PCI:x:x:x", 
+Edit /etc/bumblebee/xorg.conf.nvidia, set BusID "PCI:x:x:x",
 which should be the one shown for the Nvidia card in lspci.
 
 
@@ -360,8 +360,8 @@ git add .
 git commit -m "init"
 curl -u 'USER' https://api.github.com/user/repos -d '{"name":"REPO"}'
 git remote add origin https://github.com/USER/REPO.git
-# If prefer ssh to https, replace it with the following commad. 
-# git remote add origin git@github.com:USER/REPO.git 
+# If prefer ssh to https, replace it with the following commad.
+# git remote add origin git@github.com:USER/REPO.git
 git push --set-upstream origin master
 ```
 
@@ -401,7 +401,7 @@ luit -encoding big5 ssh bbs@ptt.cc
 
 ## Youtube player hotkeys
 
-Note that I use chromium and cVim plugin, 
+Note that I use chromium and cVim plugin,
 so you may not need Alt key in other case.
 
 | Function              | Key       |
@@ -457,7 +457,7 @@ libreoffice --convert-to pdf FILE_NAME.ptt
 ```sh
 ls | grep -v FILE_NAME | xargs rm
 ```
-## Bug: if encountered unable to open display ":0.0" when open gparted, try 
+## Bug: if encountered unable to open display ":0.0" when open gparted, try
 
 ```sh
 export DISPLAY=":0.0"
@@ -539,4 +539,3 @@ git gc --prune=now
 git gc --aggressive --prune=now
 git push --all --force
 ```
-

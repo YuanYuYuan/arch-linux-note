@@ -126,6 +126,11 @@ zk :Move upwards to the end of the previous fold.
 ```
 
 
+### Delete lines containing non-ascii words
+
+```bash
+g/[^\x00-\x7F]/d
+```
 
 
 

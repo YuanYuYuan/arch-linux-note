@@ -1,0 +1,7 @@
+clear Lock
+
+!capslock key
+keycode 66 = Super_L
+
+!menu key
+keycode 135 = Super_R
