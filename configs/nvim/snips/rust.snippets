@@ -38,6 +38,11 @@ snippet pn "println" b
 println!("$1"${2/..*/, /}$2)$0;
 endsnippet
 
+snippet pr "println" b
+println!("{:?}", ${1:${VISUAL}})$0;
+endsnippet
+
+
 snippet #t "test" b
 #[test]
 $0

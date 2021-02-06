@@ -1,13 +1,39 @@
 # { Math zones } {{{
+# global !p
+# texMathZones = [
+#     'texMathRegion' + x for x in [
+#         'A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E', 'ES',
+#         'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS',
+#         'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z',
+#         'AmsA', 'AmsB', 'AmsC', 'AmsD', 'AmsE', 'AmsF', 'AmsG',
+#         'AmsAS', 'AmsBS', 'AmsCS', 'AmsDS', 'AmsES', 'AmsFS', 'AmsGS'
+#     ]
+# ]
+# texIgnoreMathZones = ['texMathText']
+# texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
+# texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
+# ignore = texIgnoreMathZoneIds[0]
+# def math():
+#     synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
+#     try:
+#         first = next(
+#             i for i in reversed(synstackids)
+#             if i in texIgnoreMathZoneIds or i in texMathZoneIds
+#         )
+#         return first != ignore
+#     except StopIteration:
+#         return False
+# endglobal
 global !p
-texMathZones = ['texMathZone'+x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS', 'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z']]
-
-texIgnoreMathZones = ['texMathText']
+texMathZones = ['texMathZone' + x for x in ['', 'X', 'XX', 'Env', 'EnvStarred', 'Ensured']]
+texIgnoreMathZones = ['texMathTextArg']
 
 texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
+
 texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
 
 ignore = texIgnoreMathZoneIds[0]
+
 
 def math():
 	synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
@@ -19,8 +45,8 @@ def math():
 endglobal
 # }}}
 
-# { Template } {{{
-snippet "temp(late)?" "Basic template" brA
+# { Templates } {{{
+snippet tempdoc "document template" bA
 \documentclass[a4paper]{article}
 \usepackage[left = 2cm, right = 2cm, top = 1.5cm, bottom = 1.5cm]{geometry}
 \usepackage{amsmath}
@@ -42,14 +68,27 @@ snippet "temp(late)?" "Basic template" brA
     urlcolor=cyan,
 }
 \newcommand{\notimplies}{\;\not\!\!\!\implies}
-\setlength{\parindent}{0pt}  % disable indent of the 1st paragraph
+% \setlength{\parindent}{0pt}  % disable indent of the 1st paragraph
+\usepackage{indentfirst}
+\setlength{\parskip}{0.8em}
 
 \begin{document}
 	\title{$1}
-	\author{${2:Yuan, Yu-Yuan\\\\r07246002@ntu.edu.tw}}
+	\author{${2:Yu-Yuan, Yuan\\\\r07246002@ntu.edu.tw}}
 	\maketitle
 	$0
 \end{document}
+endsnippet
+
+snippet tempthm "theorem template" bA
+% custom environments
+\theoremstyle{definition}
+\newtheorem{Example}{Example}[subsection]
+\newtheorem{Remark}{Remark}[subsection]
+\newtheorem{Definition}{Definition}[subsection]
+\newtheorem{Exercise}{Exercise}[subsection]
+\newtheorem{Theorem}{Theorem}[subsection]
+\newtheorem{Proposition}{Proposition}[subsection]
 endsnippet
 # }}}
 
@@ -120,13 +159,18 @@ snippet EE "exists" wA
 endsnippet
 
 context "math()"
-snippet " in " "belong in" rwA
- \in $0
+snippet "\bin\s" "belong in" rA
+\in $0
 endsnippet
 
 context "math()"
-snippet " st " "such that" rwA
- \text{ s.t. } $0
+snippet "\bst\s" "such that" rA
+\text{ s.t. } $0
+endsnippet
+
+context "math()"
+snippet "\bwh\s" "where" rA
+\text{, where } $0
 endsnippet
 
 snippet dfn "defined by" iA
@@ -135,26 +179,39 @@ endsnippet
 # }}}
 
 # { Operations } {{{
+context "math()"
 snippet // "fraction" iA
 \\frac{${1:${VISUAL}}}{$2}$0
 endsnippet
 
-snippet x "times" w
+context "math()"
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wrA
+\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+context "math()"
+snippet "\bxx\s" "times" rA
 \times $0
 endsnippet
 
-snippet . "cdot" w
-\cdot $0
+context "math()"
+snippet "\s\.\s" "cdot" rA
+ \cdot $0
+endsnippet
+
+context "math()"
+snippet "\bo\.\s" "odot" rA
+\odot $0
 endsnippet
 
 context "math()"
 snippet >= "greater or equal" wA
-\geq $0
+\geqslant $0
 endsnippet
 
 context "math()"
 snippet <= "less or equal" wA
-\leq $0
+\leqslant $0
 endsnippet
 # }}}
 
@@ -222,65 +279,97 @@ snippet "sq(rt)?" "square root" rwA
 \sqrt{$1}$0
 endsnippet
 
-snippet 2 "square" i
-^2
-endsnippet
+# snippet 2 "square" i
+# ^2
+# endsnippet
 
-snippet 3 "cubic" i
-^3
-endsnippet
+# snippet 3 "cubic" i
+# ^3
+# endsnippet
 
-snippet -1 "inverse" i
-^{-1}
-endsnippet
+# snippet -1 "inverse" i
+# ^{-1}
+# endsnippet
 
-snippet -1 "inverse" i
-^{-1}
-endsnippet
+# snippet -1 "inverse" i
+# ^{-1}
+# endsnippet
 
 context "math()"
 snippet ^ "power" iA
-^{$1}$0
+^{$0}
 endsnippet
+
 # }}}
 
 # { Subscripts } {{{
 context "math()"
-snippet '([A-Za-z])(\d)' "auto subscript" wrA
+snippet '\b([A-Za-z])(\d)' "auto subscript" rA
 `!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
 endsnippet
 
 context "math()"
-snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
+snippet '\b([A-Za-z])_(\d\d)' "auto subscript2" rA
 `!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
 endsnippet
 
 context "math()"
-snippet __ "subscript" iA
-_{$1}$0
+snippet _ "subscript" iA
+_{$0}
 endsnippet
 # }}}
 
+# { Symbols } {{{
 context "math()"
-snippet bar "bar" iA
-\overline{${1:${VISUAL}}}$0
+snippet "\b([A-Za-z])bar" "bar" rA
+\overline{`!p snip.rv = match.group(1)`}$0
 endsnippet
 
-snippet "([A-Za-z])(~)" "tilde" wrA
+context "math()"
+snippet "\b([A-Za-z])(~)" "tilde" rA
 \tilde{`!p snip.rv = match.group(1)`}
 endsnippet
+
+context "math()"
+snippet '\b([A-Za-z])(hat|dot)' "hat/dot" rA
+\\`!p snip.rv = match.group(2)`{`!p snip.rv = match.group(1)`}$0
+endsnippet
+# }}}
 
 context "math()"
 snippet | "veritcal bar" i
 \bigg|_{$1}^{$2}$0
 endsnippet
 
+global !p
+def create_row_placeholders(snip):
+    # retrieving single line from current string and treat it like tabstops
+    # count
+    placeholders_amount = int(snip.buffer[snip.line].strip())
+
+    # erase current line
+    # snip.buffer[snip.line] = ''
+
+    # create anonymous snippet with expected content and number of tabstops
+    anon_snippet_body = ' & '.join([
+		'$' + str(i+1)for i in range(placeholders_amount)
+    ])
+
+    # expand anonymous snippet
+    snip.expand_anon(anon_snippet_body)
+endglobal
+
+context "math()"
+post_jump "create_row_placeholders(snip)"
+snippet "&(\d+)" "latex table row variable" brA
+`!p snip.rv = match.group(1)`
+endsnippet
 # }}}
 
 # { Generics } {{{
 
 # { Spaces } {{{
-snippet "hsp(ace)?" "hspace" wrA
+snippet "\bhsp(ace)?" "hspace" rA
 \hspace{${1:1}cm}$0
 endsnippet
 
@@ -313,10 +402,23 @@ snippet fig "figure" bA
 $0
 endsnippet
 
+# Table
+snippet tbl "table" bA
+\begin{center}
+	\begin{tabular}{ |c| }
+		 \hline
+	\end{tabular}
+\end{center}
+endsnippet
+
 # }}}
 
 # { Environments } {{{
-
+snippet hh "equation" bA
+\[
+	${0:${VISUAL}}
+\]
+endsnippet
 
 snippet bg "begin{} / end{}" bA
 \begin{$1}
@@ -324,7 +426,7 @@ snippet bg "begin{} / end{}" bA
 \end{$1}
 endsnippet
 
-snippet eq "equation" bA
+snippet equ "equation" bA
 \begin{equation*}
 	${1:${VISUAL}}
 \end{equation*}$0
@@ -348,21 +450,21 @@ endsnippet
 
 
 snippet mm "inline math" wA
-$${1:${VISUAL}}$
+$${0:${VISUAL}}$
 endsnippet
 
 snippet ans. "answer" bA
-\textbf{Ans.}\\\\
+\textbf{Ans.}
 $0
 endsnippet
 
 snippet sol. "solution" bA
-{\color{blue} Sol.
+{\color{blue} \textbf{Sol.}
 	$0
 }
 endsnippet
 
-snippet "cas(es)?" "cases" rbA
+snippet cse "cases" bA
 \begin{cases}
 	${1:${VISUAL}}&,\\ ${2:${VISUAL}}\\\\
 	${3:${VISUAL}}&,\\ ${4:${VISUAL}}
@@ -373,20 +475,16 @@ endsnippet
 
 # { Pairs } {{{
 context "math()"
-snippet nrm "norm" iA
-\|$1{${VISUAL}}\|$0
+snippet "(\b)nm\s" "norm" rA
+\|$1${VISUAL}\| $0
 endsnippet
 
-snippet "\(" "left right ()" r
-\left($0\right
+snippet "(\b)nm(\d)" "p-norm" rA
+\|$1${VISUAL}\|_{`!p snip.rv = match.group(2)`} $0
 endsnippet
 
-snippet "\[" "left right ()" r
-\left[$0\right
-endsnippet
-
-snippet "\{" "left right {}" r
-\left{$0\right
+snippet "(\(|\[|\{)" "left right pairs" r
+\left`!p snip.rv = match.group(1)` $1 \right
 endsnippet
 
 context "math()"
@@ -411,7 +509,7 @@ endsnippet
 
 # { Sets of numbers } {{{
 context "math()"
-snippet "([A-Z])(bb)" "mathbb" wrA
+snippet "\b([A-Z])(bb)" "mathbb" rA
 \mathbb{`!p snip.rv = match.group(1)`}
 endsnippet
 
@@ -426,7 +524,7 @@ snippet RR "real numbers" wA
 endsnippet
 
 context "math()"
-snippet "([A-Z])(nn)" "mathbb" wrA
+snippet "\b([A-Z])(nn)" "mathbb" rA
 \mathbb{`!p snip.rv = match.group(1)`}^{n}$0
 endsnippet
 
@@ -437,34 +535,25 @@ endsnippet
 # }}}
 
 # { Functions } {{{
+# TODO merge the power version into one
 context "math()"
-snippet " sin" "sin" wrA
- \sin $0
+snippet "\b(sin|cos|tan|cot|sec|csc)\s" "trigonometric functions" rA
+\\`!p snip.rv = match.group(1)` ($1) $0
 endsnippet
 
 context "math()"
-snippet " cos" "cos" wrA
- \cos $0
+snippet "\b(sin|cos|tan|cot|sec|csc)(\d)\s" "trigonometric functions" rA
+\\`!p snip.rv = match.group(1)`^{`!p snip.rv = match.group(2)`} ($1) $0
 endsnippet
 
 context "math()"
-snippet " tan" "tan" wrA
- \tan $0
+snippet "\ba(sin|cos|tan|cot|sec|csc) " "inverse trigonometric functions" rA
+\\`!p snip.rv = match.group(1)`^{-1} ($1) $0
 endsnippet
 
 context "math()"
-snippet " arcsin" "arcsin" wrA
- \sin^{-1} $0
-endsnippet
-
-context "math()"
-snippet " arccos" "arccos" wrA
- \cos^{-1} $0
-endsnippet
-
-context "math()"
-snippet " arctan" "arctan" wrA
- \tan^{-1} $0
+snippet "\b(sin|cos|tan|cot|sec|csc)h\s" "hyperbolic trigonometric functions" rA
+\\`!p snip.rv = match.group(1)`h ($1) $0
 endsnippet
 # }}}
 
@@ -474,50 +563,22 @@ snippet dif "d/dx" wA
 \frac{d ${1:f}}{d ${2:x}} $0
 endsnippet
 
-snippet "oo " "after/circ" wrA
-\circ $0
-endsnippet
+# context "math()"
+# snippet "oo " "after/circ" wrA
+# \circ $0
+# endsnippet
 
-snippet "pp " "parital" wrA
-\partial $0
-endsnippet
 
-snippet "pp_" "parital" wrA
-\partial_{$1}$0
-endsnippet
-
-snippet "par(tial)?" "d/dx" wri
-\frac{\partial ${1:f}}{\partial ${2:x}} $0
+context "math()"
+snippet "\b(?<!\\)(int|sum|prod)\s" "integral/summation/production" rA
+\\`!p snip.rv = match.group(1)`_{$1}^{$2} $0
 endsnippet
 
 context "math()"
-snippet int. "integral" wA
-\int_{$1}^{$2} $0
+snippet "\blim\s" "limit" rA
+\lim_{$1 \to ${2:\infty}} $0
 endsnippet
 
-snippet int_ "integral" wA
-\int_{$1} $0
-endsnippet
-
-context "math()"
-snippet sum. "summation" wA
-\sum^{$1}_{$2} $0
-endsnippet
-
-context "math()"
-snippet sum_ "summation" wA
-\sum_{$1} $0
-endsnippet
-
-context "math()"
-snippet lim. "limit" wA
-\lim_{$1 \to \infty} $0
-endsnippet
-
-context "math()"
-snippet lim_ "limit" wA
-\lim_{$1} $0
-endsnippet
 
 context "math()"
 snippet LH "L'Hopital" wA
@@ -525,7 +586,7 @@ snippet LH "L'Hopital" wA
 endsnippet
 
 context "math()"
-snippet 88 "infinity" wA
+snippet oo "infinity" wA
 \infty
 endsnippet
 
@@ -548,107 +609,119 @@ snippet "vv" "vector" wrA
 endsnippet
 
 context "math()"
-snippet "grad" "gradient" wr
+snippet "\bgrad\s" "gradient" rA
 \nabla $0
 endsnippet
 
 context "math()"
-snippet "curl" "curl" wr
+snippet "\bcurl\s" "curl" rA
 \nabla \times $0
 endsnippet
 
 context "math()"
-snippet "div" "divergence" wr
+snippet "\bdiv\s" "divergence" rA
 \nabla \cdot $0
 endsnippet
 
+snippet "par(tial)?" "d/dx" wri
+\frac{\partial ${1:f}}{\partial ${2:x}} $0
+endsnippet
+
 context "math()"
-snippet "nab" "nabla" wrA
-\nabla $0
+snippet "\bpar\s" "partial" rA
+\partial $0
+endsnippet
+
+priority 1
+context "math()"
+snippet "\bpar\^" "partial" rA
+\partial^{$0}
+endsnippet
+
+context "math()"
+snippet "\bpar(\d|i|j|k|t)" "partial" rA
+\partial_`!p snip.rv = match.group(1)`
+endsnippet
+
+priority 1
+context "math()"
+snippet "\bpar_" "partial" rA
+\partial_{$0}
 endsnippet
 # }}}
 
+
+global !p
+abbreviations = {
+	'alp': '\\alpha',
+	'bet': '\\beta',
+	'del': '\\delta',
+	'gam': '\\gamma',
+	'eta': '\\eta',
+	'the': '\\theta',
+	'iot': '\\iota',
+	'mu': '\\mu',
+	'nu': '\\nu',
+	'pi': '\\pi',
+	'lam': '\\lambda',
+	'tau': '\\tau',
+	'rho': '\\rho',
+	'phi': '\\phi',
+	'omg': '\\omega',
+	'sig': '\\sigma',
+	'kap': '\\kappa',
+	'psi': '\\psi',
+	'eps': '\\epsilon',
+	'zet': '\\zeta',
+}
+
+def check_greek():
+	word = vim.eval("getline('.')")
+	row, col = vim.windows[0].cursor
+	line = vim.current.line
+	word = line[:col-1].split(' ')[-1].lower()
+	return word in abbreviations
+endglobal
+
 # { Greek Alphabets } {{{
+context "math() and check_greek()"
+snippet "\b(?<!\\)(\w+)(\s|\d|\^|_)" "Generic Abbreviations" rA
+`!p
+keyword = match.group(1).lower()
+if keyword in abbreviations:
+	word = abbreviations[keyword]
+else:
+	word = match.group(1)
 
-snippet "\\a" "alpha" r
-\alpha
+if match.group(1)[0].isupper():
+	word = word.title()
+
+# prefix
+if match.group(2) == " ":
+	snip.rv = word + " "
+elif match.group(2) == "_":
+	snip.rv = word + "_{"
+elif match.group(2) == "^":
+	snip.rv = word + "^{"
+else:
+	snip.rv = word + '_' + match.group(2)
+`$0`!p
+# postfix
+if match.group(2) in ["_", "^"]:
+	snip.rv = "}"
+`
 endsnippet
 
-snippet "\\b" "beta" r
-\beta
+context "math()"
+snippet "\bD([A-Za-z])\s" "finite difference" rA
+\Delta `!p snip.rv = match.group(1)` $0
 endsnippet
 
-snippet "\\d" "delta" r
-\delta
-endsnippet
 
-snippet "\\D" "delta" r
-\Delta
-endsnippet
+# snippet "\\ve" "varepsilon" r
+# \varepsilon
+# endsnippet
 
-snippet "\\e" "epsilon" r
-\epsilon
-endsnippet
-
-snippet "\\ve" "varepsilon" r
-\varepsilon
-endsnippet
-
-snippet "\\g" "gamma" r
-\gamma
-endsnippet
-
-snippet "\\k" "kappa" r
-\kappa
-endsnippet
-
-snippet "\\l" "lambda" r
-\lambda
-endsnippet
-
-snippet "\\m" "mu" r
-\mu
-endsnippet
-
-snippet "\\n" "nu" r
-\nu
-endsnippet
-
-snippet "\\p" "phi" r
-\phi
-endsnippet
-
-snippet "\\r" "rho" r
-\rho
-endsnippet
-
-snippet "\\s" "sigma" r
-\sigma
-endsnippet
-
-snippet "\\S" "Sigma" r
-\Sigma
-endsnippet
-
-snippet "\\i" "iota" r
-\iota
-endsnippet
-
-snippet "\\h" "theta" r
-\theta
-endsnippet
-
-snippet "\\t" "tau" r
-\tau
-endsnippet
-
-snippet "\\o" "omega" r
-\omega
-endsnippet
-
-snippet "\\z" "zeta" r
-\zeta
-endsnippet
 # }}}
 
 # { Algebraic Topology } {{{
@@ -692,5 +765,37 @@ endsnippet
 
 snippet "det " "determinant" rwA
 \det($1)$0
+endsnippet
+# }}}
+
+# { Theorems } {{{
+snippet THM "Theorem" bA
+\begin{Theorem}
+	$0
+\end{Theorem}
+endsnippet
+
+snippet DEF "Definition" bA
+\begin{Definition}
+	$0
+\end{Definition}
+endsnippet
+
+snippet EXP "Example" bA
+\begin{Example}
+	$0
+\end{Example}
+endsnippet
+
+snippet PROP "Proposition" bA
+\begin{Proposition}
+	$0
+\end{Proposition}
+endsnippet
+
+snippet PF "Proof" bA
+\begin{proof}
+	$0
+\end{proof}
 endsnippet
 # }}}
