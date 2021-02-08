@@ -1,0 +1,17 @@
+{
+  "diagnostic.virtualText": false,
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.messageTarget": "float",
+  "diagnostic.level": "information",
+  "list.normalMappings": {"<C-c>": "do:exit"},
+  "list.insertMappings": {"<C-c>": "do:exit"},
+  "suggest.autoTrigger": "always",
+  "signature.enable": true,
+  "coc.preferences.snippets.enable": true,
+  "rust-analyzer.updates.channel": "nightly",
+  "rust-analyzer.diagnostics.enable": true,
+  "rust-analyzer.trace.server": "verbose",
+  "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
+  "python.jediEnabled": true,
+  "python.jediPath": "/usr/lib/python3.9/site-packages"
+}
