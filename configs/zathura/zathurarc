@@ -1,0 +1,13 @@
+set selection-clipboard clipboard
+set font "inconsolata 18"
+
+set window-title-page true
+map [normal]     <PageDown> scroll half-down
+map [normal]     F          toggle_fullscreen
+map [fullscreen] F          toggle_fullscreen
+map [fullscreen] q          toggle_fullscreen
+map [fullscreen] <PageDown> scroll half-down
+map [normal]     <PageUp>   scroll half-up
+map [fullscreen] <PageUp>   scroll half-up
+map [normal]     =          zoom in
+map [fullscreen] =          zoom in
