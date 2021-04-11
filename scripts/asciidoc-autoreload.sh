@@ -5,19 +5,17 @@ if [ "$1" == "" ]; then
     exit
 fi
 
-# compile=asciidoctor
-compile="asciidoctor-latex -b html"
-browser="firefox"
+compile=asciidoctor
+# compile="asciidoctor -r asciidoctor-bibliography"
+# compile="asciidoctor -r asciidoctor-diagram"
+# compile="asciidoctor-latex -b html"
+
 adoc_file=${1%.*}.adoc
 html_file=${1%.*}.html
 $compile $adoc_file
-$browser $html_file 2> /dev/null&
-
-
-# guard reload
-guard_reload_file="$HOME/Workings/scripts/guard-reload.rb"
-guard -i -G $guard_reload_file&
+browser-sync start --server --no-notify --watch $html_file --index $html_file&
 
 while true; do
-    inotifywait $adoc_file && $compile $adoc_file
+    inotifywait $adoc_file -e move_self && $compile $adoc_file
+    # inotifywait **/** -e move_self && $compile $adoc_file
 done
