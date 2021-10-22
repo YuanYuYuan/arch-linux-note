@@ -13,10 +13,17 @@ case $(echo $acpi_info | cut -d " " -f 1) in
         esac;;
     F*) battery_status=" ";;
     C*) battery_status="";;
-    *)  battery_status="Error";;
+    # *)  battery_status="Error";;
+    *)  battery_status=" Charging";;
 esac
 remained_time=$(echo $acpi_info | cut -d " " -f 3)
-echo "$battery_status $percentage $remained_time"
 
-# sed "s/,//g; s/Battery 0://; s/D[^ ]*/ /; s/C[^ ]*//; s/U[^ ]*/U/; s/[F].*/ /" | \
-# cut -d " " -f 2-4
+echo -n "$battery_status"
+
+if [[ $percentage != "" ]]; then
+    echo -n " $percentage"
+fi
+
+if [[ $remained_time != "" ]]; then
+    echo -n " $remained_time"
+fi
