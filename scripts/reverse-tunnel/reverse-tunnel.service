@@ -1,0 +1,11 @@
+[Unit]
+Description=Reverse Tunnel
+After=network.target
+
+[Service]
+ExecStart=PATH_TO_REVERSETUNNEL_SCRIPT
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
